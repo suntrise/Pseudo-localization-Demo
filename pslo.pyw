@@ -80,7 +80,7 @@ class win(QMainWindow):
         fontbtn.setPointSize(12)
 
         self.setGeometry(400, 200, 700, 500)
-        self.setWindowTitle('伪本地化翻译器')
+        self.setWindowTitle('伪本地化演示程序')
         menubar = self.menuBar()
         whatAct = QAction('&什么是伪本地化？', self)
         aboutAct = QAction('&关于', self)        
@@ -92,9 +92,9 @@ class win(QMainWindow):
         aboutAct.triggered.connect(self.about)
         whatAct.triggered.connect(self.what)
         webAct.triggered.connect(self.web)
-        webAct.triggered.connect(self.github)
+        githubAct.triggered.connect(self.github)
         title = QtWidgets.QLabel(self)
-        title.setText("伪本地化翻译器 Demo "+ver)
+        title.setText("伪本地化演示程序 "+ver)
         title.setFont(font)
         title.adjustSize()
         title.move(20, 50)
@@ -132,16 +132,16 @@ class win(QMainWindow):
           '''self.result.setPlainText(res)'''
                                              
     def about(self):
-        QtWidgets.QMessageBox.about(self, "关于","伪本地化翻译器 "+ver+"<br> 作者：STR")
+        QtWidgets.QMessageBox.about(self, "关于","伪本地化演示程序 "+ver+"<br> 作者：STR")
 
     def what(self):
-        QtWidgets.QMessageBox.about(self, "什么是伪本地化？","伪本地化（pseudo-localization，语言环境名称为 qps-ploc, qps-plocm, qps-ploca, en-XA, en-XB），是通过模拟本地化过程，以有效地调查在本地化中出现的问题（如字符无法正常显示，或因字符串过长而导致语段显示不完整等）。<br>在伪本地化过程中，英文字母会被替换为来自其他语言的重音符号和字符。（例如，字母 a 可以被 αäáàāāǎǎăăåå 中的任何一个替换。），还会添加分隔符等以增加字符串长度。<br>举例：“Windows 照片库（Windows Photo Gallery）”→“ [1iaT9][ Ẅĭпðøωś Þнôтŏ Ģάŀļєяÿ !!! !] ”")
+        QtWidgets.QMessageBox.about(self, "什么是伪本地化？","伪本地化（pseudo-localization，语言环境名称为 qps-ploc, qps-plocm, qps-ploca, en-XA, en-XB），是通过模拟本地化过程，以有效地调查在本地化中出现的问题（如字符无法正常显示，或因字符串过长而导致语段显示不完整等）。<br>在伪本地化过程中，英文字母会被替换为来自其他语言的重音符号和字符。（例如，字母 a 可以被 αäáàāāǎǎăăåå 中的任何一个替换。），还会添加分隔符等以增加字符串长度。<br>举例：“Windows Photo Gallery（Windows 照片库）”→“ [1iaT9][ Ẅĭпðøωś Þнôтŏ Ģάŀļєяÿ !!! !] ”")
     
     def web(self):
         webbrowser.open_new('https://suntrise.github.io/pseudo/')
 
     def github(self):
-        webbrowser.open_new('https://suntrise.github.io/pseudo/')
+        webbrowser.open_new('https://github.com/suntrise/Pseudo-localization-Demo')
     
 if __name__ == '__main__':
     app = QApplication(sys.argv)
