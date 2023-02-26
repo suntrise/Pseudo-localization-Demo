@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import *
 import random
 import webbrowser
 
-ver="1.1p"
+ver="v1.1p"
 arra=["ä","ā","á","ǎ","à","ă","å","ǻ","ã","ǟ","ǡ","ǻ","ȁ","ȃ","ȧ","ᶏ","ḁ","ẚ","ạ","ả","ấ","ầ","ẩ","ẫ","ậ","ắ","ằ","ẳ","ẵ","ặ","ɑ","α","ά","ὰ","ἀ","ἁ","ἂ","ἃ","ἆ","ἇ","ᾂ","ᾃ","ᾰ","ᾱ","ᾲ","ᾳ","ᾴ","ᾶ","ᾷ","ⱥ","𐓘","𐓙","𐓚"]
 arraa=["Ā","Á","Ǎ","À","Â","Ã","Ä","Å","Ǻ","Ά","Ă","Δ","Λ","Д","Ą"]
 arrb=["b","ь","в","Ъ","Б","б","β","ƀ","ƃ","ɓ","ᵬ","ᶀ","ḃ","ḅ","ḇ","ꞗ"]
@@ -83,15 +83,16 @@ class win(QMainWindow):
         self.setWindowTitle('伪本地化翻译器')
         menubar = self.menuBar()
         whatAct = QAction('&什么是伪本地化？', self)
-        webAct = QAction('&网页版', self)
         aboutAct = QAction('&关于', self)        
         helpMenu = menubar.addMenu('帮助')
+        webAct = menubar.addAction('网页版')
+        githubAct = menubar.addAction('Github')
         helpMenu.addAction(whatAct)
-        helpMenu.addAction(webAct)
         helpMenu.addAction(aboutAct)
         aboutAct.triggered.connect(self.about)
         whatAct.triggered.connect(self.what)
         webAct.triggered.connect(self.web)
+        webAct.triggered.connect(self.github)
         title = QtWidgets.QLabel(self)
         title.setText("伪本地化翻译器 Demo "+ver)
         title.setFont(font)
@@ -137,6 +138,9 @@ class win(QMainWindow):
         QtWidgets.QMessageBox.about(self, "什么是伪本地化？","伪本地化（pseudo-localization，语言环境名称为 qps-ploc, qps-plocm, qps-ploca, en-XA, en-XB），是通过模拟本地化过程，以有效地调查在本地化中出现的问题（如字符无法正常显示，或因字符串过长而导致语段显示不完整等）。<br>在伪本地化过程中，英文字母会被替换为来自其他语言的重音符号和字符。（例如，字母 a 可以被 αäáàāāǎǎăăåå 中的任何一个替换。），还会添加分隔符等以增加字符串长度。<br>举例：“Windows 照片库（Windows Photo Gallery）”→“ [1iaT9][ Ẅĭпðøωś Þнôтŏ Ģάŀļєяÿ !!! !] ”")
     
     def web(self):
+        webbrowser.open_new('https://suntrise.github.io/pseudo/')
+
+    def github(self):
         webbrowser.open_new('https://suntrise.github.io/pseudo/')
     
 if __name__ == '__main__':
