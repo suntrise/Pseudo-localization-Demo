@@ -1,7 +1,8 @@
 import flet as ft
 import random
 
-ver="v2.1p"
+ver="v2.2p"
+title = "伪本地化演示程序 "+ver
 author="Suntrise (STR)"
 arra=["ä","ā","á","ǎ","à","ă","å","ǻ","ã","ǟ","ǡ","ǻ","ȁ","ȃ","ȧ","ᶏ","ḁ","ẚ","ạ","ả","ấ","ầ","ẩ","ẫ","ậ","ắ","ằ","ẳ","ẵ","ặ","ɑ","α","ά","ὰ","ἀ","ἁ","ἂ","ἃ","ἆ","ἇ","ᾂ","ᾃ","ᾰ","ᾱ","ᾲ","ᾳ","ᾴ","ᾶ","ᾷ","ⱥ","𐓘","𐓙","𐓚"]
 arraa=["Ā","Á","Ǎ","À","Â","Ã","Ä","Å","Ǻ","Ά","Ă","Δ","Λ","Д","Ą"]
@@ -57,29 +58,30 @@ arrz=["z","ź","ż","ž","ƶ","ȥ","ʐ","ᵶ","ᶎ","ẑ","ẓ","ẕ","ⱬ"]
 arrzz=["Z","Ź","Ż","Ž","Ƶ","Ȥ","Ẓ","Ẕ","Ẑ","Ⱬ"]
 arral=["A","a","B","b","C","c","D","d","E","e","F","f","G","g","H","h","I","i","J","j","K","k","L","l","M","m","N","n","O","o","P","p","Q","q","R","r","S","s","T","t","U","u","V","v","W","w","X","x","Y","y","Z","z","1","2","3","4","5","6","7","8","9","0"]
 what_text = "伪本地化（pseudo-localization，语言环境名称为 qps-ploc, qps-plocm, qps-ploca, en-XA, en-XB），是通过模拟本地化过程，以有效地调查在本地化中出现的问题（如字符无法正常显示，或因字符串过长而导致语段显示不完整等）。\n在伪本地化过程中，英文字母会被替换为来自其他语言的重音符号和字符。（例如，字母 a 可以被 αäáàāāǎǎăăåå 中的任何一个替换。），还会添加分隔符等以增加字符串长度。\n举例：“Windows Photo Gallery（Windows 照片库）”→“ [1iaT9][ Ẅĭпðøωś Þнôтŏ Ģάŀļєяÿ !!! !] ”\n更多信息：https://docs.microsoft.com/zh-cn/globalization/methodology/pseudolocalization, https://zhuanlan.zhihu.com/p/613293858\n该网页演示了伪本地化的一部分，即用不同的字符替换英文字母和添加分隔符。\n更多功能将在之后更新，感谢大家的支持！"
-about_text = "伪本地化演示程序 v2.1p \n作者：Suntrise（STR）"
+about_text = "伪本地化演示程序 "+ver +"\n作者：Suntrise（STR）"
 def main(page: ft.Page):
     def pslo(e):
         i = 0
         m = 0
         n = 0
         pstr = page.pstype.value
-        res = ''
+        res = suf = ''
         if str != "":
             for l in pstr:
                 i += 1
                 al = l.replace('a',random.choice(arra)).replace('A',random.choice(arraa)).replace('b',random.choice(arrb)).replace('B',random.choice(arrbb)).replace('c',random.choice(arrc)).replace('C',random.choice(arrcc)).replace('d',random.choice(arrd)).replace('D',random.choice(arrdd)).replace('e',random.choice(arre)).replace('E',random.choice(arree)).replace('f',random.choice(arrf)).replace('F',random.choice(arrff)).replace('g',random.choice(arrg)).replace('G',random.choice(arrgg)).replace('h',random.choice(arrh)).replace('H',random.choice(arrhh)).replace('i',random.choice(arri)).replace('I',random.choice(arrii)).replace('j',random.choice(arrj)).replace('J',random.choice(arrjj)).replace('k',random.choice(arrk)).replace('K',random.choice(arrkk)).replace('l',random.choice(arrl)).replace('L',random.choice(arrll)).replace('m',random.choice(arrm)).replace('M',random.choice(arrmm)).replace('n',random.choice(arrn)).replace('N',random.choice(arrnn)).replace('o',random.choice(arro)).replace('O',random.choice(arroo)).replace('p',random.choice(arrp)).replace('P',random.choice(arrpp)).replace('q',random.choice(arrq)).replace('Q',random.choice(arrqq)).replace('r',random.choice(arrr)).replace('R',random.choice(arrrr)).replace('s',random.choice(arrs)).replace('S',random.choice(arrss)).replace('t',random.choice(arrt)).replace('T',random.choice(arrtt)).replace('u',random.choice(arru)).replace('U',random.choice(arruu)).replace('v',random.choice(arrv)).replace('V',random.choice(arrvv)).replace('w',random.choice(arrw)).replace('W',random.choice(arrww)).replace('x',random.choice(arrx)).replace('X',random.choice(arrxx)).replace('y',random.choice(arry)).replace('Y',random.choice(arryy)).replace('z',random.choice(arrz)).replace('Z',random.choice(arrzz))
                 res += al
         
-        if suf_way.value == "1":
-            suf = ""
-            while i>2 and n < (i/7): 
-                suf = suf+"!"  
-                n += 1
-                if n % 3==0 & n != int(i/7+1):
-                   suf =suf+" "
+            if suf_way.value == "1":
+                suf = ""
+                while i>2 and n < (i/7): 
+                    suf = suf+"!"  
+                    n += 1
+                    if n % 3==0 & n != int(i/7+1):
+                        suf = suf+" "
+                    res = "["+res +suf+"]"
            
-            res = "["+ res +" " +suf +"]";  
+            res = res;  
             n=0;
             suf=""
 
@@ -135,7 +137,7 @@ def main(page: ft.Page):
         shape = ft.RoundedRectangleBorder(radius=5)
     ) 
          
-    page.title = "伪本地化演示程序 v2.1p"
+    page.title = title
     page.window_left = 200
     page.window_top = 100
     page.window_width = 800
@@ -147,7 +149,7 @@ def main(page: ft.Page):
     page.scroll = ft.ScrollMode.ALWAYS
     page.appbar = ft.AppBar(
         leading_width=30,
-        title=ft.Text("伪本地化演示程序 v2.1p By STR"),
+        title=ft.Text(title+" By STR"),
         center_title=False,
         bgcolor=ft.colors.SURFACE_VARIANT,
         actions=[
