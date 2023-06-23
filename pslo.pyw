@@ -170,6 +170,7 @@ def main(page: ft.Page):
         page.snack_bar.open = True
         page.update()
     
+    //清空历史记录    
     def clear_his(e):
         pshis = ""
         history.value = "无记录"
