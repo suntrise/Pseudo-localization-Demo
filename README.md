@@ -1,7 +1,7 @@
 # 伪本地化演示程序
 
-![image](https://github.com/suntrise/Pseudo-localization-Demo/assets/89229642/c040d928-b993-4d27-890c-e1c4f73e2350)
-![image](https://github.com/suntrise/Pseudo-localization-Demo/assets/89229642/6b181dc1-0aac-4b1f-92e2-062fe62383bd)
+![image](https://github.com/suntrise/Pseudo-localization-Demo/assets/89229642/d0096413-c0a7-4e8f-8d63-1fe7050badb2)
+![image](https://github.com/suntrise/Pseudo-localization-Demo/assets/89229642/c19f2f18-368a-41ed-b40e-5059ea0f414e)
 
 这是一个伪本地化工具，可用于某些本地化工作用途，当然也可以作为一个玩具或者工具
 
@@ -67,7 +67,7 @@ nuitka pslo.pyw --onefile --windows-disable-console --windows-icon-from-ico=pslo
 
 ## 使用到的第三方项目
 
-### 2.x
+### 2.x, 3.x
 
 [flet-dev/flet](https://github.com/flet-dev/flet)
 
