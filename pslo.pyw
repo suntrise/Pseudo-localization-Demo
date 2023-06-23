@@ -4,20 +4,27 @@ import pyperclip
 import webbrowser
 
 # 基本信息
-ver = "v3.1p"
-author = "Suntrise (STR) & What_Damon"
-auth_abbr = "STR&WD"
+ver = "v3.2p"
+author = "Suntrise (STR)"
+auth_abbr = "STR"
 title = "伪本地化演示程序 "+ver +" By "+auth_abbr
-updmd = """# v3.1p 
-        *新增历史记录\n# v3.0p 
-        * 界面重修；
-        * 新增安卓式伪本地化；
-        * Hash ID 支持不同位数；
-        * 新增外观设置；
-        * 新增更新日志；\n# v2.3p
-        * 新增数字伪本地化；
-        * 新增复制功能
-        """
+updmd = """
+## v3.2p
+
+1. 新增 en-XB（倒序语段）伪本地化方式
+
+## v3.1p
+
+1. 历史记录加入
+2. 布局小改
+
+## v3.0p
+
+1. UI 大改
+2. 新增安卓式伪本地化
+3. 新增外观设置
+4. 新增更新日志
+"""
 
 # 字符集
 arra = ["ä", "ā", "á", "ǎ", "à", "ă", "å", "ǻ", "ã", "ǟ", "ǡ", "ǻ", "ȁ", "ȃ", "ȧ", "ᶏ", "ḁ", "ẚ", "ạ", "ả", "ấ", "ầ", "ẩ", "ẫ", "ậ", "ắ", "ằ", "ẳ", "ẵ", "ặ", "ɑ", "α", "ά", "ὰ", "ἀ", "ἁ", "ἂ", "ἃ", "ἆ", "ἇ", "ᾂ", "ᾃ", "ᾰ", "ᾱ", "ᾲ", "ᾳ", "ᾴ", "ᾶ", "ᾷ", "ⱥ", "𐓘", "𐓙", "𐓚"]
@@ -88,7 +95,7 @@ suf=""
 pshis=""
 # 定义内容
 what_text = "伪本地化(pseudo-localization, 语言环境名称为 qps-ploc, qps-plocm, qps-ploca, en-XA, en-XB), \n是通过模拟本地化过程, 以有效地调查在本地化中出现的问题\n(如字符无法正常显示, 或因字符串过长而导致语段显示不完整等）。\n在伪本地化过程中, 英文字母会被替换为来自其他语言的重音符号和字符。\n(例如, 字母 a 可以被 αäáàāāǎǎăăåå 中的任何一个替换), 还会添加分隔符等以增加字符串长度。\n例: “Windows Photo Gallery (Windows 照片库)”→“ [1iaT9][ Ẅĭпðøωś Þнôтŏ Ģάŀļєяÿ !!! !] ”\n更多信息: \nhttps://docs.microsoft.com/zh-cn/globalization/methodology/pseudolocalization, \nhttps://zhuanlan.zhihu.com/p/613293858"
-about_text = "伪本地化演示程序 "+ver+"\n作者："+author
+about_text = "伪本地化演示程序 " + ver + "\n开发者: " + author +"\n贡献者、使用到的第三方项目详见 GitHub 项目仓库\n（https://github.com/suntrise/Pseudo-localization-Demo）" 
 
 # 主程序
 def main(page: ft.Page):
@@ -100,51 +107,55 @@ def main(page: ft.Page):
         n = 0
         pstr = page.pstype.value
         res = ''
-        if str != "":
-            for l in pstr:
-                i += 1
-                if num_pslo.value == "2":
-                    al = l.replace('a',random.choice(arra)).replace('A',random.choice(arraa)).replace('b',random.choice(arrb)).replace('B',random.choice(arrbb)).replace('c',random.choice(arrc)).replace('C',random.choice(arrcc)).replace('d',random.choice(arrd)).replace('D',random.choice(arrdd)).replace('e',random.choice(arre)).replace('E',random.choice(arree)).replace('f',random.choice(arrf)).replace('F',random.choice(arrff)).replace('g',random.choice(arrg)).replace('G',random.choice(arrgg)).replace('h',random.choice(arrh)).replace('H',random.choice(arrhh)).replace('i',random.choice(arri)).replace('I',random.choice(arrii)).replace('j',random.choice(arrj)).replace('J',random.choice(arrjj)).replace('k',random.choice(arrk)).replace('K',random.choice(arrkk)).replace('l',random.choice(arrl)).replace('L',random.choice(arrll)).replace('m',random.choice(arrm)).replace('M',random.choice(arrmm)).replace('n',random.choice(arrn)).replace('N',random.choice(arrnn)).replace('o',random.choice(arro)).replace('O',random.choice(arroo)).replace('p',random.choice(arrp)).replace('P',random.choice(arrpp)).replace('q',random.choice(arrq)).replace('Q',random.choice(arrqq)).replace('r',random.choice(arrr)).replace('R',random.choice(arrrr)).replace('s',random.choice(arrs)).replace('S',random.choice(arrss)).replace('t',random.choice(arrt)).replace('T',random.choice(arrtt)).replace('u',random.choice(arru)).replace('U',random.choice(arruu)).replace('v',random.choice(arrv)).replace('V',random.choice(arrvv)).replace('w',random.choice(arrw)).replace('W',random.choice(arrww)).replace('x',random.choice(arrx)).replace('X',random.choice(arrxx)).replace('y',random.choice(arry)).replace('Y',random.choice(arryy)).replace('z',random.choice(arrz)).replace('Z',random.choice(arrzz)).replace('1',random.choice(arr1)).replace('2',random.choice(arr2)).replace('3',random.choice(arr3)).replace('4',random.choice(arr4)).replace('5',random.choice(arr5)).replace('6',random.choice(arr6)).replace('7',random.choice(arr7)).replace('8',random.choice(arr8)).replace('9',random.choice(arr9)).replace('0',random.choice(arr0))
-                else:
-                    if num_pslo.value == "1":
+        if str != "" and str != "null":
+            if xab.value != "enxb":
+                xab.value = "enxa"
+                for l in pstr:
+                    i += 1
+                    if num_pslo.value == "2":
+                        al = l.replace('a',random.choice(arra)).replace('A',random.choice(arraa)).replace('b',random.choice(arrb)).replace('B',random.choice(arrbb)).replace('c',random.choice(arrc)).replace('C',random.choice(arrcc)).replace('d',random.choice(arrd)).replace('D',random.choice(arrdd)).replace('e',random.choice(arre)).replace('E',random.choice(arree)).replace('f',random.choice(arrf)).replace('F',random.choice(arrff)).replace('g',random.choice(arrg)).replace('G',random.choice(arrgg)).replace('h',random.choice(arrh)).replace('H',random.choice(arrhh)).replace('i',random.choice(arri)).replace('I',random.choice(arrii)).replace('j',random.choice(arrj)).replace('J',random.choice(arrjj)).replace('k',random.choice(arrk)).replace('K',random.choice(arrkk)).replace('l',random.choice(arrl)).replace('L',random.choice(arrll)).replace('m',random.choice(arrm)).replace('M',random.choice(arrmm)).replace('n',random.choice(arrn)).replace('N',random.choice(arrnn)).replace('o',random.choice(arro)).replace('O',random.choice(arroo)).replace('p',random.choice(arrp)).replace('P',random.choice(arrpp)).replace('q',random.choice(arrq)).replace('Q',random.choice(arrqq)).replace('r',random.choice(arrr)).replace('R',random.choice(arrrr)).replace('s',random.choice(arrs)).replace('S',random.choice(arrss)).replace('t',random.choice(arrt)).replace('T',random.choice(arrtt)).replace('u',random.choice(arru)).replace('U',random.choice(arruu)).replace('v',random.choice(arrv)).replace('V',random.choice(arrvv)).replace('w',random.choice(arrw)).replace('W',random.choice(arrww)).replace('x',random.choice(arrx)).replace('X',random.choice(arrxx)).replace('y',random.choice(arry)).replace('Y',random.choice(arryy)).replace('z',random.choice(arrz)).replace('Z',random.choice(arrzz)).replace('1',random.choice(arr1)).replace('2',random.choice(arr2)).replace('3',random.choice(arr3)).replace('4',random.choice(arr4)).replace('5',random.choice(arr5)).replace('6',random.choice(arr6)).replace('7',random.choice(arr7)).replace('8',random.choice(arr8)).replace('9',random.choice(arr9)).replace('0',random.choice(arr0))
+                    elif num_pslo.value == "1":
                         al = l.replace('a',random.choice(arra)).replace('A',random.choice(arraa)).replace('b',random.choice(arrb)).replace('B',random.choice(arrbb)).replace('c',random.choice(arrc)).replace('C',random.choice(arrcc)).replace('d',random.choice(arrd)).replace('D',random.choice(arrdd)).replace('e',random.choice(arre)).replace('E',random.choice(arree)).replace('f',random.choice(arrf)).replace('F',random.choice(arrff)).replace('g',random.choice(arrg)).replace('G',random.choice(arrgg)).replace('h',random.choice(arrh)).replace('H',random.choice(arrhh)).replace('i',random.choice(arri)).replace('I',random.choice(arrii)).replace('j',random.choice(arrj)).replace('J',random.choice(arrjj)).replace('k',random.choice(arrk)).replace('K',random.choice(arrkk)).replace('l',random.choice(arrl)).replace('L',random.choice(arrll)).replace('m',random.choice(arrm)).replace('M',random.choice(arrmm)).replace('n',random.choice(arrn)).replace('N',random.choice(arrnn)).replace('o',random.choice(arro)).replace('O',random.choice(arroo)).replace('p',random.choice(arrp)).replace('P',random.choice(arrpp)).replace('q',random.choice(arrq)).replace('Q',random.choice(arrqq)).replace('r',random.choice(arrr)).replace('R',random.choice(arrrr)).replace('s',random.choice(arrs)).replace('S',random.choice(arrss)).replace('t',random.choice(arrt)).replace('T',random.choice(arrtt)).replace('u',random.choice(arru)).replace('U',random.choice(arruu)).replace('v',random.choice(arrv)).replace('V',random.choice(arrvv)).replace('w',random.choice(arrw)).replace('W',random.choice(arrww)).replace('x',random.choice(arrx)).replace('X',random.choice(arrxx)).replace('y',random.choice(arry)).replace('Y',random.choice(arryy)).replace('z',random.choice(arrz)).replace('Z',random.choice(arrzz)).replace('1','①').replace('2','②').replace('3','③').replace('4','④').replace('5','⑤').replace('6','⑥').replace('7','⑦').replace('8','⑧').replace('9','⑨')
                     else:
                         al = l.replace('a',random.choice(arra)).replace('A',random.choice(arraa)).replace('b',random.choice(arrb)).replace('B',random.choice(arrbb)).replace('c',random.choice(arrc)).replace('C',random.choice(arrcc)).replace('d',random.choice(arrd)).replace('D',random.choice(arrdd)).replace('e',random.choice(arre)).replace('E',random.choice(arree)).replace('f',random.choice(arrf)).replace('F',random.choice(arrff)).replace('g',random.choice(arrg)).replace('G',random.choice(arrgg)).replace('h',random.choice(arrh)).replace('H',random.choice(arrhh)).replace('i',random.choice(arri)).replace('I',random.choice(arrii)).replace('j',random.choice(arrj)).replace('J',random.choice(arrjj)).replace('k',random.choice(arrk)).replace('K',random.choice(arrkk)).replace('l',random.choice(arrl)).replace('L',random.choice(arrll)).replace('m',random.choice(arrm)).replace('M',random.choice(arrmm)).replace('n',random.choice(arrn)).replace('N',random.choice(arrnn)).replace('o',random.choice(arro)).replace('O',random.choice(arroo)).replace('p',random.choice(arrp)).replace('P',random.choice(arrpp)).replace('q',random.choice(arrq)).replace('Q',random.choice(arrqq)).replace('r',random.choice(arrr)).replace('R',random.choice(arrrr)).replace('s',random.choice(arrs)).replace('S',random.choice(arrss)).replace('t',random.choice(arrt)).replace('T',random.choice(arrtt)).replace('u',random.choice(arru)).replace('U',random.choice(arruu)).replace('v',random.choice(arrv)).replace('V',random.choice(arrvv)).replace('w',random.choice(arrw)).replace('W',random.choice(arrww)).replace('x',random.choice(arrx)).replace('X',random.choice(arrxx)).replace('y',random.choice(arry)).replace('Y',random.choice(arryy)).replace('z',random.choice(arrz)).replace('Z',random.choice(arrzz))
-                res += al
-        
-        suf = ""
-        if suf_way.value == "1":           
-            while i > 2 and n < (i/7): 
-                suf = suf+"!"  
-                n += 1
-                if n % 3 == 0 & n != int(i/7+1):
-                   suf = suf+" "
-            res = "["+ res +" " +suf +"]";  
-        
-        elif suf_way.value == "2":
-            while n<(i/7):               
-                suf = suf+arrba[n%20]+" "
-                n+=1  
-            res = "["+ res +" " +suf +"]";  
-         
-        n = 0
-        suf = ""
+                    res += al
 
-        if hash_cb.value == True:
-            hash_id = ""
-            while m < int(hash_ws.value):
-                hash_id = hash_id + random.choice(arral)
-                
-                m += 1
+            if xab.value == "enxb":
+                for l in pstr:
+                    i += 1
+                res = pstr[::-1]
+        
+            suf = ""
+            if suf_way.value == "1":           
+                while i > 2 and n < (i/7): 
+                    suf = suf+"!"  
+                    n += 1
+                    if n % 3 == 0 & n != int(i/7+1):
+                        suf = suf+" "
+                res = "["+ res +" " +suf +"]";  
+        
+            elif suf_way.value == "2":
+                while n<(i/7):               
+                    suf = suf+arrba[n%20]+" "
+                    n+=1  
+                res = "["+ res +" " +suf +"]";          
+            n = 0
+            suf = ""
 
-            res = "[" + hash_id + "]" +res
-            hash_id = ""
-            m = 0
+            if hash_cb.value == True:
+                hash_id = ""
+                while m < int(hash_ws.value):
+                    hash_id = hash_id + random.choice(arral)               
+                    m += 1
+
+                res = "[" + hash_id + "]" +res
+                hash_id = ""
+                m = 0
           
-        page.result.value = res
-        pshis += pstr+" → "+res +"\n"
-        history.value = pshis
-        res = ''
+            page.result.value = res
+            pshis += pstr+" → "+res +"\n"
+            history.value = pshis
+            res = ''
         page.update()  
     
         # 复制文本
@@ -219,7 +230,7 @@ def main(page: ft.Page):
     # “什么是伪本地化”窗口定义
     what_dlg = ft.AlertDialog(
         title = ft.Text("什么是伪本地化?"), on_dismiss=lambda e: print("Dialog dismissed!"),
-        content = ft.Text(what_text),
+        content = ft.Text(what_text,selectable=True),
         actions=[
             ft.TextButton("我知道啦",on_click = close_what)
         ],
@@ -230,7 +241,7 @@ def main(page: ft.Page):
     # “关于”窗口定义
     upd_dlg = ft.AlertDialog(
         title = ft.Text("更新日志"), on_dismiss=lambda e: print("Dialog dismissed!"),
-        content = ft.Markdown(updmd),
+        content = ft.Markdown(updmd,selectable=True),
         actions = [
             ft.TextButton("确定",on_click=close_upd)
         ],
@@ -287,6 +298,11 @@ def main(page: ft.Page):
     ) 
     
     # 伪本地化区
+    xab_text = ft.Text("伪本地化方式： ",size=20)
+    xab = ft.RadioGroup(content=ft.Row([
+    ft.Radio(value="enxa", label="en-XA（abc→ǻƀĉ）"),
+    ft.Radio(value="enxb", label="en-XB（abc→cba）")]))
+    XABrow = ft.Row(spacing = 10, controls = [xab_text,xab])
     page.pstype = ft.TextField(hint_text = "在这里输入要翻译的内容~", text_size =15, multiline = True, max_lines = 5)
     page.result = ft.TextField(hint_text = "结果会显示在这里~", text_size = 15, multiline = True, max_lines = 5, read_only = True)
     pslo_btn = ft.ElevatedButton(
@@ -300,7 +316,7 @@ def main(page: ft.Page):
         ),
         height=50,
         color="#ffffff",
-        bgcolor="#0078DC",
+        bgcolor="#0061a4",
         on_click = pslo     
         )
     copy_btn = ft.ElevatedButton(
@@ -326,8 +342,12 @@ def main(page: ft.Page):
     row_pslo = ft.Row(spacing = 10, controls = [pslo_btn, copy_btn,what_btn])
     
     #设置区
-    opt_pslo = ft.Text("伪本地化设置",size=25)
-        
+    opt_pslo = ft.Row(
+            [
+                ft.Icon(name=ft.icons.TRANSLATE_OUTLINED),
+                ft.Text("伪本地化（部分选项仅适用于 en-XA）", size = 25)
+            ]
+        )        
     suf_way = ft.Dropdown(
             label = "前后缀",
             hint_text = "选择前后缀方案，默认为“不添加前后缀”",
@@ -348,7 +368,12 @@ def main(page: ft.Page):
                 ft.dropdown.Option(key = 2, text = "使用₀-₉或⁰-⁹交叉替换0-9")
             ]) 
     
-    opt_look = ft.Text("\n外观设置",size=25)
+    opt_look = ft.Row(
+            [
+                ft.Icon(name = ft.icons.PALETTE_OUTLINED),
+                ft.Text("外观", size = 25)
+            ]
+        )
     theme = ft.Dropdown(
             label = "亮暗模式",
             hint_text = "亮暗模式",
@@ -358,8 +383,13 @@ def main(page: ft.Page):
                 ft.dropdown.Option(key = 2, text = "跟随系统")
             ],
             on_change=theme_changed) 
-    abt = ft.Text("\n关于",size=25)
-    about = ft.Text(about_text,size=18)
+    abt = ft.Row(
+            [
+                ft.Icon(name = ft.icons.INFO_OUTLINE),
+                ft.Text("关于", size = 25)
+            ]
+        )    
+    about = ft.Text(about_text,size=18,selectable=True)
     upd_btn = ft.TextButton("更新日志",icon=ft.icons.UPDATE,on_click=open_upd)
 
     history = ft.Text("无记录",size=18,selectable=True)
@@ -372,7 +402,7 @@ def main(page: ft.Page):
                 text="主界面",
                 icon=ft.icons.HOME_FILLED,
                 content=ft.Container(
-                    ft.Column(spacing = 5, controls = [page.pstype,page.result,row_pslo])
+                    ft.Column(spacing = 5, controls = [XABrow,page.pstype,page.result,row_pslo])
                 ),
             ),
             ft.Tab(

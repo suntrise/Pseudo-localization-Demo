@@ -11,15 +11,7 @@
 
 注意，要在本地查看并修改源码，需要安装Python，版本最少为3.7以保障兼容性
 
-### Windows
-
-若要编辑使用，请先运行`1.install repuirement.bat`安装依赖
-
-若要编译，安装完依赖后直接运行`2.build into binary.bat`即可
-
-### 其它系统
-
-#### 编辑&使用
+### 编辑&使用
 
 运行...
 
@@ -36,11 +28,14 @@ pip install PyQt5
 
 原则上`PyQt6`也行，各位可以试试
 
-#### 编译
+### 编译
+
+#### Pyinstaller
 
 运行......
 
 ~~~Bash
+pip install pywin32
 pip install pyinstaller
 ~~~
 
@@ -50,7 +45,25 @@ pip install pyinstaller
 pyinstaller pslo.pyw -F -w -i pslo_icon.ico
 ~~~
 
-编译完可能需要Wine或者Crossover才可以运行，因此我们依旧推荐直接执行pyw文件
+编译完可能需要Wine或者Crossover才可以运行，因此我们依旧推荐直接执行pyw文件或使用下一种方案
+
+#### Nuitka
+
+请提前安装好**Visual Studio生成工具**或者**GCC（MinGW）**
+
+运行......
+
+~~~Bash
+pip install nuitka
+~~~
+
+定位到代码根目录，运行......
+
+~~~Bash
+nuitka pslo.pyw --onefile --windows-disable-console --windows-icon-from-ico=pslo_icon.ico --standalone
+~~~
+
+适用于Windows和Linux，参数可以按需添加，详见[此处](https://github.com/Nuitka/Nuitka/)
 
 ## 使用到的第三方项目
 
