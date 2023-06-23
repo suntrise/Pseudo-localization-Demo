@@ -8,6 +8,14 @@ ver = "v3.0p"
 author = "Suntrise (STR) & What_Damon"
 auth_abbr = "STR&WD"
 title = "伪本地化演示程序 "+ver +" By "+auth_abbr
+updmd = """# v3.0p 
+        * 界面重修；
+        * 新增安卓式伪本地化；
+        * 新增外观设置；
+        * 新增更新日志；\n# v2.3p
+        * 新增数字伪本地化；
+        *新增复制功能
+        """
 
 # 字符集
 arra = ["ä", "ā", "á", "ǎ", "à", "ă", "å", "ǻ", "ã", "ǟ", "ǡ", "ǻ", "ȁ", "ȃ", "ȧ", "ᶏ", "ḁ", "ẚ", "ạ", "ả", "ấ", "ầ", "ẩ", "ẫ", "ậ", "ắ", "ằ", "ẳ", "ẵ", "ặ", "ɑ", "α", "ά", "ὰ", "ἀ", "ἁ", "ἂ", "ἃ", "ἆ", "ἇ", "ᾂ", "ᾃ", "ᾰ", "ᾱ", "ᾲ", "ᾳ", "ᾴ", "ᾶ", "ᾷ", "ⱥ", "𐓘", "𐓙", "𐓚"]
@@ -107,13 +115,15 @@ def main(page: ft.Page):
                 n += 1
                 if n % 3 == 0 & n != int(i/7+1):
                    suf = suf+" "
+            res = "["+ res +" " +suf +"]";  
         
-        if suf_way.value == "2":
+        elif suf_way.value == "2":
             while n<(i/7):               
                 suf = suf+arrba[n%20]+" "
                 n+=1  
+            res = "["+ res +" " +suf +"]";  
         
-        res = "["+ res +" " +suf +"]";  
+        res = res;  
         n = 0
         suf = ""
 
@@ -285,7 +295,7 @@ def main(page: ft.Page):
     pslo_btn = ft.ElevatedButton(
         "进行伪本地化!",
         icon = ft.icons.TRANSLATE_OUTLINED,
-        tooltip = "将您所填写的内容伪本地化, 每次点击效果都不太一样哦",
+        tooltip = "将您所填写的内容伪本地化, 每次生成结果都会不一样哦",
         style=ft.ButtonStyle(
         shape={
             ft.MaterialState.DEFAULT: ft.RoundedRectangleBorder(radius=5),
@@ -323,7 +333,7 @@ def main(page: ft.Page):
         
     suf_way = ft.Dropdown(
             label = "前后缀",
-            hint_text = "前后缀",
+            hint_text = "选择前后缀方案，默认为“不添加前后缀”",
             options=[
                 ft.dropdown.Option(key = 0, text = "不添加前后缀"),
                 ft.dropdown.Option(key = 1, text = "[中括号+感叹号括起来 (微软式伪本地化)!!!]"),
@@ -332,8 +342,8 @@ def main(page: ft.Page):
     hash_cb = ft.Checkbox(label = "[Abc12]添加伪 Hash ID (资源标识符)(由一定位数的字母+数字所构成的字符串)", value=False,on_change=hash_check)
     hash_ws = ft.TextField(width=150,label="位数（3-10）",value=5,on_blur=ws_check,disabled=True) 
     num_pslo = ft.Dropdown(
-            label = "数字伪本地化",
-            hint_text = "数字伪本地化",
+            label = "数字伪本地化",           
+            hint_text = "选择数字伪本地化方案，默认为“无”",
             options=[
                 ft.dropdown.Option(key = 0, text = "无"),
                 ft.dropdown.Option(key = 1, text = "使用①-⑨替代1-9"),
@@ -352,14 +362,14 @@ def main(page: ft.Page):
             on_change=theme_changed) 
     row_hash = ft.Row(spacing = 10, controls = [hash_cb,hash_ws])
 
-    update = ft.Text("v3.0p\n界面重修；\n新增安卓式伪本地化；\n新增外观设置；\n新增更新日志\n\nv2.3p\n新增数字伪本地化；\n新增复制功能",size=20)
+    update = ft.Markdown(updmd,selectable=True,code_style=ft.TextStyle(font_family="Microsoft yahei"),extension_set=ft.MarkdownExtensionSet.GITHUB_WEB)
 
     tab = ft.Tabs(
         selected_index = 0,
         animation_duration = 200,
         tabs=[
             ft.Tab(
-                text="主页",
+                text="主界面",
                 icon=ft.icons.HOME_FILLED,
                 content=ft.Container(
                     ft.Column(spacing = 5, controls = [page.pstype,page.result,row_pslo])
