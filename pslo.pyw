@@ -13,7 +13,7 @@ updmd = """
 
 1. 新增 en-XB（倒序语段）伪本地化方式；
 2. 新增配色设置；
-3. 新增“清空历史记录”;
+3. 新增“清空历史记录”
 
 ## v3.1p
 
@@ -373,7 +373,7 @@ def main(page: ft.Page):
     opt_pslo = ft.Row(
             [
                 ft.Icon(name=ft.icons.TRANSLATE_OUTLINED),
-                ft.Text("伪本地化（部分选项仅适用于 en-XA）", size = 25)
+                ft.Text("伪本地化（部分选项仅适用于 en-XA）", size = 20)
             ]
         )        
     suf_way = ft.Dropdown(
@@ -399,7 +399,7 @@ def main(page: ft.Page):
     opt_look = ft.Row(
             [
                 ft.Icon(name = ft.icons.PALETTE_OUTLINED),
-                ft.Text("外观", size = 25)
+                ft.Text("外观", size = 20)
             ]
         )
     theme = ft.Dropdown(
@@ -411,7 +411,7 @@ def main(page: ft.Page):
                 ft.dropdown.Option(key = 2, text = "跟随系统")
             ],
             on_change=theme_changed) 
-    sch_text = ft.Text("配色",size=20)
+    sch_text = ft.Text("配色",size=18)
     scheme = ft.Row([
         ft.ElevatedButton(
         "蓝色（默认）",
@@ -447,10 +447,10 @@ def main(page: ft.Page):
     abt = ft.Row(
             [
                 ft.Icon(name = ft.icons.INFO_OUTLINE),
-                ft.Text("关于", size = 25)
+                ft.Text("关于", size = 20)
             ]
         )    
-    about = ft.Text(about_text,size=18,selectable=True)
+    about = ft.Text(about_text,size=16,selectable=True)
     upd_btn = ft.TextButton("更新日志",icon=ft.icons.UPDATE,on_click=open_upd)
 
     history = ft.Text("无记录",size=18,selectable=True)
