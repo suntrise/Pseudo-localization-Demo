@@ -96,8 +96,8 @@ arrba=["one","two","three","four","five","six","seven","eight","nine","ten","ele
 suf=""
 pshis=""
 # 定义内容
-what_text = "伪本地化(pseudo-localization, 语言环境名称为 qps-ploc, qps-plocm, qps-ploca, en-XA, en-XB), \n是通过模拟本地化过程, 以有效地调查在本地化中出现的问题\n(如字符无法正常显示, 或因字符串过长而导致语段显示不完整等）。\n在伪本地化过程中, 英文字母会被替换为来自其他语言的重音符号和字符。\n(例如, 字母 a 可以被 αäáàāāǎǎăăåå 中的任何一个替换), 还会添加分隔符等以增加字符串长度。\n例: “Windows Photo Gallery (Windows 照片库)”→“ [1iaT9][ Ẅĭпðøωś Þнôтŏ Ģάŀļєяÿ !!! !] ”\n更多信息: \nhttps://docs.microsoft.com/zh-cn/globalization/methodology/pseudolocalization, \nhttps://zhuanlan.zhihu.com/p/613293858"
-about_text = "伪本地化演示程序 " + ver + "\n开发者: " + author +"\n贡献者、使用到的第三方项目详见 GitHub 项目仓库\n（https://github.com/suntrise/Pseudo-localization-Demo）" 
+what_text = "伪本地化(pseudo-localization, 语言环境名称为 qps-ploc, qps-plocm, qps-ploca, en-XA, en-XB), \n是通过模拟本地化过程, 以有效地调查在本地化中出现的问题\n(如字符无法正常显示, 或因字符串过长而导致语段显示不完整等）。\n在伪本地化过程中, 英文字母会被替换为来自其他语言的重音符号和字符。\n(例如, 字母 a 可以被 αäáàāāǎǎăăåå 中的任何一个替换), 还会添加分隔符等以增加字符串长度。\n例: “Windows Photo Gallery (Windows 照片库)”→“ [1iaT9][ Ẅĭпðøωś Þнôтŏ Ģάŀļєяÿ !!! !] ”\n更多信息: \nhttps:#docs.microsoft.com/zh-cn/globalization/methodology/pseudolocalization, \nhttps:#zhuanlan.zhihu.com/p/613293858"
+about_text = "伪本地化演示程序 " + ver + "\n开发者: " + author +"\n贡献者、使用到的第三方项目详见 GitHub 项目仓库\n（https:#github.com/suntrise/Pseudo-localization-Demo）" 
 
 # 主程序
 def main(page: ft.Page):
@@ -128,7 +128,7 @@ def main(page: ft.Page):
                 res = pstr[::-1]
         
             suf = ""
-            //微软式后缀
+            #微软式后缀
             if suf_way.value == "1":           
                 while i > 2 and n < (i/7): 
                     suf = suf+"!"  
@@ -137,7 +137,7 @@ def main(page: ft.Page):
                         suf = suf+" "
                 res = "["+ res +" " +suf +"]";  
 
-            //安卓式后缀
+            #安卓式后缀
             elif suf_way.value == "2":
                 while n<(i/7):               
                     suf = suf+arrba[n%20]+" "
@@ -146,7 +146,7 @@ def main(page: ft.Page):
             n = 0
             suf = ""
             
-            //Hash ID
+            #Hash ID
             if hash_cb.value == True:
                 hash_id = ""
                 while m < int(hash_ws.value):
@@ -170,7 +170,7 @@ def main(page: ft.Page):
         page.snack_bar.open = True
         page.update()
     
-    //清空历史记录    
+    #清空历史记录    
     def clear_his(e):
         pshis = ""
         history.value = "无记录"
@@ -178,7 +178,7 @@ def main(page: ft.Page):
         page.snack_bar.open = True
         page.update()
 
-    //Hash ID 位数检测    
+    #Hash ID 位数检测    
     def hash_check(e):
         if hash_cb.value == True:
             hash_ws.disabled = False
@@ -196,7 +196,7 @@ def main(page: ft.Page):
             hash_ws.value=10 
         page.update()
 
-    //亮暗设置       
+    #亮暗设置       
     def theme_changed(e):
         if theme.value == "0":
             page.theme_mode = (
@@ -212,7 +212,7 @@ def main(page: ft.Page):
             )
         page.update()
 
-    //配色方案修改
+    #配色方案修改
     def sch_blue(e):
         page.theme=ft.Theme(font_family="Microsoft Yahei",
                             color_scheme_seed=ft.colors.BLUE)
@@ -236,11 +236,11 @@ def main(page: ft.Page):
     
         # 打开网页版
     def open_with_browser(e):
-        webbrowser.open_new("https://suntrise.github.io/pseudo/")
+        webbrowser.open_new("https:#suntrise.github.io/pseudo/")
 
     # 打开项目仓库
     def open_project_repo(e):
-        webbrowser.open_new("https://github.com/suntrise/Pseudo-localization-Demo")
+        webbrowser.open_new("https:#github.com/suntrise/Pseudo-localization-Demo")
 
     # 打开“什么是伪本地化”窗口
     def open_what(e):
