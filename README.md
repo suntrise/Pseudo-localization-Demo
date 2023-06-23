@@ -1,6 +1,7 @@
 # 伪本地化演示程序
 
-![截图](https://github.com/suntrise/Pseudo-localization-Demo/assets/89229642/51b8023e-ebb6-4c74-b3f1-b41fbdfd6c5b)
+![image](https://github.com/suntrise/Pseudo-localization-Demo/assets/89229642/c040d928-b993-4d27-890c-e1c4f73e2350)
+![image](https://github.com/suntrise/Pseudo-localization-Demo/assets/89229642/6b181dc1-0aac-4b1f-92e2-062fe62383bd)
 
 这是一个伪本地化工具，可用于某些本地化工作用途，当然也可以作为一个玩具或者工具
 
