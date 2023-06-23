@@ -11,18 +11,20 @@ title = "伪本地化演示程序 "+ver +" By "+auth_abbr
 updmd = """
 ## v3.2p
 
-1. 新增 en-XB（倒序语段）伪本地化方式
+1. 新增 en-XB（倒序语段）伪本地化方式；
+2. 新增配色设置；
+3. 新增“清空历史记录”;
 
 ## v3.1p
 
-1. 历史记录加入
+1. 引入历史记录；
 2. 布局小改
 
 ## v3.0p
 
-1. UI 大改
-2. 新增安卓式伪本地化
-3. 新增外观设置
+1. UI 大改；
+2. 新增安卓式伪本地化；
+3. 新增外观设置；
 4. 新增更新日志
 """
 
@@ -161,7 +163,14 @@ def main(page: ft.Page):
         # 复制文本
     def copy_text(e):
         pyperclip.copy(page.result.value)
-        page.snack_bar = ft.SnackBar(ft.Text("已复制"))
+        page.snack_bar = ft.SnackBar(ft.Text(f"已复制"))
+        page.snack_bar.open = True
+        page.update()
+    
+    def clear_his(e):
+        pshis = ""
+        history.value = "无记录"
+        page.snack_bar = ft.SnackBar(ft.Text(f"已清空"))
         page.snack_bar.open = True
         page.update()
     
@@ -197,6 +206,27 @@ def main(page: ft.Page):
             )
         page.update()
 
+    def sch_blue(e):
+        page.theme=ft.Theme(font_family="Microsoft Yahei",
+                            color_scheme_seed=ft.colors.BLUE)
+        page.update()
+    def sch_pink(e):
+        page.theme=ft.Theme(font_family="Microsoft Yahei",
+                            color_scheme_seed=ft.colors.PINK)
+        page.update()
+    def sch_green(e):
+        page.theme=ft.Theme(font_family="Microsoft Yahei",
+                            color_scheme_seed=ft.colors.GREEN)
+        page.update()
+    def sch_cho(e):
+        page.theme=ft.Theme(font_family="Microsoft Yahei",
+                            color_scheme_seed=ft.colors.BROWN_100)
+        page.update()
+    def sch_pur(e):
+        page.theme=ft.Theme(font_family="Microsoft Yahei",
+                            color_scheme_seed=ft.colors.DEEP_PURPLE_100)
+        page.update()
+    
         # 打开网页版
     def open_with_browser(e):
         webbrowser.open_new("https://suntrise.github.io/pseudo/")
@@ -253,8 +283,10 @@ def main(page: ft.Page):
     page.title = title
     page.window_left = 200
     page.window_top = 100
-    page.window_width = 800
     page.window_height = 600
+    page.window_width = 800   
+    page.window_min_height = 400
+    page.window_min_width = 700
     page.theme = ft.Theme(
          font_family="Microsoft Yahei",
          color_scheme_seed=ft.colors.BLUE
@@ -297,7 +329,7 @@ def main(page: ft.Page):
         ],
     ) 
     
-    # 伪本地化区
+    # 主界面区
     xab_text = ft.Text("伪本地化方式： ",size=20)
     xab = ft.RadioGroup(content=ft.Row([
     ft.Radio(value="enxa", label="en-XA（abc→ǻƀĉ）"),
@@ -305,7 +337,7 @@ def main(page: ft.Page):
     XABrow = ft.Row(spacing = 10, controls = [xab_text,xab])
     page.pstype = ft.TextField(hint_text = "在这里输入要翻译的内容~", text_size =15, multiline = True, max_lines = 5)
     page.result = ft.TextField(hint_text = "结果会显示在这里~", text_size = 15, multiline = True, max_lines = 5, read_only = True)
-    pslo_btn = ft.ElevatedButton(
+    pslo_btn = ft.FilledButton(
         "进行伪本地化!",
         icon = ft.icons.TRANSLATE_OUTLINED,
         tooltip = "将您所填写的内容伪本地化, 每次生成结果都会不一样哦",
@@ -315,8 +347,6 @@ def main(page: ft.Page):
             }            
         ),
         height=50,
-        color="#ffffff",
-        bgcolor="#0061a4",
         on_click = pslo     
         )
     copy_btn = ft.ElevatedButton(
@@ -329,8 +359,6 @@ def main(page: ft.Page):
             }            
         ),
         height=50,
-        color="#000000",
-        bgcolor="#d1e2ff",
         on_click = copy_text     
         )
     
@@ -383,6 +411,39 @@ def main(page: ft.Page):
                 ft.dropdown.Option(key = 2, text = "跟随系统")
             ],
             on_change=theme_changed) 
+    sch_text = ft.Text("配色",size=20)
+    scheme = ft.Row([
+        ft.ElevatedButton(
+        "蓝色（默认）",
+        color="#0061a4",
+        bgcolor="#dfe2eb",
+        on_click = sch_blue
+        ),
+        ft.ElevatedButton(
+        "粉色",
+        color="#bb1614",
+        bgcolor="#f0cdca",
+        on_click = sch_pink
+        ),
+        ft.ElevatedButton(
+        "绿色",
+        color="#006e1c",
+        bgcolor="#dee5d8",
+        on_click = sch_green
+        ),
+        ft.ElevatedButton(
+        "巧克力色",
+        color="#984718",
+        bgcolor="#f4ded5",
+        on_click = sch_cho
+        ),
+        ft.ElevatedButton(
+        "紫色",
+        color="#694fa3",
+        bgcolor="#ddd4e5",
+        on_click = sch_pur
+        ),
+        ])
     abt = ft.Row(
             [
                 ft.Icon(name = ft.icons.INFO_OUTLINE),
@@ -393,6 +454,11 @@ def main(page: ft.Page):
     upd_btn = ft.TextButton("更新日志",icon=ft.icons.UPDATE,on_click=open_upd)
 
     history = ft.Text("无记录",size=18,selectable=True)
+    his_clear = ft.Row(alignment=ft.MainAxisAlignment.END,controls=[
+        ft.TextButton("清空",
+        icon = ft.icons.DELETE_FOREVER,
+        on_click=clear_his)
+    ])
 
     tab = ft.Tabs(
         selected_index = 0,
@@ -408,12 +474,12 @@ def main(page: ft.Page):
             ft.Tab(
                 text="历史记录",
                 icon=ft.icons.HISTORY,
-                content=ft.Column(spacing = 10, controls = [history]),
+                content=ft.Column(spacing = 10, controls = [his_clear,history]),
             ),
             ft.Tab(
                 text="设置",
                 icon=ft.icons.SETTINGS,
-                content=ft.Column(spacing = 10, controls = [opt_pslo,suf_way, row_hash, num_pslo,opt_look,theme,abt,about,upd_btn]),
+                content=ft.Column(spacing = 10, controls = [opt_pslo,suf_way, row_hash, num_pslo,opt_look,theme,sch_text,scheme,abt,about,upd_btn]),
             ),
         ]
     )
