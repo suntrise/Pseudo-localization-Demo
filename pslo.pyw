@@ -4,11 +4,12 @@ import pyperclip
 import webbrowser
 
 # 基本信息
-ver = "v3.0p"
+ver = "v3.1p"
 author = "Suntrise (STR) & What_Damon"
 auth_abbr = "STR&WD"
 title = "伪本地化演示程序 "+ver +" By "+auth_abbr
-updmd = """# v3.0p 
+updmd = """# v3.1p 
+        *新增历史记录\n# v3.0p 
         * 界面重修；
         * 新增安卓式伪本地化；
         * 新增外观设置；
@@ -83,6 +84,7 @@ arr0 = ["0", "₀", "⁰"]
 arral = ["A", "a", "B", "b", "C", "c", "D", "d", "E", "e", "F", "f", "G", "g", "H", "h", "I", "i", "J", "j", "K", "k", "L", "l", "M", "m", "N", "n", "O", "o", "P", "p", "Q", "q", "R", "r", "S", "s", "T", "t", "U", "u", "V", "v", "W", "w", "X", "x", "Y", "y", "Z", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 arrba=["one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen","twenty"]
 suf=""
+pshis=""
 # 定义内容
 what_text = "伪本地化(pseudo-localization, 语言环境名称为 qps-ploc, qps-plocm, qps-ploca, en-XA, en-XB), \n是通过模拟本地化过程, 以有效地调查在本地化中出现的问题\n(如字符无法正常显示, 或因字符串过长而导致语段显示不完整等）。\n在伪本地化过程中, 英文字母会被替换为来自其他语言的重音符号和字符。\n(例如, 字母 a 可以被 αäáàāāǎǎăăåå 中的任何一个替换), 还会添加分隔符等以增加字符串长度。\n例: “Windows Photo Gallery (Windows 照片库)”→“ [1iaT9][ Ẅĭпðøωś Þнôтŏ Ģάŀļєяÿ !!! !] ”\n更多信息: \nhttps://docs.microsoft.com/zh-cn/globalization/methodology/pseudolocalization, \nhttps://zhuanlan.zhihu.com/p/613293858"
 about_text = "伪本地化演示程序 "+ver+"\n作者："+author
@@ -91,6 +93,7 @@ about_text = "伪本地化演示程序 "+ver+"\n作者："+author
 def main(page: ft.Page):
     # 伪本地化
     def pslo(e):
+        global pshis
         i = 0
         m = 0
         n = 0
@@ -122,8 +125,7 @@ def main(page: ft.Page):
                 suf = suf+arrba[n%20]+" "
                 n+=1  
             res = "["+ res +" " +suf +"]";  
-        
-        res = res;  
+         
         n = 0
         suf = ""
 
@@ -139,13 +141,15 @@ def main(page: ft.Page):
             m = 0
           
         page.result.value = res
+        pshis += pstr+" → "+res +"\n"
+        history.value = pshis
         res = ''
         page.update()  
     
         # 复制文本
     def copy_text(e):
         pyperclip.copy(page.result.value)
-        page.snack_bar = ft.SnackBar(ft.Text(f"已复制"))
+        page.snack_bar = ft.SnackBar(ft.Text("已复制"))
         page.snack_bar.open = True
         page.update()
     
@@ -201,14 +205,14 @@ def main(page: ft.Page):
         page.update()
 
     # 打开“关于”窗口
-    def open_about(e):
-        page.dialog = about_dlg
-        about_dlg.open = True
+    def open_upd(e):
+        page.dialog = upd_dlg
+        upd_dlg.open = True
         page.update()  
     
     # 关闭“关于”窗口
-    def close_about(e):
-        about_dlg.open = False
+    def close_upd(e):
+        upd_dlg.open = False
         page.update()
 
     # “什么是伪本地化”窗口定义
@@ -223,11 +227,11 @@ def main(page: ft.Page):
     ) 
     
     # “关于”窗口定义
-    about_dlg = ft.AlertDialog(
-        title = ft.Text("关于"), on_dismiss=lambda e: print("Dialog dismissed!"),
-        content = ft.Text(about_text),
+    upd_dlg = ft.AlertDialog(
+        title = ft.Text("更新日志"), on_dismiss=lambda e: print("Dialog dismissed!"),
+        content = ft.Markdown(updmd),
         actions = [
-            ft.TextButton("确定",on_click=close_about)
+            ft.TextButton("确定",on_click=close_upd)
         ],
         actions_alignment = ft.MainAxisAlignment.END,
         shape = ft.RoundedRectangleBorder(radius=20)
@@ -275,14 +279,6 @@ def main(page: ft.Page):
                             ft.Text("什么是伪本地化?"),
                         ]),
                        on_click = open_what
-                ),
-                    ft.PopupMenuItem(                
-                        content = ft.Row(
-                        [
-                            ft.Icon(ft.icons.INFO_OUTLINE),
-                            ft.Text("关于"),
-                        ]),
-                       on_click = open_about
                 ),
                 ]
             ),
@@ -341,6 +337,7 @@ def main(page: ft.Page):
            ])  
     hash_cb = ft.Checkbox(label = "[Abc12]添加伪 Hash ID (资源标识符)(由一定位数的字母+数字所构成的字符串)", value=False,on_change=hash_check)
     hash_ws = ft.TextField(width=150,label="位数（3-10）",value=5,on_blur=ws_check,disabled=True) 
+    row_hash = ft.Row(spacing = 10, controls = [hash_cb,hash_ws])
     num_pslo = ft.Dropdown(
             label = "数字伪本地化",           
             hint_text = "选择数字伪本地化方案，默认为“无”",
@@ -360,9 +357,11 @@ def main(page: ft.Page):
                 ft.dropdown.Option(key = 2, text = "跟随系统")
             ],
             on_change=theme_changed) 
-    row_hash = ft.Row(spacing = 10, controls = [hash_cb,hash_ws])
+    abt = ft.Text("\n关于",size=25)
+    about = ft.Text(about_text,size=18)
+    upd_btn = ft.TextButton("更新日志",icon=ft.icons.UPDATE,on_click=open_upd)
 
-    update = ft.Markdown(updmd,selectable=True,code_style=ft.TextStyle(font_family="Microsoft yahei"),extension_set=ft.MarkdownExtensionSet.GITHUB_WEB)
+    history = ft.Text("无记录",size=18,selectable=True)
 
     tab = ft.Tabs(
         selected_index = 0,
@@ -376,17 +375,18 @@ def main(page: ft.Page):
                 ),
             ),
             ft.Tab(
-                text="设置",
-                icon=ft.icons.SETTINGS,
-                content=ft.Column(spacing = 10, controls = [opt_pslo,suf_way, row_hash, num_pslo,opt_look,theme]),
+                text="历史记录",
+                icon=ft.icons.HISTORY,
+                content=ft.Column(spacing = 10, controls = [history]),
             ),
             ft.Tab(
-                text="更新日志",
-                icon=ft.icons.UPDATE,
-                content=ft.Column(spacing = 10, controls = [update]),
+                text="设置",
+                icon=ft.icons.SETTINGS,
+                content=ft.Column(spacing = 10, controls = [opt_pslo,suf_way, row_hash, num_pslo,opt_look,theme,abt,about,upd_btn]),
             ),
         ]
     )
     page.add(tab)
+    page.update()
 
 ft.app(target=main)
