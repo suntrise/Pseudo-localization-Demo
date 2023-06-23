@@ -128,6 +128,7 @@ def main(page: ft.Page):
                 res = pstr[::-1]
         
             suf = ""
+            //微软式后缀
             if suf_way.value == "1":           
                 while i > 2 and n < (i/7): 
                     suf = suf+"!"  
@@ -135,7 +136,8 @@ def main(page: ft.Page):
                     if n % 3 == 0 & n != int(i/7+1):
                         suf = suf+" "
                 res = "["+ res +" " +suf +"]";  
-        
+
+            //安卓式后缀
             elif suf_way.value == "2":
                 while n<(i/7):               
                     suf = suf+arrba[n%20]+" "
@@ -143,7 +145,8 @@ def main(page: ft.Page):
                 res = "["+ res +" " +suf +"]";          
             n = 0
             suf = ""
-
+            
+            //Hash ID
             if hash_cb.value == True:
                 hash_id = ""
                 while m < int(hash_ws.value):
@@ -173,7 +176,8 @@ def main(page: ft.Page):
         page.snack_bar = ft.SnackBar(ft.Text(f"已清空"))
         page.snack_bar.open = True
         page.update()
-    
+
+    //Hash ID 位数检测    
     def hash_check(e):
         if hash_cb.value == True:
             hash_ws.disabled = False
@@ -190,7 +194,8 @@ def main(page: ft.Page):
         elif int(ws)>10:
             hash_ws.value=10 
         page.update()
-        
+
+    //亮暗设置       
     def theme_changed(e):
         if theme.value == "0":
             page.theme_mode = (
@@ -206,6 +211,7 @@ def main(page: ft.Page):
             )
         page.update()
 
+    //配色方案修改
     def sch_blue(e):
         page.theme=ft.Theme(font_family="Microsoft Yahei",
                             color_scheme_seed=ft.colors.BLUE)
