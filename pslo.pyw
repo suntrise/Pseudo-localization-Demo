@@ -97,7 +97,7 @@ suf=""
 pshis=""
 # 定义内容
 what_text = "伪本地化(pseudo-localization, 语言环境名称为 qps-ploc, qps-plocm, qps-ploca, en-XA, en-XB), \n是通过模拟本地化过程, 以有效地调查在本地化中出现的问题\n(如字符无法正常显示, 或因字符串过长而导致语段显示不完整等）。\n在伪本地化过程中, 英文字母会被替换为来自其他语言的重音符号和字符。\n(例如, 字母 a 可以被 αäáàāāǎǎăăåå 中的任何一个替换), 还会添加分隔符等以增加字符串长度。\n例: “Windows Photo Gallery (Windows 照片库)”→“ [1iaT9][ Ẅĭпðøωś Þнôтŏ Ģάŀļєяÿ !!! !] ”\n更多信息: \nhttps:#docs.microsoft.com/zh-cn/globalization/methodology/pseudolocalization, \nhttps:#zhuanlan.zhihu.com/p/613293858"
-about_text = "伪本地化演示程序 " + ver + "\n开发者: " + author +"\n贡献者、使用到的第三方项目详见 GitHub 项目仓库\n（https:#github.com/suntrise/Pseudo-localization-Demo）" 
+about_text = "伪本地化演示程序 " + ver + "\n开发者: " + author +"\n贡献者、使用到的第三方项目详见 GitHub 项目仓库\n（https://github.com/suntrise/Pseudo-localization-Demo）" 
 
 # 主程序
 def main(page: ft.Page):
@@ -109,9 +109,8 @@ def main(page: ft.Page):
         n = 0
         pstr = page.pstype.value
         res = ''
-        if str != "" and str != "null":
-            if xab.value != "enxb":
-                xab.value = "enxa"
+        if pstr != "" and pstr != "null":
+            if xab.value == "enxa":
                 for l in pstr:
                     i += 1
                     if num_pslo.value == "2":
@@ -213,24 +212,22 @@ def main(page: ft.Page):
         page.update()
 
     #配色方案修改
-    def sch_blue(e):
-        page.theme=ft.Theme(font_family="Microsoft Yahei",
+    def sch_changed(e):
+        sch=int(scheme.value)
+        if sch == 0:
+            page.theme=ft.Theme(font_family="Microsoft Yahei",
                             color_scheme_seed=ft.colors.BLUE)
-        page.update()
-    def sch_pink(e):
-        page.theme=ft.Theme(font_family="Microsoft Yahei",
+        if sch == 1:
+            page.theme=ft.Theme(font_family="Microsoft Yahei",
                             color_scheme_seed=ft.colors.PINK)
-        page.update()
-    def sch_green(e):
-        page.theme=ft.Theme(font_family="Microsoft Yahei",
+        if sch == 2:
+            page.theme=ft.Theme(font_family="Microsoft Yahei",
                             color_scheme_seed=ft.colors.GREEN)
-        page.update()
-    def sch_cho(e):
-        page.theme=ft.Theme(font_family="Microsoft Yahei",
-                            color_scheme_seed=ft.colors.BROWN_100)
-        page.update()
-    def sch_pur(e):
-        page.theme=ft.Theme(font_family="Microsoft Yahei",
+        if sch == 3:
+            page.theme=ft.Theme(font_family="Microsoft Yahei",
+                            color_scheme_seed=ft.colors.BROWN)
+        if sch == 4:
+            page.theme=ft.Theme(font_family="Microsoft Yahei",
                             color_scheme_seed=ft.colors.DEEP_PURPLE_100)
         page.update()
     
@@ -253,13 +250,13 @@ def main(page: ft.Page):
         what_dlg.open = False
         page.update()
 
-    # 打开“关于”窗口
+    # 打开“更新日志”窗口
     def open_upd(e):
         page.dialog = upd_dlg
         upd_dlg.open = True
         page.update()  
     
-    # 关闭“关于”窗口
+    # 关闭“更新日志”窗口
     def close_upd(e):
         upd_dlg.open = False
         page.update()
@@ -338,7 +335,7 @@ def main(page: ft.Page):
     
     # 主界面区
     xab_text = ft.Text("伪本地化方式： ",size=20)
-    xab = ft.RadioGroup(content=ft.Row([
+    xab = ft.RadioGroup(value="enxa",content=ft.Row([
     ft.Radio(value="enxa", label="en-XA（abc→ǻƀĉ）"),
     ft.Radio(value="enxb", label="en-XB（abc→cba）")]))
     XABrow = ft.Row(spacing = 10, controls = [xab_text,xab])
@@ -386,17 +383,19 @@ def main(page: ft.Page):
     suf_way = ft.Dropdown(
             label = "前后缀",
             hint_text = "选择前后缀方案，默认为“不添加前后缀”",
+            value = 0,
             options=[
                 ft.dropdown.Option(key = 0, text = "不添加前后缀"),
                 ft.dropdown.Option(key = 1, text = "[中括号+感叹号括起来 (微软式伪本地化)!!!]"),
                 ft.dropdown.Option(key = 2, text = "[中括号+在语段后添加英文基数词（安卓式伪本地化） one two three]")
            ])  
-    hash_cb = ft.Checkbox(label = "[Abc12]添加伪 Hash ID (资源标识符)(由一定位数的字母+数字所构成的字符串)", value=False,on_change=hash_check)
+    hash_cb = ft.Switch(label = "[Abc12]添加伪 Hash ID (资源标识符)(由一定位数的字母+数字所构成的字符串)", value=False,on_change=hash_check)
     hash_ws = ft.TextField(width=150,label="位数（3-10）",value=5,on_blur=ws_check,disabled=True) 
     row_hash = ft.Row(spacing = 10, controls = [hash_cb,hash_ws])
     num_pslo = ft.Dropdown(
             label = "数字伪本地化",           
             hint_text = "选择数字伪本地化方案，默认为“无”",
+            value = 0,
             options=[
                 ft.dropdown.Option(key = 0, text = "无"),
                 ft.dropdown.Option(key = 1, text = "使用①-⑨替代1-9"),
@@ -412,6 +411,7 @@ def main(page: ft.Page):
     theme = ft.Dropdown(
             label = "亮暗模式",
             hint_text = "亮暗模式",
+            value = 2,
             options=[
                 ft.dropdown.Option(key = 0, text = "亮色"),
                 ft.dropdown.Option(key = 1, text = "暗色"),
@@ -419,38 +419,33 @@ def main(page: ft.Page):
             ],
             on_change=theme_changed) 
     sch_text = ft.Text("配色",size=18)
-    scheme = ft.Row([
-        ft.ElevatedButton(
-        "蓝色（默认）",
-        color="#0061a4",
-        bgcolor="#dfe2eb",
-        on_click = sch_blue
+    scheme = ft.RadioGroup(value = 0,content=ft.Row([
+        ft.Radio(
+        value = 0,
+        label = "蓝色（默认）",
+        fill_color=ft.colors.BLUE_800,
         ),
-        ft.ElevatedButton(
-        "粉色",
-        color="#bb1614",
-        bgcolor="#f0cdca",
-        on_click = sch_pink
+        ft.Radio(
+        value = 1,
+        label = "粉色",
+        fill_color=ft.colors.PINK_700,
         ),
-        ft.ElevatedButton(
-        "绿色",
-        color="#006e1c",
-        bgcolor="#dee5d8",
-        on_click = sch_green
+        ft.Radio(
+        value = 2,
+        label = "绿色",
+        fill_color=ft.colors.GREEN_700,
         ),
-        ft.ElevatedButton(
-        "巧克力色",
-        color="#984718",
-        bgcolor="#f4ded5",
-        on_click = sch_cho
+        ft.Radio(
+        value = 3,
+        label = "巧克力色",
+        fill_color=ft.colors.BROWN,
         ),
-        ft.ElevatedButton(
-        "紫色",
-        color="#694fa3",
-        bgcolor="#ddd4e5",
-        on_click = sch_pur
-        ),
-        ])
+        ft.Radio(
+        value = 4,
+        label = "紫色",
+        fill_color=ft.colors.DEEP_PURPLE,
+        ),])
+        ,on_change=sch_changed)
     abt = ft.Row(
             [
                 ft.Icon(name = ft.icons.INFO_OUTLINE),
