@@ -5,12 +5,17 @@ import webbrowser
 import requests
 
 # 基本信息
-ver = "v3.3p"
+ver = "v3.4p"
 author = "Suntrise (STR)"
 auth_abbr = "STR"
 title = "伪本地化演示程序 " + ver +" by "+auth_abbr
 updmd = """
-# 更新日志
+# 更新日志 (详见GitHub Releases)
+
+## v3.4p - 2023.6.25
+
+1. 细节优化
+2. 字符库扩充
 
 ## v3.3p - 2023.6.24
 
@@ -22,64 +27,59 @@ updmd = """
 1. 新增 en-XB (倒序语段) 的伪本地化方式;
 2. 新增配色设置;
 3. 新增“清空历史记录”.
-
-## v3.1p - 2023.6.23
-
-1. 引入历史记录功能;
-2. 布局进行小改.
 """
 
-# 字符集
+# 字符库
 arra = ["ä", "ā", "á", "ǎ", "à", "ă", "å", "ǻ", "ã", "ǟ", "ǡ", "ǻ", "ȁ", "ȃ", "ȧ", "ᶏ", "ḁ", "ẚ", "ạ", "ả", "ấ", "ầ", "ẩ", "ẫ", "ậ", "ắ", "ằ", "ẳ", "ẵ", "ặ", "ɑ", "α", "ά", "ὰ", "ἀ", "ἁ", "ἂ", "ἃ", "ἆ", "ἇ", "ᾂ", "ᾃ", "ᾰ", "ᾱ", "ᾲ", "ᾳ", "ᾴ", "ᾶ", "ᾷ", "ⱥ", "𐓘", "𐓙", "𐓚"]
-arraa = ["Ā", "Á", "Ǎ", "À", "Â", "Ã", "Ä", "Å", "Ǻ", "Ά", "Ă", "Δ", "Λ", "Д", "Ą"]
-arrb = ["b", "ь", "в", "Ъ", "Б", "б", "β", "ƀ", "ƃ", "ɓ", "ᵬ", "ᶀ", "ḃ", "ḅ", "ḇ", "ꞗ", "ḃ"]
-arrbb = ["ß", "฿", "Ḃ"]
+arraa = ["Ā", "Á", "Ǎ", "À", "Â", "Ã", "Ä", "Å", "Ǻ", "Ά", "Ă", "Δ", "Λ", "Д", "Ą", "Ắ", "Ặ", "Ằ", "Ẳ", "Ẵ", "Ấ", "Ậ", "Ầ", "Ẩ", "Ẫ", "Ã"]
+arrb = ["b", "ь", "в", "Ъ", "Б", "б", "β", "ƀ", "ƃ", "ɓ", "ᵬ", "ᶀ", "ḃ", "ḅ", "ḇ", "ꞗ", "ḃ", "ъ"]
+arrbb = ["ß", "฿", "Ḃ", "₿"]
 arrc = ["c", "ç", "ς", "ĉ", "č", "ċ", "ć", "ĉ", "ċ", "ƈ", "ȼ", "¢", "ɕ", "ḉ", "ꞓ", "ꞔ"]
-arrcc = ["Č", "Ç", "Ĉ", "Ć", "€", "Ċ", "Č", "¢"]
-arrd = ["d", "ď", "đ", "₫", "ð", "δ", "ď"]
+arrcc = ["Č", "Ç", "Ĉ", "Ć", "€", "Ċ", "Č", "¢", "∁"]
+arrd = ["d", "ď", "đ", "₫", "ð", "δ", "ď", "ð"]
 arrdd = ["Ď", "Ð", "Ḋ"]
-arre = ["e", "ē", "é", "ě", "è", "ê", "ĕ", "ė", "ë", "ę", "з", "ε", "έ", "э", "℮"]
-arree = ["E", "Ē", "É", "Ě", "È", "Ę", "Ё", "Σ", "Έ", "Є", "Э", "З", "Ė"]
+arre = ["e", "ē", "é", "ě", "è", "ê", "ĕ", "ė", "ë", "ę", "з", "ε", "έ", "э", "℮", "ẹ", "ẻ", "ẽ", "ế", "ề", "ể", "ễ", "ệ", "ә", "ӟ"]
+arree = ["E", "Ē", "É", "Ě", "È", "Ę", "Ё", "Σ", "Έ", "Є", "Э", "З", "Ė", "Ξ", "ξ", "Ê", "Ế", "Ệ", "Ề", "Ể", "Ễ", "Ẹ", "Ẻ", "Ę", "Ә"]
 arrf = ["f", "ƒ", "ḟ"]
-arrff = ["F", "₣", "Ƒ", "Ḟ"]
+arrff = ["F", "₣", "Ƒ", "Ḟ", "Ғ"]
 arrg = ["ḡ", "ģ", "ǧ", "ĝ", "ğ", "ġ", "ǥ", "ǵ", "ɠ", "ᶃ", "ꞡ"]
 arrgg = ["Ḡ", "Ǵ", "Ǧ", "Ĝ", "Ğ", "Ģ", "Ġ", "Ɠ", "Ǥ", "Ꞡ"]
-arrh = ["ĥ", "ħ", "ђ", "н", "ḣ"]
-arrhh = ["H", "Ĥ", "Ħ", "Ḣ"]
-arri = ["ı", "ī", "í", "ǐ", "ì", "ĭ", "î", "ï", "ί", "į", "ΐ", "ι"]
-arrii = ["Ī", "Í", "Ǐ", "Ì", "Î", "Ï", "Ĭ", "Ί", "ı", "İ"]
+arrh = ["ĥ", "ħ", "ђ", "н", "ḣ", "ң", "һ"]
+arrhh = ["H", "Ĥ", "Ħ", "Ḣ", "Ћ", "Ђ", "Ң"]
+arri = ["ı", "ī", "í", "ǐ", "ì", "ĭ", "î", "ï", "ί", "į", "ΐ", "ι", "ỉ", "ị"]
+arrii = ["Ī", "Í", "Ǐ", "Ì", "Î", "Ï", "Ĭ", "Ί", "ı", "İ", "Ị", "Ỉ"]
 arrj = ["j"]
 arrjj = ["J", "Ĵ"]
-arrk = ["ƙ", "κ", "ķ", "ǩ"]
-arrkk = ["К", "Ǩ", "Ķ"]
+arrk = ["ƙ", "κ", "ķ", "ǩ", "қ"]
+arrkk = ["К", "Ǩ", "Ķ", "Қ"]
 arrl = ["ŀ", "ļ", "ℓ", "ĺ", "ļ", "ľ", "ł", "₺"]
 arrll = ["Ŀ", "£", "Ļ", "Ł", "Ĺ", "Ľ"]
 arrm = ["m", "₥", "м", "ṁ"]
 arrmm = ["M", "Ṁ"]
-arrn = ["ń", "ň", "ŉ", "η", "ή", "и", "й", "ñ", "л", "п", "π", "ŋ", "ņ", "ṅ"]
+arrn = ["ń", "ň", "ŉ", "η", "ή", "и", "й", "ñ", "л", "п", "π", "ŋ", "ņ", "ṅ", "ӥ"]
 arrnn = ["Ń", "Ň", "И", "Й", "Π", "Л", "Ñ", "Ŋ", "Ņ", "Ṅ"]
-arro = ["ō", "ó", "ŏ", "ò", "ô", "õ", "ö", "ő", "σ", "ø", "ǿ", "ȯ"]
-arroo = ["Ō", "Ó", "Ǒ", "Ò", "Ô", "Õ", "Ö", "Ό", "Θ", "Ǿ", "Ő", "Ȯ", "Ø", "Ω"]
+arro = ["ō", "ó", "ŏ", "ò", "ô", "õ", "ö", "ő", "σ", "ø", "ǿ", "ȯ", "ơ", "ọ", "ỏ", "ố", "ồ", "ổ", "ỗ", "ộ", "ớ", "ờ", "ở", "ỡ", "ợ", "ө", "ӧ"]
+arroo = ["Ō", "Ó", "Ǒ", "Ò", "Ô", "Õ", "Ö", "Ό", "Θ", "Ǿ", "Ő", "Ȯ", "Ø", "Ω", "θ", "Ф", "Ố", "Ộ", "Ồ", "Ổ", "Ỗ", "Ọ", "Ỏ", "Ơ", "Ớ", "Ợ", "Ờ", "Ở", "Ỡ", "Ő", "Ǫ", "Ǿ", "Ө"]
 arrp = ["p", "ρ", "ƥ", "φ", "ṗ"]
 arrpp = ["P", "Þ", "₽", "Ṗ"]
-arrq = ["q", "ʠ", "ɋ", "q"]
+arrq = ["q", "ʠ", "ɋ", "q", "ς"]
 arrqq = ["Q", "Ɋ"]
-arrr = ["ř", "ŗ", "г", "ѓ", "ґ", "я", "ṙ"]
+arrr = ["ř", "ŗ", "г", "ѓ", "ґ", "я", "ṙ", "ŕ"]
 arrrr = ["Ř", "Я", "Г", "Ґ", "Ŕ", "Ṙ", "₹"]
 arrs = ["ś", "š", "ŝ", "ș", "ş", "ƨ", "ṡ"]
-arrss = ["Š", "Ş", "Ș", "§", "$", "Ś", "Ṡ", "Ŝ"]
-arrt = ["ț", "ţ", "ť", "ŧ", "т", "τ", "ṫ"]
-arrtt = ["Ť", "Ţ", "Ț", "Ŧ", "Ţ", "Ṫ"]
-arru = ["ū", "ú", "ǔ", "ù", "û", "ũ", "ů", "ų", "ü", "ǖ", "ǘ", "ǚ", "ǜ", "ύ", "ϋ", "ΰ", "µ", "ц", "џ"]
-arruu = ["Ū", "Ǔ", "Ǖ", "Ǘ", "Ǚ", "Ǜ", "Ц", "Û", "Ú", "Ŭ," ,"Ű" ,"Ù" ,"Ů" ,"Ų"]
+arrss = ["Š", "Ş", "Ș", "§", "$", "Ś", "Ṡ", "Ŝ", "₴"]
+arrt = ["ț", "ţ", "ť", "ŧ", "т", "τ", "ṫ", "т"]
+arrtt = ["Ť", "Ţ", "Ț", "Ŧ", "Ţ", "Ṫ", "Ŧ"]
+arru = ["ū", "ú", "ǔ", "ù", "û", "ũ", "ů", "ų", "ü", "ǖ", "ǘ", "ǚ", "ǜ", "ύ", "ϋ", "ΰ", "µ", "ц", "џ", "ŭ", "ư","ű", "ụ", "ủ", "ứ", "ừ", "ử", "ữ", "ự"]
+arruu = ["Ū", "Ǔ", "Ǖ", "Ǘ", "Ǚ", "Ǜ", "Ц", "Û", "Ú", "Ŭ," ,"Ű" ,"Ù" ,"Ů" ,"Ų", "∪", "Ụ", "Ủ", "Ư", "Ứ", "Ự", "Ừ", "Ử", "Ữ", "Ũ"]
 arrv = ["ν"]
 arrvv = ["V", "V", "Ṽ", "Ṿ", "Ꝟ"]
 arrw = ["ẃ", "ẁ", "ẅ", "ŵ", "ш", "щ", "ω", "ώ", "ẇ"]
 arrww = ["Ẁ", "Ẃ", "Ẅ", "Ŵ", "Ш", "Щ", "₩", "Ẇ"]
-arrx = ["x", "ж", "ẋ"]
-arrxx = ["X", "Ж", "Ẋ"]
-arry = ["y", "ỳ", "ŷ", "ч", "γ", "ẏ", "ÿ", "ý", "У", "Ў"]
-arryy = ["Ϋ", "Ẏ", "Ŷ", "Ỳ", "Ύ", "Ψ", "￥", "Ч", "Ý"]
+arrx = ["x", "ж", "ẋ", "ӝ"]
+arrxx = ["X", "Ж", "Ẋ", "Ӝ"]
+arry = ["y", "ỳ", "ŷ", "ч", "γ", "ẏ", "ÿ", "ý", "У", "Ў", "ỵ", "ỷ", "ỹ", "ұ", "ҷ", "ӵ"]
+arryy = ["Ϋ", "Ẏ", "Ŷ", "Ỳ", "Ύ", "Ψ", "￥", "Ч", "Ý", "Ỵ", "Ỷ", "Ȳ", "Ỹ"]
 arrz = ["z", "ź", "ż", "ž", "ƶ", "ȥ", "ʐ", "ᵶ", "ᶎ", "ẑ", "ẓ", "ẕ", "ⱬ", "ż", "ζ"]
 arrzz = ["Z", "Ź", "Ż", "Ž", "Ƶ", "Ȥ", "Ẓ", "Ẕ", "Ẑ", "Ⱬ", "Ż", "Ʒ", "Ǯ"]
 arr1 = ["1", "₁", "¹"]
@@ -158,7 +158,7 @@ def main(page: ft.Page):
                 m = 0
           
             page.result.value = res
-            pshis += pstr+" → "+res +"\n"
+            pshis += pstr + " → " + res +"\n"
             history.value = pshis
             res = ''
         page.update()  
@@ -178,7 +178,7 @@ def main(page: ft.Page):
         page.snack_bar.open = True
         page.update()
     
-    # Hash Check
+    # Hash输入框解禁
     def hash_check(e):
         if hash_cb.value == True:
             hash_ws.disabled = False
@@ -186,17 +186,36 @@ def main(page: ft.Page):
             hash_ws.disabled = True
         page.update()
 
-    # WS Check
+    # 元音输入框解禁
+    def vowels_check(e):
+        if vowels_cb.value == True:
+            vowels_tf.disabled = False
+        else:
+            vowels_tf.disabled = True
+        page.update()
+
+    # Hash数值确认
     def ws_check(e):
-        ws=hash_ws.value
+        ws = hash_ws.value
         if str(ws).isdigit() == False:
             hash_ws.value = 5  
-        elif int(ws)<3:
-            hash_ws.value=3
-        elif int(ws)>10:
-            hash_ws.value=10 
+        elif int(ws) < 3:
+            hash_ws.value = 3
+        elif int(ws) > 10:
+            hash_ws.value = 10 
         page.update()
-    
+
+    # 元音数值确认
+    def vowels_ws_check(e):
+        ws = vowels_tf.value
+        if str(ws).isdigit() == False:
+            vowels_tf.value = 1  
+        elif int(ws) < 1:
+            vowels_tf.value = 1
+        elif int(ws) > 9:
+            vowels_tf.value = 9 
+        page.update()
+
     # 明暗切换
     def theme_changed(e):
         if theme.value == "0":
@@ -215,23 +234,31 @@ def main(page: ft.Page):
 
     # 色彩选择
     def sch_blue(e):
-        page.theme=ft.Theme(font_family="Microsoft Yahei",
+        page.theme = ft.Theme(font_family="Microsoft Yahei",
                             color_scheme_seed=ft.colors.BLUE)
         page.update()
+    def sch_red(e):
+        page.theme = ft.Theme(font_family="Microsoft Yahei",
+                            color_scheme_seed=ft.colors.RED)
+        page.update()
     def sch_pink(e):
-        page.theme=ft.Theme(font_family="Microsoft Yahei",
+        page.theme = ft.Theme(font_family="Microsoft Yahei",
                             color_scheme_seed=ft.colors.PINK)
         page.update()
     def sch_green(e):
-        page.theme=ft.Theme(font_family="Microsoft Yahei",
+        page.theme = ft.Theme(font_family="Microsoft Yahei",
                             color_scheme_seed=ft.colors.GREEN)
         page.update()
+    def sch_org(e):
+        page.theme = ft.Theme(font_family="Microsoft Yahei",
+                            color_scheme_seed=ft.colors.ORANGE_100)
+        page.update()
     def sch_cho(e):
-        page.theme=ft.Theme(font_family="Microsoft Yahei",
+        page.theme = ft.Theme(font_family="Microsoft Yahei",
                             color_scheme_seed=ft.colors.BROWN_100)
         page.update()
     def sch_pur(e):
-        page.theme=ft.Theme(font_family="Microsoft Yahei",
+        page.theme = ft.Theme(font_family="Microsoft Yahei",
                             color_scheme_seed=ft.colors.DEEP_PURPLE_100)
         page.update()
     
@@ -265,34 +292,44 @@ def main(page: ft.Page):
         def close_find_upd_dlg(e):
             find_upd_dlg.open = False
             page.update()
-        api = "https://api.github.com/repos/suntrise/Pseudo-localization-Demo/releases" 
-        all_info = requests.get(api, verify = False).json()
-        custom_ver = all_info[0]['name']
-        if custom_ver == ver:
-            page.snack_bar = ft.SnackBar(ft.Text(f"你正在使用最新版本"))
+        api = requests.get("https://api.github.com/repos/suntrise/Pseudo-localization-Demo/releases", timeout = 10, verify = False)
+        try:
+            response = api.text
+            all_info = api.json()
+            custom_ver = all_info[0]['name']
+            if custom_ver == ver:
+                page.snack_bar = ft.SnackBar(ft.Text(f"你正在使用最新版本"))
+                page.snack_bar.open = True
+                page.update()
+            else:
+                assets = all_info[0]['assets']
+                download_url = assets[0]['browser_download_url']
+                detail = all_info[0]['body']
+                publish_date_utc = all_info[0]['published_at']
+                prerelease = all_info[0]['prerelease']
+                prerelease_content = ""
+                if prerelease == "false":
+                    prerelease_content = "\n \r## 注意\n \r 本版本为预发布版本, 可能存在稳定性问题!"
+                upd_content = "- 当前版本: " + ver + "\n \r- 新版本: " + custom_ver + "\n \r## 详细信息\n \r" + detail + "\n \r## 发布日期\n \r" + publish_date_utc + prerelease_content
+                find_upd_dlg = ft.AlertDialog(
+                    title = ft.Text("发现更新"), on_dismiss=lambda e: print("Dialog dismissed!"),
+                    content = ft.Markdown(upd_content, selectable=True),
+                    actions = [
+                        ft.FilledButton("更新", icon = ft.icons.UPLOAD_OUTLINED, url = download_url),
+                        ft.TextButton("取消", icon = ft.icons.CLOSE_OUTLINED, on_click = close_find_upd_dlg)
+                    ],
+                )
+                page.dialog = find_upd_dlg
+                find_upd_dlg.open = True
+                page.update()  
+        except requests.exceptions.RequestException as e:
+            page.snack_bar = ft.SnackBar(ft.Text(f"检查更新超时, 请检查网络连接"))
             page.snack_bar.open = True
             page.update()
-        else:
-            assets = all_info[0]['assets']
-            download_url = assets[0]['browser_download_url']
-            detail = all_info[0]['body']
-            publish_date_utc = all_info[0]['published_at']
-            upd_content = "当前版本: " + ver + "\n \r新版本: " + custom_ver + "\n \r## 详细信息\n \r" + detail + "\n \r## 发布日期\n \r" + publish_date_utc
-            find_upd_dlg = ft.AlertDialog(
-                title = ft.Text("发现更新"), on_dismiss=lambda e: print("Dialog dismissed!"),
-                content = ft.Markdown(upd_content, selectable=True),
-                actions = [
-                    ft.FilledButton("更新", icon = ft.icons.UPGRADE, url = download_url),
-                    ft.TextButton("取消", icon = ft.icons.CANCEL_OUTLINED, on_click = close_find_upd_dlg)
-                ],
-            )
-            page.dialog = find_upd_dlg
-            find_upd_dlg.open = True
-            page.update()  
 
     # “什么是伪本地化”窗口定义
     what_dlg = ft.AlertDialog(
-        title = ft.Text("什么是伪本地化?"), on_dismiss=lambda e: print("Dialog dismissed!"),
+        title = ft.Text("什么是伪本地化?"), on_dismiss = lambda e: print("Dialog dismissed!"),
         content = ft.Text(what_text,selectable = True),
         actions=[
             ft.TextButton("我知道啦", icon = ft.icons.DONE, on_click = close_what)      
@@ -330,7 +367,7 @@ def main(page: ft.Page):
         leading_width = 30,
         title = ft.Text(title),
         center_title = False,
-        actions=[
+        actions = [
             ft.PopupMenuButton(
                 items=[
                     ft.PopupMenuItem(                
@@ -366,8 +403,8 @@ def main(page: ft.Page):
     # 主界面区
     xab_text = ft.Text("伪本地化方式:",size=20)
     xab = ft.RadioGroup(content=ft.Row([
-    ft.Radio(value="enxa", label="en-XA (abc→ǻƀĉ)"),
-    ft.Radio(value="enxb", label="en-XB (abc→cba)")]))
+    ft.Radio(value = "enxa", label = "en-XA (abc→ǻƀĉ)"),
+    ft.Radio(value = "enxb", label = "en-XB (abc→cba)")]))
     xab.value = "enxa"
     XABrow = ft.Row(spacing = 10, controls = [xab_text,xab])
     page.pstype = ft.TextField(hint_text = "在这里输入要翻译的内容~", text_size =15, multiline = True, max_lines = 5)
@@ -410,9 +447,9 @@ def main(page: ft.Page):
                 ft.dropdown.Option(key = 2, text = "[中括号+在语段后添加英文基数词（安卓式伪本地化） one two three]")
            ]) 
     suf_way.value = 0 
-    hash_cb = ft.Switch(label = "[Abc12]添加伪 Hash ID (资源标识符)(由一定位数的字母+数字所构成的字符串)", value=False,on_change=hash_check)
-    hash_ws = ft.TextField(width=150,label="位数（3-10）",value=5,on_blur=ws_check,disabled=True) 
-    row_hash = ft.Row(spacing = 10, controls = [hash_cb,hash_ws])
+    hash_cb = ft.Switch(label = "[Abc12]添加伪 Hash ID (资源标识符)(由一定位数的字母+数字所构成的字符串)", value = False, on_change = hash_check)
+    hash_ws = ft.TextField(width = 150, label = "位数 (3-10)", value = 5, on_blur = ws_check, disabled = True) 
+    row_hash = ft.Row(spacing = 10, controls = [hash_cb, hash_ws])
     num_pslo = ft.Dropdown(
             label = "数字伪本地化",           
             hint_text = "选择数字伪本地化方案，默认为“无”",
@@ -422,6 +459,9 @@ def main(page: ft.Page):
                 ft.dropdown.Option(key = 2, text = "使用₀-₉或⁰-⁹交叉替换0-9")
             ]) 
     num_pslo.value = 0
+    vowels_cb = ft.Switch(label = "[WIP]元音重复书写次数 (1位双写, 以此类推)(元音指“a, e, i, o, u”这些字母)", value = False, on_change = vowels_check, disabled = True)
+    vowels_tf = ft.TextField(width = 150, label = "位数 (1-9)", value = 1, on_blur = vowels_ws_check, disabled = True) 
+    row_vowels = ft.Row(spacing = 10, controls = [vowels_cb, vowels_tf])
 
     opt_look = ft.Row(
             [
@@ -448,6 +488,12 @@ def main(page: ft.Page):
             on_click = sch_blue
         ),
         ft.ElevatedButton(
+            "红色",
+            color = ft.colors.RED,
+            bgcolor = ft.colors.RED_100,
+            on_click = sch_red
+        ),
+        ft.ElevatedButton(
             "粉色",
             color = ft.colors.PINK,
             bgcolor = ft.colors.PINK_100,
@@ -460,6 +506,12 @@ def main(page: ft.Page):
             on_click = sch_green
         ),
         ft.ElevatedButton(
+            "橙色",
+            color = ft.colors.ORANGE,
+            bgcolor = ft.colors.ORANGE_100,
+            on_click = sch_org
+        ),
+        ft.ElevatedButton(
             "巧克力色",
             color = ft.colors.BROWN,
             bgcolor = ft.colors.BROWN_100,
@@ -467,11 +519,11 @@ def main(page: ft.Page):
         ),
         ft.ElevatedButton(
             "紫色",
-            color = ft.colors.PURPLE,
-            bgcolor = ft.colors.PURPLE_100,
+            color = ft.colors.DEEP_PURPLE,
+            bgcolor = ft.colors.DEEP_PURPLE_100,
             on_click = sch_pur
         ),
-        ])
+    ])
     abt = ft.Row(
             [
                 ft.Icon(name = ft.icons.INFO_OUTLINE),
@@ -482,7 +534,7 @@ def main(page: ft.Page):
     upd_bar = ft.Row(
         controls=[
             ft.TextButton("更新日志", icon = ft.icons.UPDATE, on_click = open_upd),
-            ft.TextButton("检查更新", icon = ft.icons.UPGRADE_OUTLINED, on_click = check_for_update)
+            ft.TextButton("检查更新", icon = ft.icons.UPLOAD_OUTLINED, on_click = check_for_update)
         ]
     )
 
@@ -498,7 +550,7 @@ def main(page: ft.Page):
     tab = ft.Tabs(
         selected_index = 0,
         animation_duration = 200,
-        tabs=[
+        tabs = [
             ft.Tab(
                 text = "主界面",
                 icon = ft.icons.HOME_OUTLINED,
@@ -512,9 +564,9 @@ def main(page: ft.Page):
                 content = ft.Column(spacing = 10, controls = [edge, his_clear,history]),
             ),
             ft.Tab(
-                text="设置",
-                icon=ft.icons.SETTINGS_OUTLINED,
-                content=ft.Column(spacing = 10, controls = [edge, opt_pslo, opt_pslo_detail, suf_way, row_hash, num_pslo, divider, opt_look, theme, sch_text, scheme, divider, abt, about, upd_bar]), 
+                text = "设置",
+                icon = ft.icons.SETTINGS_OUTLINED,
+                content=ft.Column(spacing = 10, controls = [edge, opt_pslo, opt_pslo_detail, suf_way, row_hash, num_pslo, row_vowels, divider, opt_look, theme, sch_text, scheme, divider, abt, about, upd_bar]), 
             ),
         ]
     )

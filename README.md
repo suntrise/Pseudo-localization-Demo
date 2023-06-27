@@ -65,13 +65,17 @@ nuitka pslo.pyw --onefile --windows-disable-console --windows-icon-from-ico=pslo
 
 适用于Windows和Linux，参数可以按需添加，详见[此处](https://github.com/Nuitka/Nuitka/)
 
+## 备注
+
+经过测试，在Fedora 38（Python 3.11.3）下运行可能会造成非正常闪烁现象，可能是flet库的问题
+
 ## 使用到的第三方项目
 
 ### 2.x, 3.x
 
 [flet-dev/flet](https://github.com/flet-dev/flet)
 
-[makinacorpus/django-paperclip](https://github.com/makinacorpus/django-paperclip)
+[asweigart/pyperclip](https://github.com/asweigart/pyperclip)
 
 ### 1.x
 
