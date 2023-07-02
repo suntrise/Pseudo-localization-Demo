@@ -3,30 +3,32 @@ import random
 import pyperclip
 import webbrowser
 import requests
+import sys
+import datetime
 
 # 基本信息
-ver = "v3.4p"
+ver = "v3.5p"
 author = "Suntrise (STR)"
 auth_abbr = "STR"
 title = "伪本地化演示程序 " + ver +" by "+auth_abbr
-updmd = """
+updmd = f"""
 # 更新日志 (详见GitHub Releases)
 
-## v3.4p - 2023.6.25
+## v3.5p - 2023.7.1
 
-1. 细节优化
-2. 字符库扩充
+1. 细节优化;
+2. 字符库扩充;
+3. [开发者]新增命令行日志;
+4. 历史记录支持显示时间.
+
+## v3.4p - 2023.6.27
+
+1. 新增元音重复.
 
 ## v3.3p - 2023.6.24
 
 1. 加入检查更新;
 2. 细节、逻辑进行优化.
-
-## v3.2p - 2023.6.23
-
-1. 新增 en-XB (倒序语段) 的伪本地化方式;
-2. 新增配色设置;
-3. 新增“清空历史记录”.
 """
 
 # 字符库
@@ -94,13 +96,22 @@ arr9 = ["9", "₉", "⁹"]
 arr0 = ["0", "₀", "⁰"]
 arral = ["A", "a", "B", "b", "C", "c", "D", "d", "E", "e", "F", "f", "G", "g", "H", "h", "I", "i", "J", "j", "K", "k", "L", "l", "M", "m", "N", "n", "O", "o", "P", "p", "Q", "q", "R", "r", "S", "s", "T", "t", "U", "u", "V", "v", "W", "w", "X", "x", "Y", "y", "Z", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 arrba = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"]
-suf=""
-pshis=""
+
+# 变量初始化
+suf = ""
+pshis = ""
+
 # 定义内容
 what_text = "伪本地化(pseudo-localization, 语言环境名称为 qps-ploc, qps-plocm, qps-ploca, en-XA, en-XB), \n是通过模拟本地化过程, 以有效地调查在本地化中出现的问题\n(如字符无法正常显示, 或因字符串过长而导致语段显示不完整等）。\n在伪本地化过程中, 英文字母会被替换为来自其他语言的重音符号和字符。\n(例如, 字母 a 可以被 αäáàāāǎǎăăåå 中的任何一个替换), 还会添加分隔符等以增加字符串长度。\n例: “Windows Photo Gallery (Windows 照片库)”→“ [1iaT9][ Ẅĭпðøωś Þнôтŏ Ģάŀļєяÿ !!! !] ”\n更多信息: \nhttps://docs.microsoft.com/zh-cn/globalization/methodology/pseudolocalization, \nhttps://zhuanlan.zhihu.com/p/613293858"
 about_text = "伪本地化演示程序 " + ver + "\n开发者: " + author +"\n贡献者、使用到的第三方项目详见 GitHub 项目仓库\n(https://github.com/suntrise/Pseudo-localization-Demo)" 
 edge = ft.Divider(height=1, thickness=1.5)
 divider = ft.Divider(height=9, thickness=1)
+
+print('\033[0;34m[INFO] Python version: {}\033[0m'.format(sys.version))
+print('\033[0;34m[INFO] Pyperclip version: {}\033[0m'.format(pyperclip.__version__))
+print('\033[0;34m[INFO] Requests version: {}\033[0m'.format(requests.__version__))
+print("\033[0;34m[INFO] PSLO version: " + ver + "\033[0m")
+print("\033[0;34m[INFO] Basic initialization completed\033[0m")
 
 # 主程序
 def main(page: ft.Page):
@@ -110,6 +121,8 @@ def main(page: ft.Page):
         i = 0
         m = 0
         n = 0
+        v = ""
+        print("\033[0;34m[INFO] Pseudo-localization initialization completed\033[0m")
         pstr = page.pstype.value
         res = ''
         if str != "" and str != "null":
@@ -117,19 +130,27 @@ def main(page: ft.Page):
                 xab.value = "enxa"
                 for l in pstr:
                     i += 1
+                    # 数字伪本地化判断
                     if num_pslo.value == "2":
                         al = l.replace('a',random.choice(arra)).replace('A',random.choice(arraa)).replace('b',random.choice(arrb)).replace('B',random.choice(arrbb)).replace('c',random.choice(arrc)).replace('C',random.choice(arrcc)).replace('d',random.choice(arrd)).replace('D',random.choice(arrdd)).replace('e',random.choice(arre)).replace('E',random.choice(arree)).replace('f',random.choice(arrf)).replace('F',random.choice(arrff)).replace('g',random.choice(arrg)).replace('G',random.choice(arrgg)).replace('h',random.choice(arrh)).replace('H',random.choice(arrhh)).replace('i',random.choice(arri)).replace('I',random.choice(arrii)).replace('j',random.choice(arrj)).replace('J',random.choice(arrjj)).replace('k',random.choice(arrk)).replace('K',random.choice(arrkk)).replace('l',random.choice(arrl)).replace('L',random.choice(arrll)).replace('m',random.choice(arrm)).replace('M',random.choice(arrmm)).replace('n',random.choice(arrn)).replace('N',random.choice(arrnn)).replace('o',random.choice(arro)).replace('O',random.choice(arroo)).replace('p',random.choice(arrp)).replace('P',random.choice(arrpp)).replace('q',random.choice(arrq)).replace('Q',random.choice(arrqq)).replace('r',random.choice(arrr)).replace('R',random.choice(arrrr)).replace('s',random.choice(arrs)).replace('S',random.choice(arrss)).replace('t',random.choice(arrt)).replace('T',random.choice(arrtt)).replace('u',random.choice(arru)).replace('U',random.choice(arruu)).replace('v',random.choice(arrv)).replace('V',random.choice(arrvv)).replace('w',random.choice(arrw)).replace('W',random.choice(arrww)).replace('x',random.choice(arrx)).replace('X',random.choice(arrxx)).replace('y',random.choice(arry)).replace('Y',random.choice(arryy)).replace('z',random.choice(arrz)).replace('Z',random.choice(arrzz)).replace('1',random.choice(arr1)).replace('2',random.choice(arr2)).replace('3',random.choice(arr3)).replace('4',random.choice(arr4)).replace('5',random.choice(arr5)).replace('6',random.choice(arr6)).replace('7',random.choice(arr7)).replace('8',random.choice(arr8)).replace('9',random.choice(arr9)).replace('0',random.choice(arr0))
                     elif num_pslo.value == "1":
                         al = l.replace('a',random.choice(arra)).replace('A',random.choice(arraa)).replace('b',random.choice(arrb)).replace('B',random.choice(arrbb)).replace('c',random.choice(arrc)).replace('C',random.choice(arrcc)).replace('d',random.choice(arrd)).replace('D',random.choice(arrdd)).replace('e',random.choice(arre)).replace('E',random.choice(arree)).replace('f',random.choice(arrf)).replace('F',random.choice(arrff)).replace('g',random.choice(arrg)).replace('G',random.choice(arrgg)).replace('h',random.choice(arrh)).replace('H',random.choice(arrhh)).replace('i',random.choice(arri)).replace('I',random.choice(arrii)).replace('j',random.choice(arrj)).replace('J',random.choice(arrjj)).replace('k',random.choice(arrk)).replace('K',random.choice(arrkk)).replace('l',random.choice(arrl)).replace('L',random.choice(arrll)).replace('m',random.choice(arrm)).replace('M',random.choice(arrmm)).replace('n',random.choice(arrn)).replace('N',random.choice(arrnn)).replace('o',random.choice(arro)).replace('O',random.choice(arroo)).replace('p',random.choice(arrp)).replace('P',random.choice(arrpp)).replace('q',random.choice(arrq)).replace('Q',random.choice(arrqq)).replace('r',random.choice(arrr)).replace('R',random.choice(arrrr)).replace('s',random.choice(arrs)).replace('S',random.choice(arrss)).replace('t',random.choice(arrt)).replace('T',random.choice(arrtt)).replace('u',random.choice(arru)).replace('U',random.choice(arruu)).replace('v',random.choice(arrv)).replace('V',random.choice(arrvv)).replace('w',random.choice(arrw)).replace('W',random.choice(arrww)).replace('x',random.choice(arrx)).replace('X',random.choice(arrxx)).replace('y',random.choice(arry)).replace('Y',random.choice(arryy)).replace('z',random.choice(arrz)).replace('Z',random.choice(arrzz)).replace('1','①').replace('2','②').replace('3','③').replace('4','④').replace('5','⑤').replace('6','⑥').replace('7','⑦').replace('8','⑧').replace('9','⑨')
                     else:
                         al = l.replace('a',random.choice(arra)).replace('A',random.choice(arraa)).replace('b',random.choice(arrb)).replace('B',random.choice(arrbb)).replace('c',random.choice(arrc)).replace('C',random.choice(arrcc)).replace('d',random.choice(arrd)).replace('D',random.choice(arrdd)).replace('e',random.choice(arre)).replace('E',random.choice(arree)).replace('f',random.choice(arrf)).replace('F',random.choice(arrff)).replace('g',random.choice(arrg)).replace('G',random.choice(arrgg)).replace('h',random.choice(arrh)).replace('H',random.choice(arrhh)).replace('i',random.choice(arri)).replace('I',random.choice(arrii)).replace('j',random.choice(arrj)).replace('J',random.choice(arrjj)).replace('k',random.choice(arrk)).replace('K',random.choice(arrkk)).replace('l',random.choice(arrl)).replace('L',random.choice(arrll)).replace('m',random.choice(arrm)).replace('M',random.choice(arrmm)).replace('n',random.choice(arrn)).replace('N',random.choice(arrnn)).replace('o',random.choice(arro)).replace('O',random.choice(arroo)).replace('p',random.choice(arrp)).replace('P',random.choice(arrpp)).replace('q',random.choice(arrq)).replace('Q',random.choice(arrqq)).replace('r',random.choice(arrr)).replace('R',random.choice(arrrr)).replace('s',random.choice(arrs)).replace('S',random.choice(arrss)).replace('t',random.choice(arrt)).replace('T',random.choice(arrtt)).replace('u',random.choice(arru)).replace('U',random.choice(arruu)).replace('v',random.choice(arrv)).replace('V',random.choice(arrvv)).replace('w',random.choice(arrw)).replace('W',random.choice(arrww)).replace('x',random.choice(arrx)).replace('X',random.choice(arrxx)).replace('y',random.choice(arry)).replace('Y',random.choice(arryy)).replace('z',random.choice(arrz)).replace('Z',random.choice(arrzz))
+                    # 元音复重复
+                    if l.lower() in "aeiou":
+                        al = al * (int(vowel_cs.value)+1)
                     res += al
-
-            if xab.value == "enxb":
+                    print("\033[0;34m[INFO] Number of pseudo-localization work cycles: " + str(i) + "\033[0m")   
+            print("\033[0;34m[INFO] Digital pseudo-localization program: " + str(num_pslo.value) + "\033[0m")
+            print("\033[0;34m[INFO] Number of vowel repetitions: " + str(vowel_cs.value) + "\033[0m")
+            if xab.value == "enxb": # 使用en-XB
                 for l in pstr:
                     i += 1
                 res = pstr[::-1]
-        
+            print("\033[0;34m[INFO] Pseudo-localization solutions: " + xab.value + "\033[0m")
+
+            # 前后缀添加
             suf = ""
             if suf_way.value == "1":           
                 while i > 2 and n < (i/7): 
@@ -138,7 +159,6 @@ def main(page: ft.Page):
                     if n % 3 == 0 & n != int(i/7+1):
                         suf = suf+" "
                 res = "["+ res +" " +suf +"]";  
-        
             elif suf_way.value == "2":
                 while n<(i/7):               
                     suf = suf+arrba[n%20]+" "
@@ -146,52 +166,58 @@ def main(page: ft.Page):
                 res = "["+ res +" " +suf +"]";          
             n = 0
             suf = ""
+            print("\033[0;34m[INFO] Prefix & suffix addition scheme: " + str(suf_way.value) + "\033[0m")
 
+            # 添加Hash ID
             if hash_cb.value == True:
+                print("\033[0;34m[INFO] Add Hash ID: True\033[0m")
                 hash_id = ""
                 while m < int(hash_ws.value):
                     hash_id = hash_id + random.choice(arral)               
                     m += 1
-
+                print("\033[0;34m[INFO] Number of Hash ID bits: " + str(hash_ws.value) + "\033[0m")
                 res = "[" + hash_id + "]" +res
                 hash_id = ""
                 m = 0
-          
+            else:
+                print("\033[0;34m[INFO] Add Hash ID: False\033[0m")
+            
             page.result.value = res
-            pshis += pstr + " → " + res +"\n"
+            print("\033[0;34m[INFO] Result: " + res + "\033[0m")
+            pshis += pstr+" → " + res +" | " + datetime.datetime.now().strftime('%H:%M:%S') + "\n" # 添加到历史记录
             history.value = pshis
+            print("\033[0;32m[DONE] Added content to history\033[0m")
             res = ''
         page.update()  
+        print("\033[0;32m[DONE] Pseudo-localization completed\033[0m")
     
     # 复制文本
     def copy_text(e):
         pyperclip.copy(page.result.value)
-        page.snack_bar = ft.SnackBar(ft.Text(f"已复制"))
+        print("\033[0;32m[DONE] Added to clipboard\033[0m")
+        page.snack_bar = ft.SnackBar(ft.Text(f"已复制")) # 提示栏
         page.snack_bar.open = True
         page.update()
+        print("\033[0;34m[INFO] Snack bar pop-up(CP)\033[0m")
     
     # 清除历史记录
     def clear_his(e):
         pshis = ""
         history.value = "无记录"
-        page.snack_bar = ft.SnackBar(ft.Text(f"已清空"))
+        print("\033[0;32m[DONE] History is cleared\033[0m")
+        page.snack_bar = ft.SnackBar(ft.Text(f"已清空")) # 提示栏
         page.snack_bar.open = True
         page.update()
+        print("\033[0;34m[INFO] Snack bar pop-up(CH)\033[0m")
     
     # Hash输入框解禁
     def hash_check(e):
         if hash_cb.value == True:
             hash_ws.disabled = False
+            print("\033[0;34m[INFO] Hash ID text field is enable\033[0m")
         else:
             hash_ws.disabled = True
-        page.update()
-
-    # 元音输入框解禁
-    def vowels_check(e):
-        if vowels_cb.value == True:
-            vowels_tf.disabled = False
-        else:
-            vowels_tf.disabled = True
+            print("\033[0;34m[INFO] Hash ID text field is disabled\033[0m")
         page.update()
 
     # Hash数值确认
@@ -199,137 +225,169 @@ def main(page: ft.Page):
         ws = hash_ws.value
         if str(ws).isdigit() == False:
             hash_ws.value = 5  
+            print("\033[0;34m[INFO] Set the Hash ID text field value to 5\033[0m")
         elif int(ws) < 3:
             hash_ws.value = 3
+            print("\033[0;34m[INFO] The value is too small, has set the Hash ID text field value to 3\033[0m")
         elif int(ws) > 10:
             hash_ws.value = 10 
+            print("\033[0;34m[INFO] The value is too big, has set the Hash ID text field value to 10\033[0m")
         page.update()
 
-    # 元音数值确认
-    def vowels_ws_check(e):
-        ws = vowels_tf.value
-        if str(ws).isdigit() == False:
-            vowels_tf.value = 1  
-        elif int(ws) < 1:
-            vowels_tf.value = 1
-        elif int(ws) > 9:
-            vowels_tf.value = 9 
+    # 元音重复次数检测
+    def vcs_check(e):
+        vcs=vowel_cs.value
+        if str(vcs).isdigit() == False:
+            vowel_cs.value = 0
+            print("\033[0;34m[INFO] Set the Vowel repetition text field value to 0\033[0m")
+        elif int(vcs) < 0:
+            vowel_cs.value = 0
+            print("\033[0;34m[INFO] The value is too small, has set the Vowel repetition text field value to 0\033[0m")
+        elif int(vcs) > 10:
+            vowel_cs.value = 10 
+            print("\033[0;34m[INFO] The value is too big, has set the Vowel repetition text field value to 10\033[0m")
         page.update()
 
     # 明暗切换
     def theme_changed(e):
         if theme.value == "0":
             page.theme_mode = (
-            ft.ThemeMode.LIGHT
+            ft.ThemeMode.LIGHT # 亮色
             )
+            print("\033[0;32m[DONE] Switch to LIGHT\033[0m")
         if theme.value == "1":
             page.theme_mode = (
-            ft.ThemeMode.DARK
+            ft.ThemeMode.DARK # 暗黑
             )
+            print("\033[0;32m[DONE] Switch to DARK\033[0m")
         if theme.value == "2":
             page.theme_mode = (
-            ft.ThemeMode.SYSTEM
+            ft.ThemeMode.SYSTEM # 系统
             )
+            print("\033[0;32m[DONE] Switch to SYSTEM\033[0m")
         page.update()
 
     # 色彩选择
-    def sch_blue(e):
-        page.theme = ft.Theme(font_family="Microsoft Yahei",
-                            color_scheme_seed=ft.colors.BLUE)
-        page.update()
-    def sch_red(e):
-        page.theme = ft.Theme(font_family="Microsoft Yahei",
-                            color_scheme_seed=ft.colors.RED)
-        page.update()
-    def sch_pink(e):
-        page.theme = ft.Theme(font_family="Microsoft Yahei",
-                            color_scheme_seed=ft.colors.PINK)
-        page.update()
-    def sch_green(e):
-        page.theme = ft.Theme(font_family="Microsoft Yahei",
-                            color_scheme_seed=ft.colors.GREEN)
-        page.update()
-    def sch_org(e):
-        page.theme = ft.Theme(font_family="Microsoft Yahei",
-                            color_scheme_seed=ft.colors.ORANGE_100)
-        page.update()
-    def sch_cho(e):
-        page.theme = ft.Theme(font_family="Microsoft Yahei",
-                            color_scheme_seed=ft.colors.BROWN_100)
-        page.update()
-    def sch_pur(e):
-        page.theme = ft.Theme(font_family="Microsoft Yahei",
-                            color_scheme_seed=ft.colors.DEEP_PURPLE_100)
+    def sch_changed(e):
+        sch=int(scheme.value)
+        if sch == 0:
+            page.theme=ft.Theme(font_family = "Microsoft Yahei",
+                            color_scheme_seed = ft.colors.BLUE) # 蓝色
+            print("\033[0;32m[DONE] Switch to color BLUE\033[0m")
+        if sch == 1:
+            page.theme=ft.Theme(font_family = "Microsoft Yahei",
+                            color_scheme_seed = ft.colors.PINK) # 粉色
+            print("\033[0;32m[DONE] Switch to color PINK\033[0m")
+        if sch == 2:
+            page.theme=ft.Theme(font_family = "Microsoft Yahei",
+                            color_scheme_seed = ft.colors.GREEN) # 绿色
+            print("\033[0;32m[DONE] Switch to color GREEN\033[0m")
+        if sch == 3:
+            page.theme=ft.Theme(font_family = "Microsoft Yahei",
+                            color_scheme_seed = ft.colors.BROWN) # 巧克力色
+            print("\033[0;32m[DONE] Switch to color BROWN\033[0m")
+        if sch == 4:
+            page.theme=ft.Theme(font_family = "Microsoft Yahei",
+                            color_scheme_seed = ft.colors.DEEP_PURPLE_100) # 紫色
+            print("\033[0;32m[DONE] Switch to color DEEP_PURPLE\033[0m")
         page.update()
     
     # 打开网页版
     def open_with_browser(e):
         webbrowser.open_new("https://suntrise.github.io/pseudo/")
+        print("\033[0;32m[DONE] Website open (OIB)\033[0m")
 
     # 打开项目仓库
     def open_project_repo(e):
         webbrowser.open_new("https://github.com/suntrise/Pseudo-localization-Demo")
+        print("\033[0;32m[DONE] Website open (OPR)\033[0m")
 
     # 打开“什么是伪本地化”窗口
     def open_what(e):
         page.dialog = what_dlg
         what_dlg.open = True
+        print("\033[0;32m[DONE] Dialog open(WHT)\033[0m")
         page.update()  
     
     # 关闭“什么是伪本地化”窗口
     def close_what(e):
         what_dlg.open = False
+        print("\033[0;32m[DONE] Dialog close(WHT)\033[0m")
         page.update()
 
     # 打开“更新日志”窗口
     def open_upd(e):
         page.dialog = upd_dlg
         upd_dlg.open = True
+        print("\033[0;32m[DONE] Dialog open(UPH)\033[0m")
         page.update()  
 
     # 检查更新
     def check_for_update(e):
+        # 关闭“发现更新”窗口
         def close_find_upd_dlg(e):
             find_upd_dlg.open = False
             page.update()
-        api = requests.get("https://api.github.com/repos/suntrise/Pseudo-localization-Demo/releases", timeout = 10, verify = False)
+            print("\033[0;32m[DONE] Dialog close(UPD)\033[0m")
+        # 主体
+        # API定义
+        api = requests.get("https://api.github.com/repos/suntrise/Pseudo-localization-Demo/releases", timeout = 10, verify = False) # SSL禁用
+        print("\033[0;34m[INFO] API add\033[0m")
+        print("\033[0;34m[INFO] Testing...\033[0m")
         try:
-            response = api.text
-            all_info = api.json()
-            custom_ver = all_info[0]['name']
+            response = api.text # 用于是否可以链接Github
+            all_info = api.json() # 获取Json
+            print("\033[0;34m[INFO] Get API information\033[0m")
+            custom_ver = all_info[0]['name'] # 获取最新版本
+            print("\033[0;34m[INFO] Versions in the server" + custom_ver + "\033[0m")
+            print("\033[0;34m[INFO] Comparing versions...\033[0m")
             if custom_ver == ver:
-                page.snack_bar = ft.SnackBar(ft.Text(f"你正在使用最新版本"))
+                print("\033[0;32m[DONE] You are using the latest version\033[0m")
+                page.snack_bar = ft.SnackBar(ft.Text(f"你正在使用最新版本")) # 提示栏
                 page.snack_bar.open = True
+                print("\033[0;32m[DONE] Snack Bar pop-up(VLT)\033[0m")
                 page.update()
             else:
                 assets = all_info[0]['assets']
-                download_url = assets[0]['browser_download_url']
-                detail = all_info[0]['body']
-                publish_date_utc = all_info[0]['published_at']
-                prerelease = all_info[0]['prerelease']
+                print("\033[0;34m[INFO] Getting the download link...\033[0m")
+                download_url = assets[0]['browser_download_url'] # 获取下载链接
+                print("\033[0;34m[INFO] Link: " + download_url + "\033[0m")
+                print("\033[0;34m[INFO] Getting the change log...\033[0m")
+                detail = all_info[0]['body'] # 获取更新日志
+                print("\033[0;34m[INFO] Change log: " + detail + "\033[0m")
+                print("\033[0;34m[INFO] Getting the publish time...\033[0m")
+                publish_date_utc = all_info[0]['published_at'] # 获取更新日志
+                print("\033[0;34m[INFO] Publish time: " + publish_date_utc + "\033[0m")
+                print("\033[0;34m[INFO] Checking if it is a pre-release version...\033[0m")
+                prerelease = all_info[0]['prerelease'] # 获取是否为预览版本
                 prerelease_content = ""
                 if prerelease == "false":
-                    prerelease_content = "\n \r## 注意\n \r 本版本为预发布版本, 可能存在稳定性问题!"
-                upd_content = "- 当前版本: " + ver + "\n \r- 新版本: " + custom_ver + "\n \r## 详细信息\n \r" + detail + "\n \r## 发布日期\n \r" + publish_date_utc + prerelease_content
+                    prerelease_content = "\n \r## 注意\n \r 本版本为预发布版本, 可能存在稳定性问题!" # 内容添加
+                    print("\033[0;34m[INFO] " + custom_ver + "is a pre-release version\033[0m")
+                upd_content = "- 当前版本: " + ver + "\n \r- 新版本: " + custom_ver + "\n \r## 详细信息\n \r" + detail + "\n \r## 发布日期\n \r" + publish_date_utc + prerelease_content # 弹窗内容
+                # 定义“发现更新”窗口
                 find_upd_dlg = ft.AlertDialog(
-                    title = ft.Text("发现更新"), on_dismiss=lambda e: print("Dialog dismissed!"),
+                    title = ft.Text("发现更新"), on_dismiss=lambda e: print("\033[0;34m[INFO] Dialog dismissed(UPD)\033[0m"),
                     content = ft.Markdown(upd_content, selectable=True),
                     actions = [
                         ft.FilledButton("更新", icon = ft.icons.UPLOAD_OUTLINED, url = download_url),
                         ft.TextButton("取消", icon = ft.icons.CLOSE_OUTLINED, on_click = close_find_upd_dlg)
                     ],
                 )
-                page.dialog = find_upd_dlg
+                page.dialog = find_upd_dlg # 打开“发现更新”窗口
                 find_upd_dlg.open = True
                 page.update()  
+                print("\033[0;32m[DONE] Dialog open(UPD)\033[0m")
         except requests.exceptions.RequestException as e:
-            page.snack_bar = ft.SnackBar(ft.Text(f"检查更新超时, 请检查网络连接"))
+            print("\033[0;31m[ERROR] Check for update failure\033[0m")
+            page.snack_bar = ft.SnackBar(ft.Text(f"检查更新超时, 请检查网络连接")) # 提示栏
             page.snack_bar.open = True
             page.update()
+            print("\033[0;32m[DONE] Snack Bar pop-up(CUF)\033[0m")
 
     # “什么是伪本地化”窗口定义
     what_dlg = ft.AlertDialog(
-        title = ft.Text("什么是伪本地化?"), on_dismiss = lambda e: print("Dialog dismissed!"),
+        title = ft.Text("什么是伪本地化?"), on_dismiss = lambda e: print("\033[0;34m[INFO] Dialog dismissed(WHT)\033[0m"),
         content = ft.Text(what_text,selectable = True),
         actions=[
             ft.TextButton("我知道啦", icon = ft.icons.DONE, on_click = close_what)      
@@ -342,15 +400,17 @@ def main(page: ft.Page):
         ft.Container(
             ft.Column(
                 [
-                    ft.Markdown(updmd, selectable=True),
+                    ft.Markdown(updmd, selectable = True),
                 ],
             ),
             padding = 20,
             width = page.window_width,
-        )
+        ),
+        on_dismiss = lambda e: print("\033[0;34m[INFO] Dialog dismissed(UPH)\033[0m")
     )
          
     # 用户界面
+    # 基本内容定义
     page.title = title
     page.window_left = 200
     page.window_top = 100
@@ -359,17 +419,18 @@ def main(page: ft.Page):
     page.window_min_height = 400
     page.window_min_width = 760
     page.theme = ft.Theme(
-         font_family="Microsoft Yahei",
+         font_family = "Microsoft Yahei",
          color_scheme_seed=ft.colors.BLUE
          )
     page.scroll = ft.ScrollMode.ALWAYS
+    # 应用栏定义
     page.appbar = ft.AppBar(
         leading_width = 30,
         title = ft.Text(title),
         center_title = False,
         actions = [
             ft.PopupMenuButton(
-                items=[
+                items = [
                     ft.PopupMenuItem(                
                         content = ft.Row(
                         [
@@ -386,7 +447,7 @@ def main(page: ft.Page):
                         ]),
                        on_click = open_project_repo     
                     ),
-                    ft.PopupMenuItem(),
+                    ft.PopupMenuItem(), # 分隔
                     ft.PopupMenuItem(                
                         content = ft.Row(
                         [
@@ -400,7 +461,7 @@ def main(page: ft.Page):
         ],
     ) 
     
-    # 主界面区
+    # 主页区
     xab_text = ft.Text("伪本地化方式:",size=20)
     xab = ft.RadioGroup(content=ft.Row([
     ft.Radio(value = "enxa", label = "en-XA (abc→ǻƀĉ)"),
@@ -431,13 +492,15 @@ def main(page: ft.Page):
     row_pslo = ft.Row(spacing = 10, controls = [pslo_btn, copy_btn,what_btn])
     
     # 设置区
+    # 伪本地化设置
     opt_pslo = ft.Row(
             [
-                ft.Icon(name=ft.icons.TRANSLATE_OUTLINED),
+                ft.Icon(name = ft.icons.TRANSLATE_OUTLINED),
                 ft.Text("伪本地化", size = 22)
             ]
         )
     opt_pslo_detail = ft.Text("(部分选项仅适用于 en-XA)", size=15) 
+    #----------#
     suf_way = ft.Dropdown(
             label = "前后缀",
             hint_text = "选择前后缀方案，默认为“不添加前后缀”",
@@ -447,9 +510,11 @@ def main(page: ft.Page):
                 ft.dropdown.Option(key = 2, text = "[中括号+在语段后添加英文基数词（安卓式伪本地化） one two three]")
            ]) 
     suf_way.value = 0 
+    #----------#
     hash_cb = ft.Switch(label = "[Abc12]添加伪 Hash ID (资源标识符)(由一定位数的字母+数字所构成的字符串)", value = False, on_change = hash_check)
     hash_ws = ft.TextField(width = 150, label = "位数 (3-10)", value = 5, on_blur = ws_check, disabled = True) 
     row_hash = ft.Row(spacing = 10, controls = [hash_cb, hash_ws])
+    #----------#
     num_pslo = ft.Dropdown(
             label = "数字伪本地化",           
             hint_text = "选择数字伪本地化方案，默认为“无”",
@@ -459,16 +524,27 @@ def main(page: ft.Page):
                 ft.dropdown.Option(key = 2, text = "使用₀-₉或⁰-⁹交叉替换0-9")
             ]) 
     num_pslo.value = 0
-    vowels_cb = ft.Switch(label = "[WIP]元音重复书写次数 (1位双写, 以此类推)(元音指“a, e, i, o, u”这些字母)", value = False, on_change = vowels_check, disabled = True)
-    vowels_tf = ft.TextField(width = 150, label = "位数 (1-9)", value = 1, on_blur = vowels_ws_check, disabled = True) 
-    row_vowels = ft.Row(spacing = 10, controls = [vowels_cb, vowels_tf])
-
+    num_pslo = ft.Dropdown(
+            label = "数字伪本地化",           
+            hint_text = "选择数字伪本地化方案，默认为“无”",
+            value = 0, #默认为“无”
+            options=[
+                ft.dropdown.Option(key = 0, text = "无"),
+                ft.dropdown.Option(key = 1, text = "使用①-⑨替代1-9"),
+                ft.dropdown.Option(key = 2, text = "使用₀-₉或⁰-⁹交叉替换0-9")
+            ]) 
+    #----------#
+    vowel_tx = ft.Text("重复元音次数(0代表不重复, 1代表双写, 以此类推): ",size=15)
+    vowel_cs = ft.TextField(width = 150, label = "次数 (0-10)", value = 0, on_blur = vcs_check) 
+    row_vow = ft.Row(spacing = 10, controls = [vowel_tx,vowel_cs])
+    # 外观设置
     opt_look = ft.Row(
             [
                 ft.Icon(name = ft.icons.PALETTE_OUTLINED),
                 ft.Text("外观", size = 22)
             ]
         )
+    #----------#
     theme = ft.Dropdown(
             label = "亮暗模式",
             hint_text = "亮暗模式",
@@ -479,51 +555,36 @@ def main(page: ft.Page):
             ],
             on_change = theme_changed) 
     theme.value = 2
+    #----------#
     sch_text = ft.Text("配色", size = 20)
-    scheme = ft.Row([
-        ft.ElevatedButton(
-            "蓝色 (默认)",
-            color = ft.colors.BLUE,
-            bgcolor = ft.colors.BLUE_100,
-            on_click = sch_blue
+    scheme = ft.RadioGroup(value = 0,content=ft.Row([
+        ft.Radio(
+        value = 0,
+        label = "蓝色",
+        fill_color=ft.colors.BLUE_800,
         ),
-        ft.ElevatedButton(
-            "红色",
-            color = ft.colors.RED,
-            bgcolor = ft.colors.RED_100,
-            on_click = sch_red
+        ft.Radio(
+        value = 1,
+        label = "粉色",
+        fill_color=ft.colors.PINK_700,
         ),
-        ft.ElevatedButton(
-            "粉色",
-            color = ft.colors.PINK,
-            bgcolor = ft.colors.PINK_100,
-            on_click = sch_pink
+        ft.Radio(
+        value = 2,
+        label = "绿色",
+        fill_color=ft.colors.GREEN_700,
         ),
-        ft.ElevatedButton(
-            "绿色",
-            color = ft.colors.GREEN,
-            bgcolor = ft.colors.GREEN_100,
-            on_click = sch_green
+        ft.Radio(
+        value = 3,
+        label = "巧克力色",
+        fill_color=ft.colors.BROWN,
         ),
-        ft.ElevatedButton(
-            "橙色",
-            color = ft.colors.ORANGE,
-            bgcolor = ft.colors.ORANGE_100,
-            on_click = sch_org
-        ),
-        ft.ElevatedButton(
-            "巧克力色",
-            color = ft.colors.BROWN,
-            bgcolor = ft.colors.BROWN_100,
-            on_click = sch_cho
-        ),
-        ft.ElevatedButton(
-            "紫色",
-            color = ft.colors.DEEP_PURPLE,
-            bgcolor = ft.colors.DEEP_PURPLE_100,
-            on_click = sch_pur
-        ),
-    ])
+        ft.Radio(
+        value = 4,
+        label = "紫色",
+        fill_color=ft.colors.DEEP_PURPLE,
+        ),])
+        ,on_change=sch_changed)
+    #关于内容
     abt = ft.Row(
             [
                 ft.Icon(name = ft.icons.INFO_OUTLINE),
@@ -554,7 +615,7 @@ def main(page: ft.Page):
             ft.Tab(
                 text = "主界面",
                 icon = ft.icons.HOME_OUTLINED,
-                content=ft.Container(
+                content = ft.Container(
                     ft.Column(spacing = 5, controls = [edge, XABrow, page.pstype, page.result, row_pslo])
                 ),
             ),
@@ -566,11 +627,12 @@ def main(page: ft.Page):
             ft.Tab(
                 text = "设置",
                 icon = ft.icons.SETTINGS_OUTLINED,
-                content=ft.Column(spacing = 10, controls = [edge, opt_pslo, opt_pslo_detail, suf_way, row_hash, num_pslo, row_vowels, divider, opt_look, theme, sch_text, scheme, divider, abt, about, upd_bar]), 
+                content = ft.Column(spacing = 10, controls = [edge, opt_pslo, opt_pslo_detail, suf_way, row_hash, num_pslo, row_vow, divider, opt_look, theme, sch_text, scheme, divider, abt, about, upd_bar]), 
             ),
         ]
     )
     page.add(tab)
     page.update()
+    print("\033[0;34m[INFO] Window initialization completed\033[0m")
 
-ft.app(target=main)
+ft.app(target = main)
