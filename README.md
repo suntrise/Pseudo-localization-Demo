@@ -1,6 +1,7 @@
 # 伪本地化演示程序
 
-![pslo_show](https://github.com/suntrise/Pseudo-localization-Demo/assets/89229642/55e87de9-55d0-4c17-b16e-ca738bdf0853)
+![pslo3 4](https://github.com/suntrise/Pseudo-localization-Demo/assets/89229642/d00bfac4-0ad5-463d-916c-76d0c78bff38)
+
 
 这是一个伪本地化工具，可用于某些本地化工作用途，当然也可以作为一个玩具或者工具
 
