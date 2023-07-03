@@ -1,13 +1,14 @@
 # 🌐伪本地化演示程序
 
 ![image](https://github.com/suntrise/Pseudo-localization-Demo/assets/89229642/d0096413-c0a7-4e8f-8d63-1fe7050badb2)
-![image](https://github.com/suntrise/Pseudo-localization-Demo/assets/89229642/c19f2f18-368a-41ed-b40e-5059ea0f414e)
 
 这是一个伪本地化工具, 可用于某些本地化工作用途, 当然也可以作为一个玩具或者工具~
 
 网页版：https://suntrise.github.io/pseudo
 
 ## 👇使用
+
+如果您没有Python环境且比较懒, 可以移步Release下载, tar.gz版本适用于Linux, exe版本适用于Windows, 其他操作系统建议下载源码并执行
 
 注意, 要在本地查看并修改源码, 需要安装Python, 版本最少为3.7以保障兼容性
 
@@ -20,7 +21,13 @@ pip install flet
 pip install pyperclip
 ~~~
 
-安装依赖, 若需编辑旧版, 则还需要额外运行......
+若要使用或编辑Mini, 还需额外执行...
+
+~~~Bash
+pip install fleter
+~~~
+
+若需编辑旧版, 还需要额外运行......
 
 ~~~Bash
 pip install PyQt5 
@@ -47,6 +54,12 @@ pip install pyinstaller
 pyinstaller pslo.pyw -F -w -i pslo_icon.ico
 ~~~
 
+Mini版则执行
+
+~~~Bash
+pyinstaller pslo_mini.pyw -F -w -i pslo_icon.ico
+~~~
+
 编译完可能需要Wine或者Crossover才可以运行, 因此我们依旧推荐直接执行pyw文件或使用下一种方案
 
 #### Nuitka (推荐)
@@ -65,11 +78,29 @@ pip install nuitka
 nuitka pslo.pyw --onefile --windows-disable-console --windows-icon-from-ico=pslo_icon.ico --standalone --show-progress
 ~~~
 
-适用于Windows和Linux, 参数可以按需添加, 详见[此处](https://github.com/Nuitka/Nuitka/)
+Mini版则执行
+
+~~~Bash
+nuitka pslo_mini.pyw --onefile --windows-disable-console --windows-icon-from-ico=pslo_icon.ico --standalone --show-progress
+~~~
+
+*注: 部分系统可能要将`nuitka`改为`nuitka3`*
+
+Linux完成编译后须执行......
+
+~~~Bash
+chmod +x [编译后文件名].bin
+~~~
+
+才可以执行
+
+该方法适用于Windows和Linux, 参数可以按需添加, 详见[此处](https://github.com/Nuitka/Nuitka/)
 
 ## 🗒️备注
 
 经过测试, 在虚拟机下运行可能会造成非正常闪烁现象, 可能是flet库的驱动驱动兼容的问题
+
+macOS由于条件原因没法测试, 望有条件的用户可以为我们提供相应的帮助与支持!
 
 代码写的有点难看, 望各位大佬多多指导!
 
