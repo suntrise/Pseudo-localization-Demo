@@ -42,8 +42,11 @@ jobs:
           nuitka-version: main
           script-name: pslo.pyw
           onefile: true
-          windows-disable-console: true
+          standalone: true
+          disable-console: true
           windows-icon-from-ico: pslo_icon.ico
+          macos-create-app-bundle: true
+          macos-app-icon: pslo_icon_mac.icns
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
