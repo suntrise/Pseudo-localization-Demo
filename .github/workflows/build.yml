@@ -40,7 +40,7 @@ jobs:
         uses: Nuitka/Nuitka-Action@main
         with:
           nuitka-version: main
-          script-name: pslo
+          script-name: pslo.pyw
           onefile: true
           windows-disable-console: true
           windows-icon-from-ico: pslo_icon.ico
