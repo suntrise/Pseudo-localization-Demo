@@ -36,11 +36,23 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Build Executable
+      - name: Build Executable(Standard)
         uses: Nuitka/Nuitka-Action@main
         with:
           nuitka-version: main
           script-name: pslo.pyw
+          onefile: true
+          standalone: true
+          disable-console: true
+          windows-icon-from-ico: pslo_icon.ico
+          macos-create-app-bundle: true
+          macos-app-icon: pslo_icon_mac.icns
+
+      - name: Build Executable(Mini)
+        uses: Nuitka/Nuitka-Action@main
+        with:
+          nuitka-version: main
+          script-name: pslo_mini.pyw
           onefile: true
           standalone: true
           disable-console: true
