@@ -35,7 +35,7 @@ def main(page: ft.Page):
     # 基本内容定义
     page.window_left = 200
     page.window_top = 100
-    page.window_height = 275
+    page.window_height = 280
     page.window_width = 300  
     page.window_opacity = 0.9
     page.window_resizable = False
@@ -45,10 +45,10 @@ def main(page: ft.Page):
          )
 
     # 主页区
-    titlebar = fleter.HeaderBar(page, title = "₽ŠĹȮ ❤️ " + basic_info.ver, title_align = "left")
-    titlebar.controls.insert(1, fleter.SwitchThemeButton(page, has_system=False))
-    page.pstype = ft.TextField(hint_text = "在这里输入要翻译的内容~", text_size = 13, multiline = False, max_lines = 5)
-    page.result = ft.TextField(hint_text = "结果会显示在这里~", text_size = 13, multiline = False, max_lines = 5, read_only = True)
+    titlebar = fleter.HeaderBar(page, title = "₽šļö ❤️ " + basic_info.ver, title_align = "left")
+    titlebar.controls.insert(1, fleter.SwitchThemeButton(page, light_icon = ft.icons.LIGHT_MODE, dark_icon = ft.icons.DARK_MODE, has_system = False))
+    page.pstype = ft.TextField(hint_text = "在这里输入要翻译的内容~", text_size = 15, multiline = False, max_lines = 5)
+    page.result = ft.TextField(hint_text = "结果会显示在这里~", text_size = 15, multiline = False, max_lines = 5, read_only = True)
     pslo_btn = ft.FilledButton(
         "伪本地化!",
         icon = ft.icons.TRANSLATE_OUTLINED,

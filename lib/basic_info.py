@@ -2,19 +2,23 @@
 print("\033[0;34m[INFO] Basic Information ready...\033[0m")
 
 # 基本信息
-ver = "v4.0p"
+ver = "v4.0.1p"
 author = "Suntrise (STR)"
 auth_abbr = "STR"
-title = "伪本地化演示程序 " + ver +" by "+auth_abbr
+title = "伪本地化演示程序 " + ver + " by " + auth_abbr
 updmd = """
 # 更新日志 (详见GitHub Releases)
+
+# v4.0.1p - 2023.7.4
+
+1. 细节优化.
 
 ## v4.0p - 2023.7.4
 
 1. [开发者]功能函数已拆分;
 2. 引入Mini模式;
 3. 新增文本文件导入&保存;
-4. 新增窗口透明;
+4. 新增窗口透明度设置;
 5. 检查更新优化.
 
 ## v3.5p - 2023.7.1
