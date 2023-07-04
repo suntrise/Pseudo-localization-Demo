@@ -16,7 +16,7 @@ body:
         5. 填写该 Issue 需要一点计算机知识储备;
         6. 依赖正确安装, 且 Python 版本不低于要求最低版本;
         7. 做到能在发布该 Issue 后能依据开发者要求进行信息提供。
-        [^注]: 现指使用PyQt5开发的版本(v1.x)
+        [^注]: 现指1.x、2.x的所有版本
 
   - type: markdown
     attributes:
@@ -67,6 +67,7 @@ body:
         - Windows 
         - Linux
         - macOS
+        - BSD(包括OpenBSD, NetBSD, FreeBSD)
         - 其他
     validations:
       required: true

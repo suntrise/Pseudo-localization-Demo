@@ -1,7 +1,7 @@
 name: 📣新功能请求
 description: 提交一个新功能, 来帮助我们改进该程序。
 title: "[Feature Request]: "
-labels: ["feature request"]
+labels: ["enhancement"]
 assignees:
   - octocat
 body:
