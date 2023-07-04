@@ -1,0 +1,56 @@
+name: 📣新功能请求
+description: 提交一个新功能, 来帮助我们改进该程序。
+title: "[Feature Request]: "
+labels: ["feature request"]
+assignees:
+  - octocat
+body:
+  - type: markdown
+    attributes:
+      value: |
+        #### ⚠️须知：
+        1. 请一次只提交一个建议;
+        2. 请以最新版本为准;
+        3. 请尽量详细为我们提供相关信息;
+        4. 反馈前请先看看最新版本有没有添加你所期盼的功能;
+        4. 做到能在发布该 Issue 后能依据开发者要求进行信息提供。
+  - type: markdown
+    attributes:
+      value: |
+        ## 新功能信息：
+  - type: textarea
+    id: what-you-want
+    attributes:
+      label: 你想要的功能
+      description: 请告诉我们在你预期中会发生什么?(如果有截图或视频更好)
+      placeholder: 支持 Markdown, 请在此处填写
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: 详细描述一下
+      description: 尽可能详细得告诉我们关于新功能的信息
+      placeholder: 支持 Markdown, 请在此处填写
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## 杂项：
+  - type: textarea
+    id: notes
+    attributes:
+      label: 备注(可选)
+      description: 还有什么要补充?
+      placeholder: 支持 Markdown, 请在此处填写
+    validations:
+      required: false
+  - type: checkboxes
+    id: allow
+    attributes:
+      label: 发布前确定
+      description: 发布该 Issue 前, 请确保您提交的内容符合须知要求, 否则我们将会 Close 该 Issue!
+      options:
+        - label: 我接受
+          required: true
