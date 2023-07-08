@@ -44,9 +44,9 @@ jobs:
           onefile: true
           standalone: true
           disable-console: true
-          windows-icon-from-ico: pslo_icon.ico
+          windows-icon-from-ico: /icon/pslo_icon.ico
           macos-create-app-bundle: true
-          macos-app-icon: pslo_icon_mac.icns
+          macos-app-icon: /icon/pslo_icon_mac.icns
 
       - name: Build Executable(Mini)
         uses: Nuitka/Nuitka-Action@main
@@ -56,9 +56,9 @@ jobs:
           onefile: true
           standalone: true
           disable-console: true
-          windows-icon-from-ico: pslo_icon_mini.ico
+          windows-icon-from-ico: /icon/pslo_icon_mini.ico
           macos-create-app-bundle: true
-          macos-app-icon: pslo_icon_mini_mac.icns
+          macos-app-icon: /icon/pslo_icon_mini_mac.icns
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3

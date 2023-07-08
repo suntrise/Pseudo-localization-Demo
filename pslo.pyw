@@ -1,11 +1,12 @@
-import flet as ft
-import pyperclip
-import webbrowser
-import sys
-import datetime
-from lib import pslo_work
-from lib import update
-from lib import basic_info
+import flet as ft # 界面库
+import pyperclip # 复制库
+import webbrowser # 浏览器链接库
+import sys # 系统库
+import datetime # 日期时间库
+from lib import pslo_work # 工作模块
+from lib import update # 更新模块
+from lib import basic_info # 基础信息
+# from lib import config_li # 写入配置库, 尚未完成
 
 # 基础信息位于lib/basic_info.py
 
@@ -28,7 +29,7 @@ def main(page: ft.Page):
     # 伪本地化
     def pslo(e):
         global pshis
-        page.result.value = pslo_work.pslo(page.pstype.value, xab.value, num_pslo.value, vowel_cs.value, suf_way.value, hash_cb.value, hash_ws)
+        page.result.value = pslo_work.pslo(page.pstype.value, xab.value, num_pslo.value, vowel_cs.value, suf_way.value, hash_cb.value, hash_ws.value)
         pshis += page.pstype.value + " → " + page.result.value +" | " + datetime.datetime.now().strftime('%H:%M:%S') + "\n" # 添加到历史记录
         history.value = pshis
         print("\033[0;32m[DONE] Added content to history\033[0m")
@@ -228,7 +229,7 @@ def main(page: ft.Page):
             # 定义“发现更新”窗口
             find_upd_dlg = ft.AlertDialog(
                 title = ft.Text("发现更新"), on_dismiss = lambda e: print("\033[0;34m[INFO] Dialog dismissed(UPD)\033[0m"),
-                content = ft.Markdown(content, selectable=True),
+                content = ft.Markdown(content, selectable = True),
                 actions = [
                     ft.FilledButton("更新", icon = ft.icons.UPLOAD_OUTLINED, url = download_url),
                     ft.TextButton("取消", icon = ft.icons.CLOSE_OUTLINED, on_click = close_find_upd_dlg)
@@ -242,7 +243,7 @@ def main(page: ft.Page):
     # “什么是伪本地化”窗口定义
     what_dlg = ft.AlertDialog(
         title = ft.Text("什么是伪本地化?"), on_dismiss = lambda e: print("\033[0;34m[INFO] Dialog dismissed(WHT)\033[0m"),
-        content = ft.Text(basic_info.what_text,selectable = True),
+        content = ft.Markdown(basic_info.what_text, selectable = True),
         actions = [
             ft.TextButton("我知道啦", icon = ft.icons.DONE, on_click = close_what)      
         ],
@@ -408,9 +409,9 @@ def main(page: ft.Page):
     num_pslo.value = 0
     num_pslo = ft.Dropdown(
             label = "数字伪本地化",           
-            hint_text = "选择数字伪本地化方案，默认为“无”",
+            hint_text = "选择数字伪本地化方案, 默认为“无”",
             value = 0, #默认为“无”
-            options=[
+            options = [
                 ft.dropdown.Option(key = 0, text = "无"),
                 ft.dropdown.Option(key = 1, text = "使用①-⑨替代1-9"),
                 ft.dropdown.Option(key = 2, text = "使用₀-₉或⁰-⁹交叉替换0-9")

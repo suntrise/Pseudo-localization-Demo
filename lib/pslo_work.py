@@ -140,5 +140,4 @@ def pslo(pstype, xab, num_pslo, vowel_cs, suf_way, hash_cb, hash_ws):
         
         print("\033[0;34m[INFO] Result: " + res + "\033[0m")
         return res
-        res = ''
     print("\033[0;32m[DONE] Pseudo-localization completed\033[0m")
