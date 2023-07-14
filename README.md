@@ -65,13 +65,13 @@ pip install pyinstaller
 定位到代码根目录, 运行......
 
 ~~~Bash
-pyinstaller pslo.pyw -F -w -i pslo_icon.ico
+pyinstaller pslo.pyw -F -w -i ./icon/slo_icon.ico
 ~~~
 
 Mini版则执行
 
 ~~~Bash
-pyinstaller pslo_mini.pyw -F -w -i pslo_icon.ico
+pyinstaller pslo_mini.pyw -F -w -i ./icon/pslo_icon.ico
 ~~~
 
 编译完可能需要Wine或者Crossover才可以运行, 因此我们依旧推荐直接执行pyw文件或使用下一种方案
@@ -86,19 +86,17 @@ pyinstaller pslo_mini.pyw -F -w -i pslo_icon.ico
 pip install nuitka
 ~~~
 
-定位到代码根目录, 运行......
+定位到代码根目录, 运行......[^1]
 
 ~~~Bash
-nuitka pslo.pyw --onefile --windows-disable-console --windows-icon-from-ico=pslo_icon.ico --standalone --show-progress
+nuitka pslo.pyw --onefile --windows-disable-console --windows-icon-from-ico=./icon/pslo_icon.ico --standalone --show-progress
 ~~~
 
 Mini版则执行
 
 ~~~Bash
-nuitka pslo_mini.pyw --onefile --windows-disable-console --windows-icon-from-ico=pslo_icon.ico --standalone --show-progress
+nuitka pslo_mini.pyw --onefile --windows-disable-console --windows-icon-from-ico=./icon/pslo_icon.ico --standalone --show-progress
 ~~~
-
-*注: 部分系统可能要将`nuitka`改为`nuitka3`*
 
 Linux完成编译后须执行......
 
@@ -108,11 +106,13 @@ chmod +x [编译后文件名].bin
 
 才可以执行
 
-该方法适用于Windows和Linux, 参数可以按需添加, 详见[此处](https://github.com/Nuitka/Nuitka/)
+该方法适用于Windows、macOS和Linux三大主流平台, 参数可以按需添加, 详见[此处](https://github.com/Nuitka/Nuitka/)
 
 ## 🗒️备注
 
 - 经过测试, 在虚拟机下运行可能会造成非正常闪烁现象, 可能是flet库的驱动驱动兼容的问题
+
+- 以上命令可能会有些许滞后, 若编译效果不佳, 可参考Workflow脚本进行参数补充
 
 - macOS由于条件原因没法测试, 望有条件的用户可以为我们提供相应的帮助与支持!
 
@@ -134,8 +134,10 @@ chmod +x [编译后文件名].bin
 
 ## 📄许可协议
 
-使用**WTFPL**许可协议开源[^注], 你想干嘛就干嘛
+使用**WTFPL**许可协议开源[^2], 你想干嘛就干嘛
 
 ![WTFPL](http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-1.png)
 
-[^注]: 或许可以解释为**W**indows **T**iny **F**orm **P**seudo-**L**ocalization
+[^1]: 部分系统可能要将`nuitka`改为`nuitka3`
+
+[^2]: 或许可以解释为**W**indows **T**iny **F**orm **P**seudo-**L**ocalization
