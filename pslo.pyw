@@ -449,9 +449,19 @@ def main(page: ft.Page):
     )
     row_pslo = ft.Row(spacing = 10, controls = [pslo_btn, copy_btn, lsfile])
 
-    
     # 历史记录
     history = ft.Text("无记录", size = 18, selectable = True)
+    his_card = ft.Card(
+            content = ft.Container(
+                content = ft.Column(
+                    [
+                        history
+                    ]
+                ),
+                width = page.window_width,
+                padding = 15
+            )
+        )
     save_his_dialog = ft.FilePicker(on_result = sv_his)
     his_opts = ft.Row(controls=[
         save_his_dialog,
@@ -614,7 +624,7 @@ def main(page: ft.Page):
             ft.Tab(
                 text = "历史记录",
                 icon = ft.icons.HISTORY_OUTLINED,
-                content = ft.Column(spacing = 10, controls = [edge, his_bar, divider, history]),
+                content = ft.Column(spacing = 10, controls = [edge, his_bar, his_card]),
             ),
             ft.Tab(
                 text = "设置",
