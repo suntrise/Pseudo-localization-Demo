@@ -35,7 +35,13 @@ pip install pyperclip
 pip install fleter
 ~~~
 
-若需编辑旧版, 还需要额外运行......
+以上如果嫌一个一个来麻烦，可以直接执行..
+
+~~~Bash
+pip install -r requirements.txt
+~~~
+
+若需编辑旧版, 还需要额外运行...
 
 ~~~Bash
 pip install PyQt5 
@@ -125,3 +131,11 @@ chmod +x [编译后文件名].bin
 ### 1.x
 
 [Riverbank Computing PyQt5](https://www.riverbankcomputing.com/software/pyqt/)
+
+## 📄许可协议
+
+使用**WTFPL**许可协议开源[^注], 你想干嘛就干嘛
+
+![WTFPL](http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-1.png)
+
+[^注]: 或许可以解释为**W**indows **T**iny **F**orm **P**seudo-**L**ocalization
