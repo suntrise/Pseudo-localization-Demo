@@ -90,18 +90,43 @@ def main(page: ft.Page):
 
     # 导出文件
     def sv_files(e: ft.FilePickerResultEvent):
-        svfile = e.path
-        page.snack_bar = ft.SnackBar(ft.Text("已保存至: " + svfile)) # 提示栏
-        page.snack_bar.open = True
+        svfile = e.path if e.path else "ERR"
+        if sv_files != "ERR":
+            page.snack_bar = ft.SnackBar(ft.Text("已保存至: " + svfile)) # 提示栏
+            page.snack_bar.open = True
+            page.update()
+            print("\033[0;34m[INFO] Snack bar pop-up(SV)\033[0m")
+            with open(svfile, "a", encoding = 'utf-8') as svf:
+                svf.write(page.result.value)
+                print("\033[0;32m[DONE] File saved:" + str(svfile) + "\033[0m")
+        else:
+            page.snack_bar = ft.SnackBar(ft.Text("发生错误, 不是合法的路径")) # 提示栏
+            page.snack_bar.open = True
+            page.update()
+            print("\033[0;34m[INFO] Snack bar pop-up(SVE)\033[0m")
         page.update()
-        print("\033[0;34m[INFO] Snack bar pop-up(SV)\033[0m")
-        with open(svfile, "a", encoding = 'utf-8') as svf:
-            svf.write(page.result.value)
-            print("\033[0;32m[DONE] File saved:" + str(svfile) + "\033[0m")
-        page.update()
+
+    # 导出历史记录
+    def sv_his(e: ft.FilePickerResultEvent):
+        svhis = e.path if e.path else "ERR"
+        if svhis != "ERR":
+            page.snack_bar = ft.SnackBar(ft.Text("已保存至: " + svhis)) # 提示栏
+            page.snack_bar.open = True
+            page.update()
+            print("\033[0;34m[INFO] Snack bar pop-up(SVH)\033[0m")
+            with open(svhis, "a", encoding = 'utf-8') as svh:
+                svh.write(history.value)
+                print("\033[0;32m[DONE] File saved:" + str(svhis) + "\033[0m")
+        else:
+            page.snack_bar = ft.SnackBar(ft.Text("发生错误, 不是合法的路径")) # 提示栏
+            page.snack_bar.open = True
+            page.update()
+            print("\033[0;34m[INFO] Snack bar pop-up(SHE)\033[0m")
+        page.update()    
 
     # 清除历史记录
     def clear_his(e):
+        close_chq(e)
         pshis = ""
         history.value = "无记录"
         print("\033[0;32m[DONE] History is cleared\033[0m")
@@ -222,6 +247,19 @@ def main(page: ft.Page):
         print("\033[0;32m[DONE] Dialog close(WHT)\033[0m")
         page.update()
 
+    # 打开“确定清除历史记录”窗口
+    def open_chq(e):
+        page.dialog = chq_dlg
+        chq_dlg.open = True
+        print("\033[0;32m[DONE] Dialog open(CHQ)\033[0m")
+        page.update()  
+
+    # 关闭“确定清除历史记录”窗口
+    def close_chq(e):
+        chq_dlg.open = False
+        print("\033[0;32m[DONE] Dialog close(CHQ)\033[0m")
+        page.update()
+
     # 打开“更新日志”窗口
     def open_upd(e):
         page.dialog = upd_dlg
@@ -271,6 +309,17 @@ def main(page: ft.Page):
         content = ft.Markdown(basic_info.what_text, selectable = True),
         actions = [
             ft.TextButton("我知道啦", icon = ft.icons.DONE, on_click = close_what)      
+        ],
+        actions_alignment = ft.MainAxisAlignment.END
+    ) 
+
+    # “确定清除历史记录”窗口定义
+    chq_dlg = ft.AlertDialog(
+        title = ft.Text("确定删除历史记录?"), on_dismiss = lambda e: print("\033[0;34m[INFO] Dialog dismissed(CHQ)\033[0m"),
+        content = ft.Text("确定删除所有历史记录,?\n该操作不可逆!"),
+        actions = [
+            ft.ElevatedButton("确定", icon = ft.icons.DONE, on_click = clear_his, bgcolor = ft.colors.RED, color=ft.colors.WHITE, elevation = 0),
+            ft.FilledTonalButton("取消", icon = ft.icons.CLOSE, on_click = close_chq)      
         ],
         actions_alignment = ft.MainAxisAlignment.END
     ) 
@@ -400,6 +449,36 @@ def main(page: ft.Page):
     )
     row_pslo = ft.Row(spacing = 10, controls = [pslo_btn, copy_btn, lsfile])
 
+    
+    # 历史记录
+    history = ft.Text("无记录", size = 18, selectable = True)
+    save_his_dialog = ft.FilePicker(on_result = sv_his)
+    his_opts = ft.Row(controls=[
+        save_his_dialog,
+        ft.TextButton(
+            "复制全部",
+            icon = ft.icons.COPY_OUTLINED,
+            on_click = copy_history
+        ),
+        ft.TextButton(
+            "保存到本地",
+            icon = ft.icons.SAVE_OUTLINED,
+            on_click = lambda _: save_his_dialog.save_file(allowed_extensions = ["txt"])
+        ),
+        ft.TextButton(
+            "清空",
+            icon = ft.icons.DELETE_FOREVER_OUTLINED,
+            on_click = open_chq
+        )
+    ])
+    his_bar = ft.Row(alignment = ft.MainAxisAlignment.SPACE_BETWEEN,controls = [
+        ft.Text(
+            "历史记录:",
+            size = 20
+        ),
+        his_opts
+    ])
+
     # 设置区
     # 伪本地化设置
     opt_pslo = ft.Row(
@@ -519,28 +598,6 @@ def main(page: ft.Page):
             ft.TextButton("检查更新", icon = ft.icons.UPLOAD_OUTLINED, on_click = check_for_update)
         ]
     )
-
-    # 历史记录
-    history = ft.Text("无记录", size = 18, selectable = True)
-    his_btns = ft.Row(controls=[
-        ft.TextButton(
-            "复制全部",
-            icon = ft.icons.COPY_OUTLINED,
-            on_click = copy_history
-        ),
-        ft.TextButton(
-            "清空",
-            icon = ft.icons.DELETE_FOREVER_OUTLINED,
-            on_click = clear_his
-        )
-    ])
-    his_bar = ft.Row(alignment = ft.MainAxisAlignment.SPACE_BETWEEN,controls = [
-        ft.Text(
-            "历史记录:",
-            size = 20
-        ),
-        his_btns
-    ])
 
     # 标签
     tab = ft.Tabs(
