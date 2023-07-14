@@ -73,7 +73,7 @@ arral = ["A", "a", "B", "b", "C", "c", "D", "d", "E", "e", "F", "f", "G", "g", "
 arrba = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"]
 
 # 伪本地化
-def pslo(pstype, xab, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re, cus_cs, hash_cb, hash_ws):
+def pslo(pstype, xab, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf, cus_re, cus_cs, hash_cb, hash_ws):
     i = 0
     m = 0
     n = 0

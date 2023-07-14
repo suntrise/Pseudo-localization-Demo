@@ -23,24 +23,29 @@ print("\033[0;32m[DONE] Basic initialization completed\033[0m")
 
 # 主程序
 def main(page: ft.Page):
-
-    # 原pslo函数已迁移至lib/pslo_work.py
+    # 字符相隔位数是否数字确定
     def ccs_check(e):
         if cus_cs.value.isdigit() == False:
-           cus_cs.value = 7; 
+            cus_cs.value = 7; 
+            print("\033[0;34m[INFO] Set the CUS value to 7\033[0m")
         page.update()
-        
+
+    # 是否显示前后缀配置栏
     def psf_check(e):
         if suf_way.value == "3":
             cus_ps.visible = True
+            print("\033[0;34m[INFO] CUS Toolbar visible is true\033[0m")
         else:
             cus_ps.visible = False
+            print("\033[0;34m[INFO] CUS Toolbar visible is false\033[0m")
         page.update()
     
-    # 伪本地化
+    # 原pslo函数已迁移至lib/pslo_work.py
+
+    # 伪本地化&内容获取
     def pslo(e):
         global pshis
-        page.result.value = pslo_work.pslo(page.pstype.value, xab.value, num_pslo.value, vowel_cs.value, suf_way.value,cus_pre.value,cus_suf.value,cus_re.value,cus_cs.value, hash_cb.value, hash_ws.value)
+        page.result.value = pslo_work.pslo(page.pstype.value, xab.value, num_pslo.value, vowel_cs.value, suf_way.value, cus_pre.value, cus_suf.value, cus_re.value, cus_cs.value, hash_cb.value, hash_ws.value, vis_con_cb.value)
         pshis += page.pstype.value + " → " + page.result.value +" | " + datetime.datetime.now().strftime('%H:%M:%S') + "\n" # 添加到历史记录
         history.value = pshis
         print("\033[0;32m[DONE] Added content to history\033[0m")
@@ -54,7 +59,16 @@ def main(page: ft.Page):
         page.snack_bar.open = True
         page.update()
         print("\033[0;34m[INFO] Snack bar pop-up(CP)\033[0m")
-    
+
+    # 复制历史记录
+    def copy_history(e):
+        pyperclip.copy(history.value)
+        print("\033[0;32m[DONE] Added history to clipboard\033[0m")
+        page.snack_bar = ft.SnackBar(ft.Text(f"已复制历史记录")) # 提示栏
+        page.snack_bar.open = True
+        page.update()
+        print("\033[0;34m[INFO] Snack bar pop-up(CPH)\033[0m")
+        
     # 导入文件
     def ps_files(e: ft.FilePickerResultEvent):
         psfile = ", ".join(map(lambda f: f.path, e.files)) if e.files else "ERR"
@@ -121,18 +135,6 @@ def main(page: ft.Page):
         page.update()
         print("\033[0;34m[INFO] Snack bar pop-up(CH)\033[0m")
     
-    # 导出历史记录
-    def sv_his(e: ft.FilePickerResultEvent):
-        svhis = e.path if e.path else "ERR"
-        if svhis != "ERR":
-            page.snack_bar = ft.SnackBar(ft.Text("已保存至: " + svhis)) # 提示栏
-            page.snack_bar.open = True
-            page.update()
-            print("\033[0;34m[INFO] Snack bar pop-up(SV)\033[0m")
-            with open(svhis, "a", encoding = 'utf-8') as svh:
-                svh.write(history.value)
-                print("\033[0;32m[DONE] File saved:" + str(svhis) + "\033[0m")
-        page.update()    
     # Hash输入框解禁
     def hash_check(e):
         if hash_cb.value == True:
@@ -159,7 +161,7 @@ def main(page: ft.Page):
 
     # 元音重复次数检测
     def vcs_check(e):
-        vcs=vowel_cs.value
+        vcs = vowel_cs.value
         if str(vcs).isdigit() == False:
             vowel_cs.value = 0
             print("\033[0;34m[INFO] Set the Vowel repetition text field value to 0\033[0m")
@@ -175,17 +177,17 @@ def main(page: ft.Page):
     def theme_changed(e):
         if theme.value == "0":
             page.theme_mode = (
-            ft.ThemeMode.LIGHT # 亮色
+                ft.ThemeMode.LIGHT # 亮色
             )
             print("\033[0;32m[DONE] Switch to LIGHT\033[0m")
         if theme.value == "1":
             page.theme_mode = (
-            ft.ThemeMode.DARK # 暗黑
+                ft.ThemeMode.DARK # 暗黑
             )
             print("\033[0;32m[DONE] Switch to DARK\033[0m")
         if theme.value == "2":
             page.theme_mode = (
-            ft.ThemeMode.SYSTEM # 系统
+                ft.ThemeMode.SYSTEM # 系统
             )
             print("\033[0;32m[DONE] Switch to SYSTEM\033[0m")
         page.update()
@@ -359,6 +361,7 @@ def main(page: ft.Page):
         center_title = False,
         actions = [
             ft.PopupMenuButton(
+                tooltip = "展开",
                 items = [
                     ft.PopupMenuItem(                
                         content = ft.Row(
@@ -445,6 +448,7 @@ def main(page: ft.Page):
         ]
     )
     row_pslo = ft.Row(spacing = 10, controls = [pslo_btn, copy_btn, lsfile])
+
     
     # 历史记录
     history = ft.Text("无记录", size = 18, selectable = True)
@@ -494,13 +498,12 @@ def main(page: ft.Page):
                 ft.dropdown.Option(key = 1, text = "[中括号+感叹号括起来 (微软式伪本地化)!!!]"),
                 ft.dropdown.Option(key = 2, text = "[中括号+在语段后添加英文基数词 (安卓式伪本地化) one two three]"),
                 ft.dropdown.Option(key = 3, text = "自定义前后缀")
-           ],on_change=psf_check) 
-    cus_pre = ft.TextField(width=80,label="前缀",value="[")
-    cus_suf = ft.TextField(width=80,label="后缀",value="]")
-    cus_re = ft.TextField(label="在语段后重复添加……")
-    cus_cs = ft.TextField(width=230,label="每隔多少个字符重复一次：",value=7,on_blur=ccs_check)
-    cus_ps = ft.Row(spacing = 5, visible=False, controls = [cus_pre, cus_suf, cus_re, cus_cs])
-
+           ], on_change = psf_check) 
+    cus_pre = ft.TextField(width = 80, label = "前缀", value = "[")
+    cus_suf = ft.TextField(width = 80, label = "后缀", value = "]")
+    cus_re = ft.TextField(label = "在语段后重复添加……")
+    cus_cs = ft.TextField(width = 230, label = "每隔多少个字符重复一次：", value = 7, on_blur = ccs_check)
+    cus_ps = ft.Row(spacing = 5, visible = False, controls = [cus_pre, cus_suf, cus_re, cus_cs])
     #----------#
     hash_cb = ft.Switch(label = "[Abc12]添加伪 Hash ID (资源标识符)(由一定位数的字母+数字所构成的字符串)", value = False, on_change = hash_check)
     hash_ws = ft.TextField(width = 150, label = "位数 (3-10)", value = 5, on_blur = ws_check, disabled = True) 
@@ -529,7 +532,7 @@ def main(page: ft.Page):
     vowel_cs = ft.TextField(width = 150, label = "次数 (0-10)", value = 0, on_blur = vcs_check) 
     row_vow = ft.Row(spacing = 10, controls = [vowel_tx,vowel_cs])
     #----------#
-    dont_con_cb = ft.Switch(label = "[WIP]不翻译%s, \\n等控制字符", value = False, disabled = True)
+    vis_con_cb = ft.Switch(label = "翻译后隐藏%s, \\n等控制字符", value = False)
     # 外观设置
     opt_look = ft.Row(
             [
@@ -551,37 +554,37 @@ def main(page: ft.Page):
     #----------#
     sch_text = ft.Text("配色", size = 20)
     scheme = ft.RadioGroup(value = 0,content=ft.Row([
-        ft.Radio(
-        value = 0,
-        label = "蓝色",
-        fill_color = ft.colors.BLUE_800,
-        ),
-        ft.Radio(
-        value = 1,
-        label = "粉色",
-        fill_color = ft.colors.PINK_700,
-        ),
-        ft.Radio(
-        value = 2,
-        label = "绿色",
-        fill_color = ft.colors.GREEN_700,
-        ),
-        ft.Radio(
-        value = 3,
-        label = "巧克力色",
-        fill_color = ft.colors.BROWN,
-        ),
-        ft.Radio(
-        value = 4,
-        label = "紫色",
-        fill_color = ft.colors.DEEP_PURPLE,
-        ),])
-        ,on_change = sch_changed)
+            ft.Radio(
+                value = 0,
+                label = "蓝色",
+                fill_color = ft.colors.BLUE_800,
+            ),
+            ft.Radio(
+                value = 1,
+                label = "粉色",
+                fill_color = ft.colors.PINK_700,
+            ),
+            ft.Radio(
+                value = 2,
+                label = "绿色",
+                fill_color = ft.colors.GREEN_700,
+            ),
+            ft.Radio(
+                value = 3,
+                label = "巧克力色",
+                fill_color = ft.colors.BROWN,
+            ),
+            ft.Radio(
+                value = 4,
+                label = "紫色",
+                fill_color = ft.colors.DEEP_PURPLE,
+            )
+        ]), on_change = sch_changed)
     #----------#
     opacity_text = ft.Text("窗口透明度", size = 20)
     page.opacity_slider = ft.Slider(min = 50, max = 100, divisions = 50, label = "{value}%", on_change = opacity_slider_changed, value = 100)
     
-    #关于内容
+    # 关于内容
     abt = ft.Row(
             [
                 ft.Icon(name = ft.icons.INFO_OUTLINE),
@@ -611,12 +614,12 @@ def main(page: ft.Page):
             ft.Tab(
                 text = "历史记录",
                 icon = ft.icons.HISTORY_OUTLINED,
-                content = ft.Column(spacing = 10, controls = [edge, his_opt, history]),
+                content = ft.Column(spacing = 10, controls = [edge, his_bar, divider, history]),
             ),
             ft.Tab(
                 text = "设置",
                 icon = ft.icons.SETTINGS_OUTLINED,
-                content = ft.Column(spacing = 10, controls = [edge, opt_pslo, opt_pslo_detail, suf_way, cus_ps, row_hash, num_pslo, row_vow, dont_con_cb, divider, opt_look, theme, sch_text, scheme, opacity_text, page.opacity_slider, divider, abt, about, upd_bar]), 
+                content = ft.Column(spacing = 10, controls = [edge, opt_pslo, opt_pslo_detail, suf_way, cus_ps, row_hash, num_pslo, row_vow, vis_con_cb, divider, opt_look, theme, sch_text, scheme, opacity_text, page.opacity_slider, divider, abt, about, upd_bar]), 
             ),
         ]
     )

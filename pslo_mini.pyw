@@ -19,7 +19,7 @@ def main(page: ft.Page):
     # 伪本地化
     def pslo(e):
         global pshis
-        page.result.value = pslo_work.pslo(page.pstype.value, "enxa", 0, 0, 0, False, 0)
+        page.result.value = pslo_work.pslo(page.pstype.value, "enxa", 0, 0, 0, "", "", "", 0, False, 0)
         page.update()
          
     # 复制文本
