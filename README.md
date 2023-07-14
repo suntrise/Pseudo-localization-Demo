@@ -4,6 +4,14 @@
 
 这是一个伪本地化工具, 可用于某些本地化工作用途, 当然也可以作为一个玩具或者工具~
 
+![GitHub Action](https://github.com/suntrise/Pseudo-localization-Demo/actions/workflows/build.yml/badge.svg)
+![GitHub all releases](https://img.shields.io/github/downloads/suntrise/Pseudo-localization-Demo/total)
+![GitHub Repo stars](https://img.shields.io/github/stars/suntrise/Pseudo-localization-Demo)
+![GitHub contributors](https://img.shields.io/github/contributors/suntrise/Pseudo-localization-Demo)
+![GitHub](https://img.shields.io/github/license/suntrise/Pseudo-localization-Demo)
+![Python require](https://img.shields.io/badge/python-≥3.7-brightgreen.svg)
+
+
 网页版：https://suntrise.github.io/pseudo
 
 ## 👇使用
