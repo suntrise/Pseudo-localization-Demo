@@ -50,9 +50,9 @@ def main(page: ft.Page):
     page.pstype = ft.TextField(hint_text = "在这里输入要翻译的内容~", text_size = 15, multiline = False, max_lines = 5)
     page.result = ft.TextField(hint_text = "结果会显示在这里~", text_size = 15, multiline = False, max_lines = 5, read_only = True)
     pslo_btn = ft.FilledButton(
-        "伪本地化!",
-        icon = ft.icons.TRANSLATE_OUTLINED,
-        on_click = pslo     
+            "伪本地化!",
+            icon = ft.icons.TRANSLATE_OUTLINED,
+            on_click = pslo     
         )
     copy_btn = ft.IconButton(
                 icon = ft.icons.COPY_OUTLINED,
