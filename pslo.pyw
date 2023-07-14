@@ -77,11 +77,7 @@ def main(page: ft.Page):
     # 导出文件
     def sv_files(e: ft.FilePickerResultEvent):
         svfile = e.path if e.path else "ERR"
-<<<<<<< HEAD
         if sv_files != "ERR":
-=======
-        if svfile != "ERR":
->>>>>>> 17bf25666b8f37a0399c45ca0024e1a71f2ee793
             page.snack_bar = ft.SnackBar(ft.Text("已保存至: " + svfile)) # 提示栏
             page.snack_bar.open = True
             page.update()
@@ -89,14 +85,11 @@ def main(page: ft.Page):
             with open(svfile, "a", encoding = 'utf-8') as svf:
                 svf.write(page.result.value)
                 print("\033[0;32m[DONE] File saved:" + str(svfile) + "\033[0m")
-<<<<<<< HEAD
         else:
             page.snack_bar = ft.SnackBar(ft.Text("发生错误, 不是合法的路径")) # 提示栏
             page.snack_bar.open = True
             page.update()
             print("\033[0;34m[INFO] Snack bar pop-up(SVE)\033[0m")
-=======
->>>>>>> 17bf25666b8f37a0399c45ca0024e1a71f2ee793
         page.update()
 
     # 导出历史记录
@@ -452,15 +445,10 @@ def main(page: ft.Page):
         ]
     )
     row_pslo = ft.Row(spacing = 10, controls = [pslo_btn, copy_btn, lsfile])
-<<<<<<< HEAD
-
-=======
->>>>>>> 17bf25666b8f37a0399c45ca0024e1a71f2ee793
     
     # 历史记录
     history = ft.Text("无记录", size = 18, selectable = True)
     save_his_dialog = ft.FilePicker(on_result = sv_his)
-<<<<<<< HEAD
     his_opts = ft.Row(controls=[
         save_his_dialog,
         ft.TextButton(
@@ -487,21 +475,6 @@ def main(page: ft.Page):
         his_opts
     ])
 
-=======
-    his_opt = ft.Row(alignment = ft.MainAxisAlignment.END, controls = [
-        save_his_dialog,
-        ft.TextButton(
-            "清空",
-            icon = ft.icons.DELETE_FOREVER_OUTLINED,
-            on_click = clear_his
-        ),
-        ft.TextButton(
-            "导出记录",
-            icon = ft.icons.FILE_DOWNLOAD,
-            on_click = lambda _: save_his_dialog.save_file(allowed_extensions = ["txt"])
-        ),
-    ])
->>>>>>> 17bf25666b8f37a0399c45ca0024e1a71f2ee793
     # 设置区
     # 伪本地化设置
     opt_pslo = ft.Row(
