@@ -19,7 +19,7 @@ def main(page: ft.Page):
     # 伪本地化
     def pslo(e):
         global pshis
-        page.result.value = pslo_work.pslo(page.pstype.value, "enxa", 0, 0, 0, "", "", "", 0, False, 0)
+        page.result.value = pslo_work.pslo(page.pstype.value, "enxa", 0, 0, 0, "", "", "", 0, False, 0, False)
         page.update()
          
     # 复制文本
@@ -30,6 +30,23 @@ def main(page: ft.Page):
         page.snack_bar.open = True
         page.update()
         print("\033[0;34m[INFO] Snack bar pop-up(CP)\033[0m")
+
+    # 置顶
+    def always_on_top(e):
+        if page.window_always_on_top == False:
+            page.window_always_on_top = True
+            print("\033[0;32m[DONE] Set always on top\033[0m")
+            page.snack_bar = ft.SnackBar(ft.Text(f"已置顶")) # 提示栏
+            page.snack_bar.open = True
+            print("\033[0;32m[DONE] Snack Bar pop-up(AOT)\033[0m")
+            page.update()
+        elif page.window_always_on_top == True:
+            page.window_always_on_top = False
+            print("\033[0;32m[DONE] Cancel always on top\033[0m")
+            page.snack_bar = ft.SnackBar(ft.Text(f"已取消置顶")) # 提示栏
+            page.snack_bar.open = True
+            print("\033[0;32m[DONE] Snack Bar pop-up(ATX)\033[0m")
+            page.update()
 
     # 用户界面
     # 基本内容定义
@@ -45,8 +62,9 @@ def main(page: ft.Page):
          )
 
     # 主页区
-    titlebar = fleter.HeaderBar(page, title = "₽šļö ❤️ " + basic_info.ver, title_align = "left")
+    titlebar = fleter.HeaderBar(page, title = "₽šļö & ❤️", title_align = "left")
     titlebar.controls.insert(1, fleter.SwitchThemeButton(page, light_icon = ft.icons.LIGHT_MODE, dark_icon = ft.icons.DARK_MODE, has_system = False))
+    titlebar.controls.insert(2, ft.IconButton(icon = ft.icons.VERTICAL_ALIGN_TOP_OUTLINED, on_click = always_on_top))
     page.pstype = ft.TextField(hint_text = "在这里输入要翻译的内容~", text_size = 15, multiline = False, max_lines = 5)
     page.result = ft.TextField(hint_text = "结果会显示在这里~", text_size = 15, multiline = False, max_lines = 5, read_only = True)
     pslo_btn = ft.FilledButton(
@@ -58,7 +76,8 @@ def main(page: ft.Page):
                 icon = ft.icons.COPY_OUTLINED,
                 on_click = copy_text
             )
-    row = ft.Row(controls=[pslo_btn, copy_btn])
+    btns = ft.Row(controls=[pslo_btn, copy_btn])
+    row = ft.Row(controls=[btns, ft.Text(basic_info.ver, size = 11, color = ft.colors.GREY)], alignment = ft.MainAxisAlignment.SPACE_BETWEEN)
     page.add(titlebar, page.pstype, page.result, row)
     print("\033[0;34m[INFO] Window initialization completed\033[0m")
 

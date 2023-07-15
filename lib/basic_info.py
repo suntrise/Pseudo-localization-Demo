@@ -2,12 +2,19 @@
 print("\033[0;34m[INFO] Basic Information ready...\033[0m")
 
 # 基本信息
-ver = "v4.1.1p"
+ver = "v4.2p"
 author = "Suntrise (STR)"
 auth_abbr = "STR"
 title = "伪本地化演示程序 " + ver + " by " + auth_abbr
 updmd = """
 # 更新日志 (详见GitHub Releases)
+
+## v4.2p - 2023.7.15
+
+1. 修复了一些BUG;
+2. 界面更新;
+3. 仓库置顶;
+3. 细节优化.
 
 ## v4.1.1p - 2023.7.14
 
@@ -28,14 +35,6 @@ updmd = """
 # v4.0.1p - 2023.7.4
 
 1. 细节优化.
-
-## v4.0p - 2023.7.4
-
-1. [开发者]功能函数已拆分;
-2. 引入Mini模式;
-3. 新增文本文件导入&保存;
-4. 新增窗口透明度设置;
-5. 检查更新优化.
 """
 
 # 定义内容

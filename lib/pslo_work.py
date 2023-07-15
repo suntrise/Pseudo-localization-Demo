@@ -81,17 +81,23 @@ def pslo(pstype, xab, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re, cus_
     print("\033[0;34m[INFO] Pseudo-localization initialization completed\033[0m")
     pstr = pstype
     res = ''
+    control_txt = False
     if str != "" and str != "null":
         if xab != "enxb":
             xab = "enxa"
             for l in pstr:
                 i += 1
+                if control_txt == True:
+                    control_txt = False
+                    continue
                 # 隐藏控制符
                 if vis_con_cb == True:
                     if l == "%" and pstr[i] == "s":
-                        break
+                        control_txt = True
+                        continue
                     if l == "\\" and pstr[i] == "n":
-                        break
+                        control_txt = True
+                        continue
                 # 数字伪本地化判断
                 if num_pslo == "2":
                     al = l.replace('a',random.choice(arra)).replace('A',random.choice(arraa)).replace('b',random.choice(arrb)).replace('B',random.choice(arrbb)).replace('c',random.choice(arrc)).replace('C',random.choice(arrcc)).replace('d',random.choice(arrd)).replace('D',random.choice(arrdd)).replace('e',random.choice(arre)).replace('E',random.choice(arree)).replace('f',random.choice(arrf)).replace('F',random.choice(arrff)).replace('g',random.choice(arrg)).replace('G',random.choice(arrgg)).replace('h',random.choice(arrh)).replace('H',random.choice(arrhh)).replace('i',random.choice(arri)).replace('I',random.choice(arrii)).replace('j',random.choice(arrj)).replace('J',random.choice(arrjj)).replace('k',random.choice(arrk)).replace('K',random.choice(arrkk)).replace('l',random.choice(arrl)).replace('L',random.choice(arrll)).replace('m',random.choice(arrm)).replace('M',random.choice(arrmm)).replace('n',random.choice(arrn)).replace('N',random.choice(arrnn)).replace('o',random.choice(arro)).replace('O',random.choice(arroo)).replace('p',random.choice(arrp)).replace('P',random.choice(arrpp)).replace('q',random.choice(arrq)).replace('Q',random.choice(arrqq)).replace('r',random.choice(arrr)).replace('R',random.choice(arrrr)).replace('s',random.choice(arrs)).replace('S',random.choice(arrss)).replace('t',random.choice(arrt)).replace('T',random.choice(arrtt)).replace('u',random.choice(arru)).replace('U',random.choice(arruu)).replace('v',random.choice(arrv)).replace('V',random.choice(arrvv)).replace('w',random.choice(arrw)).replace('W',random.choice(arrww)).replace('x',random.choice(arrx)).replace('X',random.choice(arrxx)).replace('y',random.choice(arry)).replace('Y',random.choice(arryy)).replace('z',random.choice(arrz)).replace('Z',random.choice(arrzz)).replace('1',random.choice(arr1)).replace('2',random.choice(arr2)).replace('3',random.choice(arr3)).replace('4',random.choice(arr4)).replace('5',random.choice(arr5)).replace('6',random.choice(arr6)).replace('7',random.choice(arr7)).replace('8',random.choice(arr8)).replace('9',random.choice(arr9)).replace('0',random.choice(arr0))
@@ -145,12 +151,12 @@ def pslo(pstype, xab, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re, cus_
                 hash_id = hash_id + random.choice(arral)               
                 m += 1
             print("\033[0;34m[INFO] Number of Hash ID bits: " + str(hash_ws) + "\033[0m")
-            res = "[" + hash_id + "]" +res
+            res = "[" + hash_id + "]" + res
             hash_id = ""
             m = 0
         else:
             print("\033[0;34m[INFO] Add Hash ID: False\033[0m")
-        
-        print("\033[0;34m[INFO] Result: " + res + "\033[0m")
-        return res
+        output = res
+        print("\033[0;34m[INFO] Result: " + output + "\033[0m")
+        return output
     print("\033[0;32m[DONE] Pseudo-localization completed\033[0m")

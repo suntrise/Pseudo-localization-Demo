@@ -46,7 +46,7 @@ def main(page: ft.Page):
     def pslo(e):
         global pshis
         page.result.value = pslo_work.pslo(page.pstype.value, xab.value, num_pslo.value, vowel_cs.value, suf_way.value, cus_pre.value, cus_suf.value, cus_re.value, cus_cs.value, hash_cb.value, hash_ws.value, vis_con_cb.value)
-        pshis += page.pstype.value + " → " + page.result.value +" | " + datetime.datetime.now().strftime('%H:%M:%S') + "\n" # 添加到历史记录
+        pshis += page.pstype.value + " → " + page.result.value +" | " + datetime.datetime.now().strftime('%H:%M:%S') + "\n——————————————————————————————\n" # 添加到历史记录
         history.value = pshis
         print("\033[0;32m[DONE] Added content to history\033[0m")
         page.update()
@@ -303,6 +303,23 @@ def main(page: ft.Page):
             page.update()  
             print("\033[0;32m[DONE] Dialog open(UPD)\033[0m")
 
+    # 置顶
+    def always_on_top(e):
+        if page.window_always_on_top == False:
+            page.window_always_on_top = True
+            print("\033[0;32m[DONE] Set always on top\033[0m")
+            page.snack_bar = ft.SnackBar(ft.Text(f"已置顶")) # 提示栏
+            page.snack_bar.open = True
+            print("\033[0;32m[DONE] Snack Bar pop-up(AOT)\033[0m")
+            page.update()
+        elif page.window_always_on_top == True:
+            page.window_always_on_top = False
+            print("\033[0;32m[DONE] Cancel always on top\033[0m")
+            page.snack_bar = ft.SnackBar(ft.Text(f"已取消置顶")) # 提示栏
+            page.snack_bar.open = True
+            print("\033[0;32m[DONE] Snack Bar pop-up(ATX)\033[0m")
+            page.update()
+
     # “什么是伪本地化”窗口定义
     what_dlg = ft.AlertDialog(
         title = ft.Text("什么是伪本地化?"), on_dismiss = lambda e: print("\033[0;34m[INFO] Dialog dismissed(WHT)\033[0m"),
@@ -346,9 +363,8 @@ def main(page: ft.Page):
     page.window_height = 600
     page.window_width = 800 
     page.window_min_height = 400
-    page.window_min_width = 760
-    #page.window_title_bar_hidden = True
-    #page.window_title_bar_buttons_hidden = True
+    page.window_min_width = 797
+    page.window_always_on_top = False
     page.theme = ft.Theme(
          font_family = "Microsoft Yahei",
          color_scheme_seed = ft.colors.BLUE
@@ -360,6 +376,7 @@ def main(page: ft.Page):
         title = ft.Text(basic_info.title),
         center_title = False,
         actions = [
+            ft.IconButton(icon = ft.icons.VERTICAL_ALIGN_TOP_OUTLINED, tooltip = "置顶", on_click = always_on_top),
             ft.PopupMenuButton(
                 tooltip = "展开",
                 items = [
@@ -412,7 +429,6 @@ def main(page: ft.Page):
         tooltip = "将您所填写的内容伪本地化, 每次生成结果都会不一样哦",
         on_click = pslo     
         )
-    
     copy_btn = ft.FilledTonalButton(
         "复制",
         icon = ft.icons.COPY,
@@ -448,6 +464,19 @@ def main(page: ft.Page):
         ]
     )
     row_pslo = ft.Row(spacing = 10, controls = [pslo_btn, copy_btn, lsfile])
+    pslo_card = ft.Card(
+            content = ft.Container(
+                content = ft.Column(
+                    [
+                        page.pstype,
+                        page.result,
+                        row_pslo
+                    ]
+                ),
+                width = 1000000000,
+                padding = 15
+            )
+        )
 
     # 历史记录
     history = ft.Text("无记录", size = 18, selectable = True)
@@ -458,11 +487,19 @@ def main(page: ft.Page):
                         history
                     ]
                 ),
-                width = page.window_width,
+                width = 1000000000,
                 padding = 15
             )
         )
     save_his_dialog = ft.FilePicker(on_result = sv_his)
+    his_title = ft.Row(controls = [
+        ft.Icon(
+            ft.icons.LIST_ALT_OUTLINED
+        ),
+        ft.Text(
+            "历史记录:",
+            size = 20
+        )])
     his_opts = ft.Row(controls=[
         save_his_dialog,
         ft.TextButton(
@@ -471,7 +508,7 @@ def main(page: ft.Page):
             on_click = copy_history
         ),
         ft.TextButton(
-            "保存到本地",
+            "导出记录",
             icon = ft.icons.SAVE_OUTLINED,
             on_click = lambda _: save_his_dialog.save_file(allowed_extensions = ["txt"])
         ),
@@ -482,10 +519,7 @@ def main(page: ft.Page):
         )
     ])
     his_bar = ft.Row(alignment = ft.MainAxisAlignment.SPACE_BETWEEN,controls = [
-        ft.Text(
-            "历史记录:",
-            size = 20
-        ),
+        his_title,
         his_opts
     ])
 
@@ -542,7 +576,25 @@ def main(page: ft.Page):
     vowel_cs = ft.TextField(width = 150, label = "次数 (0-10)", value = 0, on_blur = vcs_check) 
     row_vow = ft.Row(spacing = 10, controls = [vowel_tx,vowel_cs])
     #----------#
-    vis_con_cb = ft.Switch(label = "翻译后隐藏%s, \\n等控制字符", value = False)
+    vis_con_cb = ft.Switch(label = r"翻译后隐藏%s, \n等控制字符", value = False)
+
+    pslo_opt_card = ft.Card(
+            content = ft.Container(
+                content = ft.Column(
+                    [
+                        suf_way,
+                        cus_ps,
+                        row_hash,
+                        num_pslo,
+                        row_vow,
+                        vis_con_cb
+                    ]
+                ),
+                width = 1000000000,
+                padding = 15
+            )
+        )
+    
     # 外观设置
     opt_look = ft.Row(
             [
@@ -563,7 +615,7 @@ def main(page: ft.Page):
     theme.value = 2
     #----------#
     sch_text = ft.Text("配色", size = 20)
-    scheme = ft.RadioGroup(value = 0,content=ft.Row([
+    scheme = ft.RadioGroup(value = 0, content = ft.Row([
             ft.Radio(
                 value = 0,
                 label = "蓝色",
@@ -593,6 +645,22 @@ def main(page: ft.Page):
     #----------#
     opacity_text = ft.Text("窗口透明度", size = 20)
     page.opacity_slider = ft.Slider(min = 50, max = 100, divisions = 50, label = "{value}%", on_change = opacity_slider_changed, value = 100)
+    opacity_bar = ft.Row(controls = [opacity_text, ft.Icon(ft.icons.OPACITY), page.opacity_slider, ft.Icon(ft.icons.WATER_DROP)])
+
+    look_opt_card = ft.Card(
+            content = ft.Container(
+                content = ft.Column(
+                    [
+                        theme,
+                        sch_text,
+                        scheme,
+                        opacity_bar
+                    ]
+                ),
+                width = 1000000000,
+                padding = 15
+            )
+        )
     
     # 关于内容
     abt = ft.Row(
@@ -603,11 +671,24 @@ def main(page: ft.Page):
         )    
     about = ft.Text(basic_info.about_text, size = 15, selectable = True)
     upd_bar = ft.Row(
-        controls=[
+        controls = [
             ft.TextButton("更新日志", icon = ft.icons.UPDATE, on_click = open_upd),
             ft.TextButton("检查更新", icon = ft.icons.UPLOAD_OUTLINED, on_click = check_for_update)
         ]
     )
+
+    abt_card = ft.Card(
+            content = ft.Container(
+                content = ft.Column(
+                    [
+                        about,
+                        upd_bar
+                    ]
+                ),
+                width = 1000000000,
+                padding = 15
+            )
+        )
 
     # 标签
     tab = ft.Tabs(
@@ -618,7 +699,7 @@ def main(page: ft.Page):
                 text = "主界面",
                 icon = ft.icons.HOME_OUTLINED,
                 content = ft.Container(
-                    ft.Column(spacing = 5, controls = [edge, XABrow, page.pstype, page.result, row_pslo])
+                    ft.Column(spacing = 5, controls = [edge, XABrow, pslo_card])
                 ),
             ),
             ft.Tab(
@@ -629,7 +710,7 @@ def main(page: ft.Page):
             ft.Tab(
                 text = "设置",
                 icon = ft.icons.SETTINGS_OUTLINED,
-                content = ft.Column(spacing = 10, controls = [edge, opt_pslo, opt_pslo_detail, suf_way, cus_ps, row_hash, num_pslo, row_vow, vis_con_cb, divider, opt_look, theme, sch_text, scheme, opacity_text, page.opacity_slider, divider, abt, about, upd_bar]), 
+                content = ft.Column(spacing = 10, controls = [edge, opt_pslo, opt_pslo_detail, pslo_opt_card, divider, opt_look, look_opt_card, divider, abt, abt_card]), 
             ),
         ]
     )
