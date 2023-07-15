@@ -5,11 +5,14 @@
 这是一个伪本地化工具, 可用于某些本地化工作用途, 当然也可以作为一个玩具或者工具~
 
 ![GitHub Action](https://github.com/suntrise/Pseudo-localization-Demo/actions/workflows/build.yml/badge.svg)
-![GitHub all releases](https://img.shields.io/github/downloads/suntrise/Pseudo-localization-Demo/total)
-![GitHub Repo stars](https://img.shields.io/github/stars/suntrise/Pseudo-localization-Demo)
-![GitHub contributors](https://img.shields.io/github/contributors/suntrise/Pseudo-localization-Demo)
-![GitHub](https://img.shields.io/github/license/suntrise/Pseudo-localization-Demo)
-![Python require](https://img.shields.io/badge/python-≥3.7-brightgreen.svg)
+![GitHub repo stars](https://img.shields.io/github/stars/suntrise/Pseudo-localization-Demo)
+![GitHub repo contributors](https://img.shields.io/github/contributors/suntrise/Pseudo-localization-Demo)
+![GitHub repo license](https://img.shields.io/github/license/suntrise/Pseudo-localization-Demo)
+![GitHub issues](https://img.shields.io/github/issues/suntrise/Pseudo-localization-Demo)
+![GitHub release](https://img.shields.io/github/v/release/suntrise/Pseudo-localization-Demo)
+![GitHub download counts](https://img.shields.io/github/downloads/suntrise/Pseudo-localization-Demo/total)
+![GitHub repo size](https://img.shields.io/github/repo-size/suntrise/Pseudo-localization-Demo)
+![Python requirement](https://img.shields.io/badge/python-≥3.7-brightgreen?logo=python)
 
 
 网页版：https://suntrise.github.io/pseudo
@@ -22,7 +25,7 @@
 
 ### 🚀依赖安装
 
-运行...
+运行...[^1]
 
 ~~~Bash
 pip install flet
@@ -86,7 +89,7 @@ pyinstaller pslo_mini.pyw -F -w -i ./icon/pslo_icon.ico
 pip install nuitka
 ~~~
 
-定位到代码根目录, 运行......[^1]
+定位到代码根目录, 运行......[^2]
 
 ~~~Bash
 nuitka pslo.pyw --onefile --windows-disable-console --windows-icon-from-ico=./icon/pslo_icon.ico --standalone --show-progress
@@ -134,10 +137,12 @@ chmod +x [编译后文件名].bin
 
 ## 📄许可协议
 
-使用**WTFPL**许可协议开源[^2], 你想干嘛就干嘛
+使用**WTFPL**许可协议开源[^3], 你想干嘛就干嘛
 
 ![WTFPL](http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-1.png)
 
-[^1]: 部分系统可能要将`nuitka`改为`nuitka3`
+[^1]: 部分系统可能要将`pip`改为`pip3`
 
-[^2]: 或许可以解释为**W**indows **T**iny **F**orm **P**seudo-**L**ocalization
+[^2]: 部分系统可能要将`nuitka`改为`nuitka3`
+
+[^3]: 或许可以解释为**W**indows **T**iny **F**orm **P**seudo-**L**ocalization
