@@ -35,16 +35,14 @@ def main(page: ft.Page):
     def always_on_top(e):
         if page.window_always_on_top == False:
             page.window_always_on_top = True
+            ontop_btn.icon = ft.icons.PUSH_PIN_ROUNDED
             print("\033[0;32m[DONE] Set always on top\033[0m")
-            page.snack_bar = ft.SnackBar(ft.Text(f"已置顶")) # 提示栏
-            page.snack_bar.open = True
             print("\033[0;32m[DONE] Snack Bar pop-up(AOT)\033[0m")
             page.update()
         elif page.window_always_on_top == True:
             page.window_always_on_top = False
+            ontop_btn.icon = ft.icons.PUSH_PIN_OUTLINED
             print("\033[0;32m[DONE] Cancel always on top\033[0m")
-            page.snack_bar = ft.SnackBar(ft.Text(f"已取消置顶")) # 提示栏
-            page.snack_bar.open = True
             print("\033[0;32m[DONE] Snack Bar pop-up(ATX)\033[0m")
             page.update()
 
@@ -52,8 +50,8 @@ def main(page: ft.Page):
     # 基本内容定义
     page.window_left = 200
     page.window_top = 100
-    page.window_height = 280
-    page.window_width = 300  
+    page.window_height = 300
+    page.window_width = 400  
     page.window_opacity = 0.9
     page.window_resizable = False
     page.theme = ft.Theme(
@@ -62,9 +60,11 @@ def main(page: ft.Page):
          )
 
     # 主页区
-    titlebar = fleter.HeaderBar(page, title = "₽šļö & ❤️", title_align = "left")
-    titlebar.controls.insert(1, fleter.SwitchThemeButton(page, light_icon = ft.icons.LIGHT_MODE, dark_icon = ft.icons.DARK_MODE, has_system = False))
-    titlebar.controls.insert(2, ft.IconButton(icon = ft.icons.VERTICAL_ALIGN_TOP_OUTLINED, on_click = always_on_top))
+    titlebar = fleter.HeaderBar(page, title = "伪本地化演示 mini",title_align = "left")
+    # titlebar._title_area = ft.Container(padding = 5)
+    titlebar.controls.insert(1, fleter.SwitchThemeButton(page, light_icon = ft.icons.LIGHT_MODE, dark_icon = ft.icons.DARK_MODE, has_system = False))    
+    ontop_btn = ft.IconButton(icon = ft.icons.PUSH_PIN_OUTLINED, on_click = always_on_top) 
+    titlebar.controls.insert(2,ontop_btn)
     page.pstype = ft.TextField(hint_text = "在这里输入要翻译的内容~", text_size = 15, multiline = False, max_lines = 5)
     page.result = ft.TextField(hint_text = "结果会显示在这里~", text_size = 15, multiline = False, max_lines = 5, read_only = True)
     pslo_btn = ft.FilledButton(
@@ -77,7 +77,7 @@ def main(page: ft.Page):
                 on_click = copy_text
             )
     btns = ft.Row(controls=[pslo_btn, copy_btn])
-    row = ft.Row(controls=[btns, ft.Text(basic_info.ver, size = 11, color = ft.colors.GREY)], alignment = ft.MainAxisAlignment.SPACE_BETWEEN)
+    row = ft.Row(controls=[btns, ft.Text(basic_info.ver, size = 15, color = ft.colors.GREY)], alignment = ft.MainAxisAlignment.SPACE_BETWEEN)
     page.add(titlebar, page.pstype, page.result, row)
     print("\033[0;34m[INFO] Window initialization completed\033[0m")
 
