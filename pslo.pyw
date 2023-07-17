@@ -307,6 +307,7 @@ def main(page: ft.Page):
     def always_on_top(e):
         if page.window_always_on_top == False:
             page.window_always_on_top = True
+            ontop_btn.icon = ft.icons.PUSH_PIN_ROUNDED
             print("\033[0;32m[DONE] Set always on top\033[0m")
             page.snack_bar = ft.SnackBar(ft.Text(f"已置顶")) # 提示栏
             page.snack_bar.open = True
@@ -314,11 +315,16 @@ def main(page: ft.Page):
             page.update()
         elif page.window_always_on_top == True:
             page.window_always_on_top = False
+            ontop_btn.icon = ft.icons.PUSH_PIN_OUTLINED
             print("\033[0;32m[DONE] Cancel always on top\033[0m")
             page.snack_bar = ft.SnackBar(ft.Text(f"已取消置顶")) # 提示栏
             page.snack_bar.open = True
             print("\033[0;32m[DONE] Snack Bar pop-up(ATX)\033[0m")
             page.update()
+
+    #小窗模式
+    def mini_mode(e):
+        page.window_title_bar_hidden = True
 
     # “什么是伪本地化”窗口定义
     what_dlg = ft.AlertDialog(
@@ -358,32 +364,35 @@ def main(page: ft.Page):
     # 用户界面
     # 基本内容定义
     page.title = basic_info.title
-    page.window_left = 200
-    page.window_top = 100
+    page.window_left = 150
+    page.window_top = 75
     page.window_height = 600
     page.window_width = 800 
     page.window_min_height = 400
     page.window_min_width = 797
-    page.window_always_on_top = False
     page.theme = ft.Theme(
          font_family = "Microsoft Yahei",
          color_scheme_seed = ft.colors.BLUE
          )
     page.scroll = ft.ScrollMode.ALWAYS
     # 应用栏定义
+
+    ontop_btn = ft.IconButton(icon = ft.icons.PUSH_PIN_OUTLINED, tooltip = "置顶", on_click = always_on_top)
+    mini_btn = ft.IconButton(icon = ft.icons.PHOTO_SIZE_SELECT_SMALL_ROUNDED, tooltip = "小窗模式（暂不可用）", on_click = mini_mode)
     page.appbar = ft.AppBar(
         leading_width = 30,
         title = ft.Text(basic_info.title),
         center_title = False,
-        actions = [
-            ft.IconButton(icon = ft.icons.VERTICAL_ALIGN_TOP_OUTLINED, tooltip = "置顶", on_click = always_on_top),
-            ft.PopupMenuButton(
+       actions = [
+                ontop_btn,
+                mini_btn,
+                ft.PopupMenuButton(
                 tooltip = "展开",
                 items = [
                     ft.PopupMenuItem(                
                         content = ft.Row(
                         [
-                            ft.Icon(ft.icons.OPEN_IN_BROWSER),
+                            ft.Icon(ft.icons.OPEN_IN_BROWSER_ROUNDED),
                             ft.Text("网页版"),
                         ]),
                        on_click = open_with_browser
@@ -464,19 +473,6 @@ def main(page: ft.Page):
         ]
     )
     row_pslo = ft.Row(spacing = 10, controls = [pslo_btn, copy_btn, lsfile])
-    pslo_card = ft.Card(
-            content = ft.Container(
-                content = ft.Column(
-                    [
-                        page.pstype,
-                        page.result,
-                        row_pslo
-                    ]
-                ),
-                width = 1000000000,
-                padding = 15
-            )
-        )
 
     # 历史记录
     history = ft.Text("无记录", size = 18, selectable = True)
@@ -488,8 +484,8 @@ def main(page: ft.Page):
                     ]
                 ),
                 width = 1000000000,
-                padding = 15
-            )
+                padding = 10,
+            ),elevation = 0.5
         )
     save_his_dialog = ft.FilePicker(on_result = sv_his)
     his_title = ft.Row(controls = [
@@ -500,7 +496,7 @@ def main(page: ft.Page):
             "历史记录:",
             size = 20
         )])
-    his_opts = ft.Row(controls=[
+    his_opts = ft.Row(spacing = 5,controls=[
         save_his_dialog,
         ft.TextButton(
             "复制全部",
@@ -644,7 +640,7 @@ def main(page: ft.Page):
         ]), on_change = sch_changed)
     #----------#
     opacity_text = ft.Text("窗口透明度", size = 20)
-    page.opacity_slider = ft.Slider(min = 50, max = 100, divisions = 50, label = "{value}%", on_change = opacity_slider_changed, value = 100)
+    page.opacity_slider = ft.Slider(min = 50, max = 100, width=500, divisions = 50, label = "{value}%", on_change = opacity_slider_changed, value = 100)
     opacity_bar = ft.Row(controls = [opacity_text, ft.Icon(ft.icons.OPACITY), page.opacity_slider, ft.Icon(ft.icons.WATER_DROP)])
 
     look_opt_card = ft.Card(
@@ -699,7 +695,7 @@ def main(page: ft.Page):
                 text = "主界面",
                 icon = ft.icons.HOME_OUTLINED,
                 content = ft.Container(
-                    ft.Column(spacing = 5, controls = [edge, XABrow, pslo_card])
+                    ft.Column(spacing = 5, controls = [edge, XABrow, page.pstype , page.result, row_pslo])
                 ),
             ),
             ft.Tab(
