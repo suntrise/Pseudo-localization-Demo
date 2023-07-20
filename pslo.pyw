@@ -1,4 +1,5 @@
 import flet as ft # 界面库
+import fleter
 import pyperclip # 复制库
 import webbrowser # 浏览器链接库
 import sys # 系统库
@@ -12,15 +13,10 @@ from lib import basic_info # 基础信息
 
 # 变量初始化
 pshis = ""
-
-# 细节定义
-edge = ft.Divider(height = 1, thickness = 1.5)
-divider = ft.Divider(height = 9, thickness = 1)
-
 print('\033[0;34m[INFO] Python version: {}\033[0m'.format(sys.version))
 print("\033[0;34m[INFO] PSLO version: " + basic_info.ver + "\033[0m")
-print("\033[0;32m[DONE] Basic initialization completed\033[0m")
 
+# 主程序
 # 主程序
 def main(page: ft.Page):
     # 字符相隔位数是否数字确定
@@ -46,7 +42,7 @@ def main(page: ft.Page):
     def pslo(e):
         global pshis
         page.result.value = pslo_work.pslo(page.pstype.value, xab.value, num_pslo.value, vowel_cs.value, suf_way.value, cus_pre.value, cus_suf.value, cus_re.value, cus_cs.value, hash_cb.value, hash_ws.value, vis_con_cb.value)
-        pshis += page.pstype.value + " → " + page.result.value +" | " + datetime.datetime.now().strftime('%H:%M:%S') + "\n——————————————————————————————\n" # 添加到历史记录
+        pshis += page.pstype.value + " → " + page.result.value +" | " + datetime.datetime.now().strftime('%H:%M:%S') + "\n" # 添加到历史记录
         history.value = pshis
         print("\033[0;32m[DONE] Added content to history\033[0m")
         page.update()
@@ -77,7 +73,7 @@ def main(page: ft.Page):
             page.snack_bar.open = True
             page.update()
             print("\033[0;34m[INFO] Snack bar pop-up(UL)\033[0m")
-            with open(psfile) as psf:
+            with open(psfile, encoding = 'utf-8') as psf:
                 page.pstype.value = psf.read()
                 print("\033[0;32m[DONE] TXT:" + psf.read() + "\033[0m")
                 pslo(e) 
@@ -303,6 +299,20 @@ def main(page: ft.Page):
             page.update()  
             print("\033[0;32m[DONE] Dialog open(UPD)\033[0m")
 
+    #检测窗口大小
+    def page_resize(e):
+        his_card.width = page.window_width
+        home_page.height = page.window_height-90
+        home_page.width = page.window_width-120
+        his_page.height = page.window_height-90
+        his_page.width = page.window_width-120
+        set_page.height = page.window_height-90
+        set_page.width = page.window_width-120
+        main_area.width = page.window_width-120
+        main_row.width = page.window_width
+        page.update()
+        print("New page size:",round(page.window_height),round(page.window_width))
+
     # 置顶
     def always_on_top(e):
         if page.window_always_on_top == False:
@@ -324,7 +334,46 @@ def main(page: ft.Page):
 
     #小窗模式
     def mini_mode(e):
-        page.window_title_bar_hidden = True
+        if rail.visible == True:
+            mini_btn.icon = ft.icons.VERTICAL_ALIGN_TOP_ROUNDED
+            mini_btn.tooltip = "恢复小窗"
+            page.window_height = 350
+            page.window_width = 500
+            page.window_resizable = False
+            max_btn.visible = False
+            page.pstype.max_lines = 1
+            page.result.max_lines = 1
+            rail.selected_index=0
+            rail_ctrl(e)
+            rail.visible = False
+        elif rail.visible == False:
+            mini_btn.icon = ft.icons.PHOTO_SIZE_SELECT_SMALL_ROUNDED
+            mini_btn.tooltip = "小窗模式"
+            page.window_height = 600
+            page.window_width = 900        
+            page.window_resizable = True
+            max_btn.visible = True
+            page.pstype.max_lines = 5
+            page.result.max_lines = 5
+            rail.visible = True
+        page.update()
+
+    #导航栏控制
+    def rail_ctrl(e):
+        if rail.selected_index == 0:
+            home_page.visible = True
+            his_page.visible = False
+            set_page.visible = False       
+        elif rail.selected_index == 1:
+            home_page.visible = False
+            his_page.visible = True
+            set_page.visible = False
+        elif rail.selected_index == 2:
+            home_page.visible = False
+            his_page.visible = False
+            set_page.visible = True
+        print("Navigate to: ",rail.selected_index)
+        page.update()
 
     # “什么是伪本地化”窗口定义
     what_dlg = ft.AlertDialog(
@@ -361,75 +410,40 @@ def main(page: ft.Page):
         on_dismiss = lambda e: print("\033[0;34m[INFO] Dialog dismissed(UPH)\033[0m")
     )
          
+   
     # 用户界面
     # 基本内容定义
-    page.title = basic_info.title
-    page.window_left = 150
-    page.window_top = 75
+    page.window_left = 200
+    page.window_top = 100
     page.window_height = 600
-    page.window_width = 800 
-    page.window_min_height = 400
-    page.window_min_width = 797
+    page.window_width = 900
+    page.window_min_height = 350
+    page.window_min_width = 500
+    page.window_title_bar_hidden = True
     page.theme = ft.Theme(
          font_family = "Microsoft Yahei",
          color_scheme_seed = ft.colors.BLUE
          )
-    page.scroll = ft.ScrollMode.ALWAYS
-    # 应用栏定义
-
-    ontop_btn = ft.IconButton(icon = ft.icons.PUSH_PIN_OUTLINED, tooltip = "置顶", on_click = always_on_top)
-    mini_btn = ft.IconButton(icon = ft.icons.PHOTO_SIZE_SELECT_SMALL_ROUNDED, tooltip = "小窗模式（暂不可用）", on_click = mini_mode)
-    page.appbar = ft.AppBar(
-        leading_width = 30,
-        title = ft.Text(basic_info.title),
-        center_title = False,
-       actions = [
-                ontop_btn,
-                mini_btn,
-                ft.PopupMenuButton(
-                tooltip = "展开",
-                items = [
-                    ft.PopupMenuItem(                
-                        content = ft.Row(
-                        [
-                            ft.Icon(ft.icons.OPEN_IN_BROWSER_ROUNDED),
-                            ft.Text("网页版"),
-                        ]),
-                       on_click = open_with_browser
-                    ),
-                    ft.PopupMenuItem(                
-                        content = ft.Row(
-                        [
-                            ft.Icon(ft.icons.COLLECTIONS_BOOKMARK_OUTLINED),
-                            ft.Text("项目仓库"),
-                        ]),
-                       on_click = open_project_repo     
-                    ),
-                    ft.PopupMenuItem(), # 分隔
-                    ft.PopupMenuItem(                
-                        content = ft.Row(
-                        [
-                            ft.Icon(ft.icons.QUESTION_MARK_OUTLINED),
-                            ft.Text("什么是伪本地化?"),
-                        ]),
-                       on_click = open_what
-                    ),
-                ]
-            ),
-        ],
-    ) 
+    page.on_resize = page_resize
 
     # 主页区
-    xab_text = ft.Text("伪本地化方式:",size=20)
+    title_text = ft.Container(ft.Text(basic_info.title,size=20))
+    theme_btn = fleter.SwitchThemeButton(page, light_icon = ft.icons.LIGHT_MODE, dark_icon = ft.icons.DARK_MODE, has_system = False),
+    ontop_btn = ft.IconButton(icon = ft.icons.PUSH_PIN_OUTLINED, on_click = always_on_top) 
+    mini_btn = ft.IconButton(icon = ft.icons.PHOTO_SIZE_SELECT_SMALL_ROUNDED, tooltip = "小窗模式", on_click = mini_mode)
+    min_btn = fleter.MinimizeButton(page,icon=ft.icons.HORIZONTAL_RULE_ROUNDED) 
+    max_btn = fleter.MaximizeButton(page,icon=ft.icons.SQUARE_OUTLINED)  
+    close_btn = fleter.CloseButton(page)
+    titlebar = ft.WindowDragArea(ft.Row(
+        alignment = ft.MainAxisAlignment.SPACE_BETWEEN,
+        controls=[
+        title_text,
+        ft.Row(spacing=1,controls=[ontop_btn,mini_btn,min_btn,max_btn,close_btn])
+        ]))  
     xab = ft.RadioGroup(value = "enxa",content=ft.Row([
-    ft.Radio(value = "enxa", label = "en-XA (abc → ǻƀĉ)"),
-    ft.Radio(value = "enxb", label = "en-XB (abc → cba)")]))
-    what_btn = ft.TextButton(
-        "什么是伪本地化", 
-        icon = ft.icons.QUESTION_MARK_OUTLINED,
-        on_click = open_what
-        )
-    XABrow = ft.Row(spacing = 10, controls = [xab_text,xab,what_btn])
+    ft.Radio(value = "enxa", label = "en-XA (ab→ǻƀ)"),
+    ft.Radio(value = "enxb", label = "en-XB (ab→ba)")]))
+    XABrow = ft.Row(spacing = 1, controls = [ft.Text("伪本地化方式:",size=15),xab])
     page.pstype = ft.TextField(hint_text = "在这里输入要翻译的内容~", text_size =15, multiline = True, max_lines = 5)
     page.result = ft.TextField(hint_text = "结果会显示在这里~", text_size = 15, multiline = True, max_lines = 5, read_only = True)
     pslo_btn = ft.FilledButton(
@@ -438,13 +452,11 @@ def main(page: ft.Page):
         tooltip = "将您所填写的内容伪本地化, 每次生成结果都会不一样哦",
         on_click = pslo     
         )
-    copy_btn = ft.FilledTonalButton(
-        "复制",
+    copy_btn = ft.IconButton(
         icon = ft.icons.COPY,
         tooltip = "将生成内容添加到设备剪切板",
         on_click = copy_text     
         )
-    
     # 导入导出文件   
     pick_files_dialog = ft.FilePicker(on_result = ps_files)
     save_files_dialog = ft.FilePicker(on_result = sv_files)
@@ -472,10 +484,11 @@ def main(page: ft.Page):
             )
         ]
     )
-    row_pslo = ft.Row(spacing = 10, controls = [pslo_btn, copy_btn, lsfile])
-
-    # 历史记录
-    history = ft.Text("无记录", size = 18, selectable = True)
+    pslo_row = ft.Row(spacing = 10, controls = [pslo_btn, copy_btn, lsfile])
+    home_page = ft.Column(
+        width=page.window_width-120,
+        controls=[XABrow, page.pstype, page.result,pslo_row])
+    history = ft.Text("无记录", size = 18, selectable = True)    
     his_card = ft.Card(
             content = ft.Container(
                 content = ft.Column(
@@ -483,7 +496,7 @@ def main(page: ft.Page):
                         history
                     ]
                 ),
-                width = 1000000000,
+                width=page.window_width,
                 padding = 10,
             ),elevation = 0.5
         )
@@ -518,8 +531,17 @@ def main(page: ft.Page):
         his_title,
         his_opts
     ])
-
-    # 设置区
+    his_col = ft.Column(
+                width=page.window_width-120,
+                scroll=ft.ScrollMode.ALWAYS,
+                        controls=[
+                        his_bar,
+                        his_card
+        ])
+    his_page = ft.Container(
+        content = his_col, 
+        visible=False)
+        # 设置区
     # 伪本地化设置
     opt_pslo = ft.Row(
             [
@@ -545,7 +567,7 @@ def main(page: ft.Page):
     cus_cs = ft.TextField(width = 230, label = "每隔多少个字符重复一次：", value = 7, on_blur = ccs_check)
     cus_ps = ft.Row(spacing = 5, visible = False, controls = [cus_pre, cus_suf, cus_re, cus_cs])
     #----------#
-    hash_cb = ft.Switch(label = "[Abc12]添加伪 Hash ID (资源标识符)(由一定位数的字母+数字所构成的字符串)", value = False, on_change = hash_check)
+    hash_cb = ft.Switch(label = "[Abc12]添加伪 Hash ID (资源标识符)\n(由一定位数的字母+数字所构成的字符串)", value = False, on_change = hash_check)
     hash_ws = ft.TextField(width = 150, label = "位数 (3-10)", value = 5, on_blur = ws_check, disabled = True) 
     row_hash = ft.Row(spacing = 10, controls = [hash_cb, hash_ws])
     #----------#
@@ -586,7 +608,6 @@ def main(page: ft.Page):
                         vis_con_cb
                     ]
                 ),
-                width = 1000000000,
                 padding = 15
             )
         )
@@ -640,7 +661,7 @@ def main(page: ft.Page):
         ]), on_change = sch_changed)
     #----------#
     opacity_text = ft.Text("窗口透明度", size = 20)
-    page.opacity_slider = ft.Slider(min = 50, max = 100, width=500, divisions = 50, label = "{value}%", on_change = opacity_slider_changed, value = 100)
+    page.opacity_slider = ft.Slider(min = 50, max = 100, width=400, divisions = 50, label = "{value}%", on_change = opacity_slider_changed, value = 100)
     opacity_bar = ft.Row(controls = [opacity_text, ft.Icon(ft.icons.OPACITY), page.opacity_slider, ft.Icon(ft.icons.WATER_DROP)])
 
     look_opt_card = ft.Card(
@@ -653,7 +674,6 @@ def main(page: ft.Page):
                         opacity_bar
                     ]
                 ),
-                width = 1000000000,
                 padding = 15
             )
         )
@@ -669,7 +689,9 @@ def main(page: ft.Page):
     upd_bar = ft.Row(
         controls = [
             ft.TextButton("更新日志", icon = ft.icons.UPDATE, on_click = open_upd),
-            ft.TextButton("检查更新", icon = ft.icons.UPLOAD_OUTLINED, on_click = check_for_update)
+            ft.TextButton("检查更新", icon = ft.icons.UPLOAD_OUTLINED, on_click = check_for_update),
+            ft.TextButton("网页版",icon=ft.icons.OPEN_IN_BROWSER_ROUNDED,on_click = open_with_browser),
+            ft.TextButton("项目仓库",icon=ft.icons.COLLECTIONS_BOOKMARK_OUTLINED,on_click = open_project_repo),
         ]
     )
 
@@ -681,37 +703,47 @@ def main(page: ft.Page):
                         upd_bar
                     ]
                 ),
-                width = 1000000000,
                 padding = 15
             )
         )
-
-    # 标签
-    tab = ft.Tabs(
-        selected_index = 0,
-        animation_duration = 200,
-        tabs = [
-            ft.Tab(
-                text = "主界面",
-                icon = ft.icons.HOME_OUTLINED,
-                content = ft.Container(
-                    ft.Column(spacing = 5, controls = [edge, XABrow, page.pstype , page.result, row_pslo])
-                ),
+    set_col = ft.Column(scroll=ft.ScrollMode.ALWAYS,controls=[
+        opt_pslo,opt_pslo_detail,pslo_opt_card,
+        opt_look,look_opt_card,
+        abt,abt_card])
+    set_page = ft.Container(
+        height=page.window_height-90,
+        content = set_col,
+        visible=False)
+    main_area = ft.Column(height= page.window_height-90,controls=[home_page,his_page,set_page])
+    
+    #导航栏
+    rail = ft.NavigationRail(
+        selected_index=0,
+        height=page.window_height-90,
+        label_type=ft.NavigationRailLabelType.ALL,
+        # extended=True,
+        min_width=50,
+        min_extended_width=100,
+        group_alignment = -1.0,
+        destinations=[
+            ft.NavigationRailDestination(
+                icon=ft.icons.HOME_OUTLINED, selected_icon=ft.icons.HOME_ROUNDED, label="主页"
             ),
-            ft.Tab(
-                text = "历史记录",
-                icon = ft.icons.HISTORY_OUTLINED,
-                content = ft.Column(spacing = 10, controls = [edge, his_bar, his_card]),
+            ft.NavigationRailDestination(
+                icon_content=ft.Icon(ft.icons.HISTORY_OUTLINED),
+                selected_icon_content=ft.Icon(ft.icons.HISTORY_ROUNDED),
+                label="历史记录",
             ),
-            ft.Tab(
-                text = "设置",
-                icon = ft.icons.SETTINGS_OUTLINED,
-                content = ft.Column(spacing = 10, controls = [edge, opt_pslo, opt_pslo_detail, pslo_opt_card, divider, opt_look, look_opt_card, divider, abt, abt_card]), 
+            ft.NavigationRailDestination(
+                icon=ft.icons.SETTINGS_OUTLINED,
+                selected_icon_content=ft.Icon(ft.icons.SETTINGS),
+                label_content=ft.Text("设置"),
             ),
-        ]
+        ],
+        on_change = rail_ctrl,
     )
-    page.add(tab)
-    page.update()
-    print("\033[0;32m[DONE] Window initialization completed\033[0m")
+    main_row = ft.Row(height=page.window_height-90, width=page.window_width,controls=[rail,main_area])
+    page.add(titlebar, main_row)
+    print("\033[0;34m[INFO] Window initialization completed\033[0m")
 
 ft.app(target = main)
