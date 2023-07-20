@@ -2,7 +2,7 @@
 print("\033[0;34m[INFO] Basic Information ready...\033[0m")
 
 # 基本信息
-ver = "v4.2p"
+ver = "v4.5p"
 author = "Suntrise (STR)"
 auth_abbr = "STR"
 title = "伪本地化演示程序 " + ver + " by " + auth_abbr
