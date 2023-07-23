@@ -1,5 +1,7 @@
 # 🌐伪本地化演示程序
 
+新版即将推出，敬请期待~
+新版截图👇
 ![image](https://github.com/suntrise/Pseudo-localization-Demo/assets/89229642/128a04f0-cf92-4408-b74c-17d6ae7d66f8)
 
 
