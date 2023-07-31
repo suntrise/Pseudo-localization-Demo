@@ -1,7 +1,8 @@
 import random
+from lib import log # 日志输出库
 
 # 预备输出
-print("\033[0;34m[INFO] PSLO Translate Module ready...\033[0m")
+log.out(0, "PSLO Translate Module ready...")
 
 # 变量初始化
 suf = ""
@@ -71,6 +72,7 @@ arr9 = ["9", "₉", "⁹"]
 arr0 = ["0", "₀", "⁰"]
 arral = ["A", "a", "B", "b", "C", "c", "D", "d", "E", "e", "F", "f", "G", "g", "H", "h", "I", "i", "J", "j", "K", "k", "L", "l", "M", "m", "N", "n", "O", "o", "P", "p", "Q", "q", "R", "r", "S", "s", "T", "t", "U", "u", "V", "v", "W", "w", "X", "x", "Y", "y", "Z", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 arrba = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"]
+arrnum = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 
 # 伪本地化
 def pslo(pstype, xab, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re, cus_cs, hash_cb, hash_ws, vis_con_cb):
@@ -78,7 +80,7 @@ def pslo(pstype, xab, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re, cus_
     m = 0
     n = 0
     v = ""
-    print("\033[0;34m[INFO] Pseudo-localization initialization completed\033[0m")
+    log.out(0, "Pseudo-localization initialization completed")
     pstr = pstype
     res = ''
     control_txt = False
@@ -86,6 +88,7 @@ def pslo(pstype, xab, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re, cus_
         if xab != "enxb":
             xab = "enxa"
             for l in pstr:
+                # 基本定义及控制
                 i += 1
                 if control_txt == True:
                     control_txt = False
@@ -98,40 +101,48 @@ def pslo(pstype, xab, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re, cus_
                     if l == "\\" and pstr[i] == "n":
                         control_txt = True
                         continue
+                    if l == "\\" and pstr[i] == "r":
+                        control_txt = True
+                        continue
+                # 基本字母伪本地化
+                al = l.replace('a',random.choice(arra)).replace('A',random.choice(arraa)).replace('b',random.choice(arrb)).replace('B',random.choice(arrbb)).replace('c',random.choice(arrc)).replace('C',random.choice(arrcc)).replace('d',random.choice(arrd)).replace('D',random.choice(arrdd)).replace('e',random.choice(arre)).replace('E',random.choice(arree)).replace('f',random.choice(arrf)).replace('F',random.choice(arrff)).replace('g',random.choice(arrg)).replace('G',random.choice(arrgg)).replace('h',random.choice(arrh)).replace('H',random.choice(arrhh)).replace('i',random.choice(arri)).replace('I',random.choice(arrii)).replace('j',random.choice(arrj)).replace('J',random.choice(arrjj)).replace('k',random.choice(arrk)).replace('K',random.choice(arrkk)).replace('l',random.choice(arrl)).replace('L',random.choice(arrll)).replace('m',random.choice(arrm)).replace('M',random.choice(arrmm)).replace('n',random.choice(arrn)).replace('N',random.choice(arrnn)).replace('o',random.choice(arro)).replace('O',random.choice(arroo)).replace('p',random.choice(arrp)).replace('P',random.choice(arrpp)).replace('q',random.choice(arrq)).replace('Q',random.choice(arrqq)).replace('r',random.choice(arrr)).replace('R',random.choice(arrrr)).replace('s',random.choice(arrs)).replace('S',random.choice(arrss)).replace('t',random.choice(arrt)).replace('T',random.choice(arrtt)).replace('u',random.choice(arru)).replace('U',random.choice(arruu)).replace('v',random.choice(arrv)).replace('V',random.choice(arrvv)).replace('w',random.choice(arrw)).replace('W',random.choice(arrww)).replace('x',random.choice(arrx)).replace('X',random.choice(arrxx)).replace('y',random.choice(arry)).replace('Y',random.choice(arryy)).replace('z',random.choice(arrz)).replace('Z',random.choice(arrzz))
                 # 数字伪本地化判断
                 if num_pslo == "2":
-                    al = l.replace('a',random.choice(arra)).replace('A',random.choice(arraa)).replace('b',random.choice(arrb)).replace('B',random.choice(arrbb)).replace('c',random.choice(arrc)).replace('C',random.choice(arrcc)).replace('d',random.choice(arrd)).replace('D',random.choice(arrdd)).replace('e',random.choice(arre)).replace('E',random.choice(arree)).replace('f',random.choice(arrf)).replace('F',random.choice(arrff)).replace('g',random.choice(arrg)).replace('G',random.choice(arrgg)).replace('h',random.choice(arrh)).replace('H',random.choice(arrhh)).replace('i',random.choice(arri)).replace('I',random.choice(arrii)).replace('j',random.choice(arrj)).replace('J',random.choice(arrjj)).replace('k',random.choice(arrk)).replace('K',random.choice(arrkk)).replace('l',random.choice(arrl)).replace('L',random.choice(arrll)).replace('m',random.choice(arrm)).replace('M',random.choice(arrmm)).replace('n',random.choice(arrn)).replace('N',random.choice(arrnn)).replace('o',random.choice(arro)).replace('O',random.choice(arroo)).replace('p',random.choice(arrp)).replace('P',random.choice(arrpp)).replace('q',random.choice(arrq)).replace('Q',random.choice(arrqq)).replace('r',random.choice(arrr)).replace('R',random.choice(arrrr)).replace('s',random.choice(arrs)).replace('S',random.choice(arrss)).replace('t',random.choice(arrt)).replace('T',random.choice(arrtt)).replace('u',random.choice(arru)).replace('U',random.choice(arruu)).replace('v',random.choice(arrv)).replace('V',random.choice(arrvv)).replace('w',random.choice(arrw)).replace('W',random.choice(arrww)).replace('x',random.choice(arrx)).replace('X',random.choice(arrxx)).replace('y',random.choice(arry)).replace('Y',random.choice(arryy)).replace('z',random.choice(arrz)).replace('Z',random.choice(arrzz)).replace('1',random.choice(arr1)).replace('2',random.choice(arr2)).replace('3',random.choice(arr3)).replace('4',random.choice(arr4)).replace('5',random.choice(arr5)).replace('6',random.choice(arr6)).replace('7',random.choice(arr7)).replace('8',random.choice(arr8)).replace('9',random.choice(arr9)).replace('0',random.choice(arr0))
+                    al = l.replace('1',random.choice(arr1)).replace('2',random.choice(arr2)).replace('3',random.choice(arr3)).replace('4',random.choice(arr4)).replace('5',random.choice(arr5)).replace('6',random.choice(arr6)).replace('7',random.choice(arr7)).replace('8',random.choice(arr8)).replace('9',random.choice(arr9)).replace('0',random.choice(arr0))
                 elif num_pslo == "1":
-                    al = l.replace('a',random.choice(arra)).replace('A',random.choice(arraa)).replace('b',random.choice(arrb)).replace('B',random.choice(arrbb)).replace('c',random.choice(arrc)).replace('C',random.choice(arrcc)).replace('d',random.choice(arrd)).replace('D',random.choice(arrdd)).replace('e',random.choice(arre)).replace('E',random.choice(arree)).replace('f',random.choice(arrf)).replace('F',random.choice(arrff)).replace('g',random.choice(arrg)).replace('G',random.choice(arrgg)).replace('h',random.choice(arrh)).replace('H',random.choice(arrhh)).replace('i',random.choice(arri)).replace('I',random.choice(arrii)).replace('j',random.choice(arrj)).replace('J',random.choice(arrjj)).replace('k',random.choice(arrk)).replace('K',random.choice(arrkk)).replace('l',random.choice(arrl)).replace('L',random.choice(arrll)).replace('m',random.choice(arrm)).replace('M',random.choice(arrmm)).replace('n',random.choice(arrn)).replace('N',random.choice(arrnn)).replace('o',random.choice(arro)).replace('O',random.choice(arroo)).replace('p',random.choice(arrp)).replace('P',random.choice(arrpp)).replace('q',random.choice(arrq)).replace('Q',random.choice(arrqq)).replace('r',random.choice(arrr)).replace('R',random.choice(arrrr)).replace('s',random.choice(arrs)).replace('S',random.choice(arrss)).replace('t',random.choice(arrt)).replace('T',random.choice(arrtt)).replace('u',random.choice(arru)).replace('U',random.choice(arruu)).replace('v',random.choice(arrv)).replace('V',random.choice(arrvv)).replace('w',random.choice(arrw)).replace('W',random.choice(arrww)).replace('x',random.choice(arrx)).replace('X',random.choice(arrxx)).replace('y',random.choice(arry)).replace('Y',random.choice(arryy)).replace('z',random.choice(arrz)).replace('Z',random.choice(arrzz)).replace('1','①').replace('2','②').replace('3','③').replace('4','④').replace('5','⑤').replace('6','⑥').replace('7','⑦').replace('8','⑧').replace('9','⑨')
-                else:
-                    al = l.replace('a',random.choice(arra)).replace('A',random.choice(arraa)).replace('b',random.choice(arrb)).replace('B',random.choice(arrbb)).replace('c',random.choice(arrc)).replace('C',random.choice(arrcc)).replace('d',random.choice(arrd)).replace('D',random.choice(arrdd)).replace('e',random.choice(arre)).replace('E',random.choice(arree)).replace('f',random.choice(arrf)).replace('F',random.choice(arrff)).replace('g',random.choice(arrg)).replace('G',random.choice(arrgg)).replace('h',random.choice(arrh)).replace('H',random.choice(arrhh)).replace('i',random.choice(arri)).replace('I',random.choice(arrii)).replace('j',random.choice(arrj)).replace('J',random.choice(arrjj)).replace('k',random.choice(arrk)).replace('K',random.choice(arrkk)).replace('l',random.choice(arrl)).replace('L',random.choice(arrll)).replace('m',random.choice(arrm)).replace('M',random.choice(arrmm)).replace('n',random.choice(arrn)).replace('N',random.choice(arrnn)).replace('o',random.choice(arro)).replace('O',random.choice(arroo)).replace('p',random.choice(arrp)).replace('P',random.choice(arrpp)).replace('q',random.choice(arrq)).replace('Q',random.choice(arrqq)).replace('r',random.choice(arrr)).replace('R',random.choice(arrrr)).replace('s',random.choice(arrs)).replace('S',random.choice(arrss)).replace('t',random.choice(arrt)).replace('T',random.choice(arrtt)).replace('u',random.choice(arru)).replace('U',random.choice(arruu)).replace('v',random.choice(arrv)).replace('V',random.choice(arrvv)).replace('w',random.choice(arrw)).replace('W',random.choice(arrww)).replace('x',random.choice(arrx)).replace('X',random.choice(arrxx)).replace('y',random.choice(arry)).replace('Y',random.choice(arryy)).replace('z',random.choice(arrz)).replace('Z',random.choice(arrzz))
+                    al = l.replace('1','①').replace('2','②').replace('3','③').replace('4','④').replace('5','⑤').replace('6','⑥').replace('7','⑦').replace('8','⑧').replace('9','⑨')           
                 # 元音复重复
                 if l.lower() in "aeiou":
                     al = al * (int(vowel_cs) + 1)
                 res += al
-                print("\033[0;34m[INFO] Number of pseudo-localization work cycles: " + str(i) + "\033[0m")   
-        print("\033[0;34m[INFO] Digital pseudo-localization program: " + str(num_pslo) + "\033[0m")
-        print("\033[0;34m[INFO] Number of vowel repetitions: " + str(vowel_cs) + "\033[0m")
+                log.out(0, "Number of pseudo-localization work cycles: " + str(i))   
+        log.out(0, "Digital pseudo-localization program: " + str(num_pslo))
+        log.out(0, "Number of vowel repetitions: " + str(vowel_cs))
         if xab == "enxb": # 使用en-XB
             for l in pstr:
                 i += 1
             res = pstr[::-1]
-        print("\033[0;34m[INFO] Pseudo-localization solutions: " + xab + "\033[0m")
+        log.out(0, "Pseudo-localization solutions: " + xab)
 
         # 前后缀添加
         suf = ""
         if suf_way == "1":           
-            while i > 2 and n < (i/7): 
-                suf = suf+"!"  
+            while i > 2 and n < (i / 7): 
+                suf = suf + "!"  
                 n += 1
-                if n % 3 == 0 & n != int(i/7+1):
+                if n % 3 == 0 & n != int(i / 7+1):
                     suf = suf+" "
-            res = "["+ res +" " +suf +"]";  
+            res = "[" +  res + " " + suf + "]";  
         elif suf_way == "2":
-            while n<(i/7):               
+            while n < (i / 7):               
                 suf = suf + arrba[n % 20]+" "
             n += 1  
-            res = "[" + res + " " + suf + "]";   
+            res = "[" + res + " " + suf + "]"
+        elif suf_way == "4":
+            while n < (i / 3):               
+                suf = suf + arrnum[n % 10]
+            n += 1  
+            res = "[" + res + " " + suf + "]"
         elif suf_way == "3":
             while n < (i / int(cus_cs)):               
                 suf = suf + cus_re + " "
@@ -140,23 +151,23 @@ def pslo(pstype, xab, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re, cus_
 
         n = 0
         suf = ""
-        print("\033[0;34m[INFO] Prefix & suffix addition scheme: " + str(suf_way) + "\033[0m")
+        log.out(0, "Prefix & suffix addition scheme: " + str(suf_way))
             
 
         # 添加Hash ID
         if hash_cb == True:
-            print("\033[0;34m[INFO] Add Hash ID: True\033[0m")
+            log.out(0, "Add Hash ID: True")
             hash_id = ""
             while m < int(hash_ws):
                 hash_id = hash_id + random.choice(arral)               
                 m += 1
-            print("\033[0;34m[INFO] Number of Hash ID bits: " + str(hash_ws) + "\033[0m")
+            print("\03[\033[0;34mINFO\033[0m] Number of Hash ID bits: " + str(hash_ws))
             res = "[" + hash_id + "]" + res
             hash_id = ""
             m = 0
         else:
-            print("\033[0;34m[INFO] Add Hash ID: False\033[0m")
+            log.out(0, "Add Hash ID: False")
         output = res
-        print("\033[0;34m[INFO] Result: " + output + "\033[0m")
+        log.out(0, "Result: " + output)
         return output
-    print("\033[0;32m[DONE] Pseudo-localization completed\033[0m")
+    log.out(1, "Pseudo-localization completed")

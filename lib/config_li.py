@@ -1,10 +1,11 @@
 from config import *
+from lib import log # 日志输出库
 import json
 
 # 尚未完成  WIP
 
 # 预备输出
-print("\033[0;34m[INFO] Config Read and Write Module ready...\033[0m")
+log.out(0, "Config Read and Write Module ready...")
 
 # 读取配置文件
 def read_config():

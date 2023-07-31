@@ -1,19 +1,20 @@
 import sys
+from lib import log # 日志输出库
 
 # 预备输出
-print("\033[0;34m[INFO] OS Platform Module ready...\033[0m")
+log.out(0, "OS Platform Module ready...")
 
 # 平台检查
 def os_platform():
     if sys.platform.startswith('linux'):
-        print("\033[0;34m[INFO] OS is Linux\033[0m")
+        log.out(0, "Current OS is Linux")
         return "linux"
     elif sys.platform.startswith('win'):
-        print("\033[0;34m[INFO] OS is Windows\033[0m")
+        log.out(0, "Current OS is Windows")
         return "windows"
     elif sys.platform.startswith('darwin'):
-        print("\033[0;34m[INFO] OS is darwin(macOS)\033[0m")
+        log.out(0, "Current OS is darwin(macOS)")
         return "darwin"
     else:
-        print("\033[0;34m[INFO] Unknow OS\033[0m")
+        log.out(0, "Unknow OS")
         return "unknow"

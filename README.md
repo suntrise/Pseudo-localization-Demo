@@ -1,10 +1,6 @@
 # 🌐伪本地化演示程序
 
-新版即将推出，敬请期待~
-
-新版截图👇
-![image](https://github.com/suntrise/Pseudo-localization-Demo/assets/89229642/128a04f0-cf92-4408-b74c-17d6ae7d66f8)
-
+![截图](https://user-images.githubusercontent.com/89229642/255376854-128a04f0-cf92-4408-b74c-17d6ae7d66f8.png)
 
 这是一个伪本地化工具, 可用于某些本地化工作用途, 当然也可以作为一个玩具或者工具~
 
@@ -21,28 +17,56 @@
 
 网页版：https://suntrise.github.io/pseudo
 
+> ⚠️ 注意, 早期基于PyQt5的1.x版本将在不久的未来移出仓库!
+
 ## 👇使用
 
-如果您没有Python环境且比较懒, 可以移步Release下载, tar.gz版本适用于Linux, exe版本适用于Windows, 其他操作系统建议下载源码并执行
+如果您没有Python环境且比较懒, 可以移步[Release](https://github.com/suntrise/Pseudo-localization-Demo/releases)下载, tar.gz版本适用于Linux, exe版本适用于Windows, 其他操作系统建议下载源码并执行 (macOS版用户可以到[Actions页](https://github.com/suntrise/Pseudo-localization-Demo/actions)下载)
 
 注意, 要在本地查看并修改源码, 需要安装Python, 版本最少为3.7以保障兼容性
 
 ### 🚀依赖安装
 
-运行...[^1]
+#### 🧩pip安装 (适用于嵌入式Python及未默认安装pip的Python)
+
+请先确定是否安装了`pip`, 如果已安装, 可以跳过这一步!
+
+- 如果已经提前安装了`easy_install`, 运行...
+
+~~~Bash
+easy_inatall pip
+~~~
+
+- 使用Linux则可以通过自带的包管理器安装`python3-pip`
+
+- 啥也没有的话则运行...[^1]
+
+~~~Bash
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py
+~~~
+
+完成后可以运行`pip`进行测试
+
+#### 🗿正式依赖安装
+
+运行...[^2]
 
 ~~~Bash
 pip install flet
 pip install pyperclip
+pip install requests
 ~~~
 
-若要使用或编辑Mini, 还需额外执行...
+特定版本若要使用或编辑Mini, 还需额外执行...
 
 ~~~Bash
 pip install fleter
 ~~~
 
-以上如果嫌一个一个来麻烦，可以直接执行..
+如果代码文件为最新版，则**不用执行该命令**!
+
+以上如果嫌一个一个来麻烦，可以直接执行...
 
 ~~~Bash
 pip install -r requirements.txt
@@ -60,6 +84,8 @@ pip install PyQt5
 
 ### 🛠️编译
 
+注意, Windows平台请先安装好MSVC编译工具或者MinGW, 其他平台也请准备好GCC!
+
 #### Pyinstaller (简单)
 
 运行......
@@ -75,7 +101,7 @@ pip install pyinstaller
 pyinstaller pslo.pyw -F -w -i ./icon/slo_icon.ico
 ~~~
 
-Mini版则执行
+Mini版则执行......
 
 ~~~Bash
 pyinstaller pslo_mini.pyw -F -w -i ./icon/pslo_icon.ico
@@ -93,7 +119,7 @@ pyinstaller pslo_mini.pyw -F -w -i ./icon/pslo_icon.ico
 pip install nuitka
 ~~~
 
-定位到代码根目录, 运行......[^2]
+定位到代码根目录, 运行......[^3]
 
 ~~~Bash
 nuitka pslo.pyw --onefile --windows-disable-console --windows-icon-from-ico=./icon/pslo_icon.ico --standalone --show-progress
@@ -133,20 +159,24 @@ chmod +x [编译后文件名].bin
 
 [flet-dev/flet](https://github.com/flet-dev/flet)
 
+[pypi/fleter](https://pypi.org/project/fleter) (最新版本已弃用)
+
 [asweigart/pyperclip](https://github.com/asweigart/pyperclip)
 
 ### 1.x
 
-[Riverbank Computing PyQt5](https://www.riverbankcomputing.com/software/pyqt/)
+[pypi/PyQt5](https://pypi.org/project/PyQt5/)
 
 ## 📄许可协议
 
-使用**WTFPL**许可协议开源[^3], 你想干嘛就干嘛
+使用**WTFPL**许可协议开源[^4], 你想干嘛就干嘛
 
 ![WTFPL](http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-1.png)
 
-[^1]: 部分系统可能要将`pip`改为`pip3`
+[^1]: 部分平台没有`curl`指令, 可以用`wget`或者其他方式获取安装脚本
 
-[^2]: 部分系统可能要将`nuitka`改为`nuitka3`
+[^2]: 部分系统可能要将`pip`改为`pip3`, 如果有多个Python3, 数字可能需要具体到版本号, 如`pip3.11`
 
-[^3]: 或许可以解释为**W**indows **T**iny **F**orm **P**seudo-**L**ocalization
+[^3]: 部分系统可能要将`nuitka`改为`nuitka3`, 尚不清楚是否需要和`pip`一样具体到版本号
+
+[^4]: 或许可以解释为**W**indows **T**iny **F**orm **P**seudo-**L**ocalization

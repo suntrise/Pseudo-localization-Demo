@@ -1,7 +1,7 @@
 name: 🪲报告 BUG
 description: 报告一个 BUG, 来帮助我们改进该程序。
 title: "[Bug]: "
-labels: ["bug"]
+labels: ["🪲bug"]
 assignees:
   - octocat
 body:
