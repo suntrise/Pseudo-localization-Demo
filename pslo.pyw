@@ -30,7 +30,7 @@ def main(page: ft.Page):
 
     # 是否显示前后缀配置栏
     def psf_check(e):
-        if suf_way.value == "3":
+        if suf_way.value == "4":
             cus_ps.visible = True
             log.out(0, "CUS Toolbar visible is true")
         else:
