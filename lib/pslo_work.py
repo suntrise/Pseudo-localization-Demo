@@ -84,7 +84,7 @@ def pslo(pstype, xab, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re, cus_
     pstr = pstype
     res = ''
     control_txt = False
-    if str != "" and str != "null":
+    if pstr != "" and pstr != "null":
         if xab != "enxb":
             xab = "enxa"
             for l in pstr:
