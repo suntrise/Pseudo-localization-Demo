@@ -136,14 +136,14 @@ def pslo(pstype, xab, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re, cus_
         elif suf_way == "2":
             while n < (i / 7):               
                 suf = suf + arrba[n % 20]+" "
-            n += 1  
-            res = "[" + res + " " + suf + "]"
-        elif suf_way == "4":
-            while n < (i / 3):               
-                suf = suf + arrnum[n % 10]
-            n += 1  
+                n += 1  
             res = "[" + res + " " + suf + "]"
         elif suf_way == "3":
+            while n < (i / 3):               
+                suf = suf + arrnum[n % 10]
+                n += 1  
+            res = "[" + res + " " + suf + "]"
+        elif suf_way == "4":
             while n < (i / int(cus_cs)):               
                 suf = suf + cus_re + " "
                 n += 1

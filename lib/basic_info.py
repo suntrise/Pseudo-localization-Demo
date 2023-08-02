@@ -4,12 +4,16 @@ from lib import log # 日志输出库
 log.out(0, "Basic Information ready...")
 
 # 基本信息
-ver = "v4.5p"
+ver = "v4.5.1p"
 author = "Suntrise (STR)"
 auth_abbr = "STR"
 title = "伪本地化演示程序 " + ver + " by " + auth_abbr
 updmd = """
 # 更新日志 (详见GitHub Releases)
+
+## v4.5.1p - 2023.8.2
+
+1. 修复了一些BUG
 
 ## v4.5p - 2023.8.1
 
