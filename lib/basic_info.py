@@ -4,7 +4,7 @@ from lib import log # 日志输出库
 log.out(0, "Basic Information ready...")
 
 # 基本信息
-ver = "v4.5.1p"
+ver = "v4.51p"
 author = "Suntrise (STR)"
 auth_abbr = "STR"
 title = "伪本地化演示程序 " + ver + " by " + auth_abbr
