@@ -75,7 +75,7 @@ arrba = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
 arrnum = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 
 # 伪本地化
-def pslo(pstype, xab, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re, cus_cs, hash_cb, hash_ws, vis_con_cb):
+def pslo(pstype, xab, uplw, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re, cus_cs, hash_cb, hash_ws, vis_con_cb):
     i = 0
     m = 0
     n = 0
@@ -85,8 +85,11 @@ def pslo(pstype, xab, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re, cus_
     res = ''
     control_txt = False
     if pstr != "" and pstr != "null":
-        if xab != "enxb":
-            xab = "enxa"
+        if uplw == "upper":
+            pstr = pstr.upper()
+        if uplw == "lower":
+            pstr = pstr.lower()
+        if xab == "enxa":
             for l in pstr:
                 # 基本定义及控制
                 i += 1
@@ -122,7 +125,7 @@ def pslo(pstype, xab, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re, cus_
             for l in pstr:
                 i += 1
             res = pstr[::-1]
-        log.out(0, "Pseudo-localization solutions: " + xab)
+        log.out(0, "Pseudo-localization solutions: " + xab+","+uplw)
 
         # 前后缀添加
         suf = ""
