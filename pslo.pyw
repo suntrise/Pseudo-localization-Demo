@@ -43,7 +43,7 @@ def main(page: ft.Page):
     # 伪本地化&内容获取
     def pslo(e):
         global pshis
-        page.result.value = pslo_work.pslo(page.pstype.value, xab.value, num_pslo.value, vowel_cs.value, suf_way.value, cus_pre.value, cus_suf.value, cus_re.value, cus_cs.value, hash_cb.value, hash_ws.value, vis_con_cb.value)
+        page.result.value = pslo_work.pslo(page.pstype.value, xab.value, uplw.value, num_pslo.value, vowel_cs.value, suf_way.value, cus_pre.value, cus_suf.value, cus_re.value, cus_cs.value, hash_cb.value, hash_ws.value, vis_con_cb.value)
         pshis += page.pstype.value + " → " + page.result.value + " | " + datetime.datetime.now().strftime('%H:%M:%S') + "\n————————————————————————————————————\n"
         history.value = pshis # 添加到历史记录
         log.out(1, "Added content to history")
@@ -106,7 +106,7 @@ def main(page: ft.Page):
                 if save_way_dd.value == 0:
                     svf.write(page.result.value)
                     log.out(0, "Only save pseudo-localized text")
-                else:
+                elif save_way_dd.value == 1:
                     svf.write(page.pstype.value + "\n" + page.result.value)
                     log.out(0, "Save original text and pseudo-localized text")
                 log.out(1, "File saved:" + str(svfile_final))
@@ -454,15 +454,11 @@ def main(page: ft.Page):
 
     # “保存方式”窗口定义
     save_files_dialog = ft.FilePicker(on_result = sv_files)
-    save_way_dd = ft.Dropdown(
-            label = "保存方式",
-            value = 0,
-            hint_text = "选择一种保存方式",
-            options = [
-                ft.dropdown.Option(key = 0, text = "只保存伪本地化的结果"),
-                ft.dropdown.Option(key = 1, text = "同时保存原文及伪本地化的结果")
-            ]) 
-    save_way_dd.value = 0
+    save_way_dd = ft.RadioGroup(
+    value = 0,content=ft.Column([
+    ft.Radio(value=0, label="只保存伪本地化的结果"),
+    ft.Radio(value=1, label="同时保存源文本和伪本地化结果"),
+    ]))
     svw_dlg = ft.AlertDialog(
         title = ft.Text("保存方式"), on_dismiss = lambda e: log.out(0, "Dialog dismissed(SVW)"),
         content = ft.Column(controls = [ft.Text("您希望如何保存?"), save_way_dd], height = 100, width = 300),
@@ -554,6 +550,11 @@ def main(page: ft.Page):
     ft.Radio(value = "enxa", label = "en-XA (qps-ploc) (e.g. ab→ǻƀ)"),
     ft.Radio(value = "enxb", label = "en-XB (qps-plocm) (e.g. ab→ba)")]))
     XABrow = ft.Row(spacing = 1, controls = [ft.Text("伪本地化方式:", size = 15), xab])
+    uplw = ft.RadioGroup(value = "deft", content = ft.Row([
+    ft.Radio(value = "deft", label = "保持原样"),
+    ft.Radio(value = "upper", label = "全部大写"),
+    ft.Radio(value = "lower", label = "全部小写")]))
+    ulrow = ft.Row(spacing = 1, controls = [ft.Text("大小写:", size = 15), uplw])
     page.pstype = ft.TextField(hint_text = "在这里输入要翻译的内容~", text_size =15, multiline = True, max_lines = 5)
     page.result = ft.TextField(hint_text = "结果会显示在这里~", text_size = 15, multiline = True, max_lines = 5, read_only = True)
     pslo_btn = ft.FilledButton(
@@ -596,7 +597,7 @@ def main(page: ft.Page):
     pslo_row = ft.Row(spacing = 10, controls = [pslo_btn, copy_btn, lsfile])
     home_page = ft.Column(
         width = page.window_width - 120,
-        controls = [XABrow, page.pstype, page.result, pslo_row])
+        controls = [XABrow, ulrow, page.pstype, page.result, pslo_row])
     history = ft.Text("无记录", size = 18, selectable = True)    
     his_card = ft.Card(
             content = ft.Container(
