@@ -103,10 +103,10 @@ def main(page: ft.Page):
             page.update()
             log.out(0, "Snack bar pop-up(SV)")
             with open(svfile_final, "a", encoding = 'utf-8') as svf:
-                if save_way_dd.value == 0:
+                if save_way_dd.value == "0":
                     svf.write(page.result.value)
                     log.out(0, "Only save pseudo-localized text")
-                elif save_way_dd.value == 1:
+                elif save_way_dd.value == "1":
                     svf.write(page.pstype.value + "\n" + page.result.value)
                     log.out(0, "Save original text and pseudo-localized text")
                 log.out(1, "File saved:" + str(svfile_final))
