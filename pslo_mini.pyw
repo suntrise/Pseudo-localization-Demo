@@ -69,7 +69,7 @@ def main(page: ft.Page):
     page.window.resizable = False
     page.window.title_bar_hidden = True
     page.theme = ft.Theme(
-        font_family = ["Microsoft Yahei", "Inter", "PingFang SC", "Noto Sans SC", "Noto Sans"],
+        font_family = "Microsoft Yahei",
         color_scheme_seed = ft.Colors.BLUE
     )
     page.theme_mode = ft.ThemeMode.LIGHT
@@ -80,13 +80,17 @@ def main(page: ft.Page):
     title_icon = ft.Container(ft.Icon(ft.Icons.LANGUAGE_OUTLINED, size = 18), padding = 5)
     ontop_btn = ft.IconButton(icon = ft.Icons.PUSH_PIN_OUTLINED, on_click = always_on_top, tooltip = "置顶") 
     theme_switch_btn = ft.IconButton(icon = ft.Icons.LIGHT_MODE_OUTLINED, on_click = switch_theme, tooltip = "明暗")
-    min_btn = controls.MinimizeButton(page, icon = ft.Icons.HORIZONTAL_RULE_ROUNDED) 
-    close_btn = controls.CloseButton(page)
+    if sys.platform != 'darwin':
+        min_btn = controls.MinimizeButton(page, icon = ft.Icons.HORIZONTAL_RULE_ROUNDED) 
+        close_btn = controls.CloseButton(page)
+        titlebar_controls = [ontop_btn, theme_switch_btn, min_btn, close_btn]
+    else:
+        titlebar_controls = [ontop_btn, theme_switch_btn]
     titlebar = ft.WindowDragArea(ft.Row(
         alignment = ft.MainAxisAlignment.SPACE_BETWEEN,
         controls = [
             ft.Row(spacing = 1, controls = [title_icon, title_text]),
-            ft.Row(spacing = 1,controls = [ontop_btn, theme_switch_btn, min_btn, close_btn])
+            ft.Row(spacing = 1,controls = titlebar_controls)
         ]))  
     page.pstype = ft.TextField(hint_text = "在这里输入要翻译的内容~", text_size = 15, multiline = False, max_lines = 5)
     page.result = ft.TextField(hint_text = "结果会显示在这里~", text_size = 15, multiline = False, max_lines = 5, read_only = True)

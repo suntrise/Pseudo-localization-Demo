@@ -202,7 +202,7 @@ def main(page: ft.Page):
     # 色彩选择
     def sch_changed(e):
         sch = int(scheme.value)
-        default_fontfamily = ["Microsoft Yahei", "Inter", "PingFang SC", "Noto Sans SC", "Noto Sans"]
+        default_fontfamily = "Microsoft Yahei"
         if sch == 0:
             page.theme = ft.Theme(font_family = default_fontfamily,
                             color_scheme_seed = ft.Colors.BLUE) # 蓝色

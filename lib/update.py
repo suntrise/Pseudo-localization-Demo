@@ -56,10 +56,8 @@ def update(ver):
                 prerelease_content = "\n \r## 注意\n \r 本版本为预发布版本, 可能存在稳定性问题!" # 内容添加
                 log.out(0, "" + latest_ver + "is a pre-release version")
             sc_content = ""
-            if sys_platform == "darwin":
-                sc_content = "\n \r## 兼容性须知\n \r 您似乎在使用macOS, \n \r我们使用了CI/CD编译适用于macOS的版本, 由于没有测试设备, 可能存在稳定性问题" # 内容添加
-            elif sys_platform == "unknow":
-                sc_content = "\n \r## 源代码须知\n \r 您似乎在使用未知的擦偶哦在系统, \n \r我们为您提供了源代码包而非二进制, 注意查收!" # 内容添加
+            if sys_platform == "unknow":
+                sc_content = "\n \r## 源代码须知\n \r 您似乎在使用未知的操作系统, \n \r我们为您提供了源代码包而非二进制, 注意查收!" # 内容添加
             upd_content = "- 当前版本: " + ver + "\n \r- 新版本: " + latest_ver + "\n \r## 详细信息\n \r" + detail  + prerelease_content + sc_content # 弹窗内容
             return upd_content
     except requests.exceptions.RequestException as e:
