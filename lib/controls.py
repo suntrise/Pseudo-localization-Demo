@@ -1,6 +1,6 @@
 import flet
 from flet import *
-from flet import icons
+from flet import Icons
 from lib import log # 日志输出库
 
 # 预备输出
@@ -8,18 +8,18 @@ log.out(0, "Advanced Controls Module ready...")
 
 # 窗口顶栏, 基于Fleter库制作, MIT协议
 def CLOSE_ID(page: flet.Page):
-    page.window_close()
+    page.window.close()
     page.close_in_app_web_view()
 
 def MAXIMIZE_ID(page: flet.Page):
-    if page.window_maximized:
-        page.window_maximized = False
-    elif not page.window_maximized:
-        page.window_maximized = True
+    if page.window.maximized:
+        page.window.maximized = False
+    elif not page.window.maximized:
+        page.window.maximized = True
     page.update()
 
 def MINIMIZE_ID(page: flet.Page):
-    page.window_minimized = True
+    page.window.minimized = True
     page.update()
 
 class CloseButton(IconButton):
@@ -27,7 +27,7 @@ class CloseButton(IconButton):
 
     def __init__(self,
                  page: flet.Page,
-                 icon = icons.CLOSE_ROUNDED,
+                 icon = Icons.CLOSE_ROUNDED,
                  on_click=None,
                  ):
         super(CloseButton, self).__init__(icon = icon)
@@ -46,8 +46,8 @@ class MaximizeButton(IconButton):
 
     def __init__(self,
                  page: flet.Page,
-                 icon = icons.ZOOM_OUT_MAP_ROUNDED,
-                 icon_max = icons.ZOOM_IN_MAP_ROUNDED,
+                 icon = Icons.ZOOM_OUT_MAP_ROUNDED,
+                 icon_max = Icons.ZOOM_IN_MAP_ROUNDED,
                  on_click = None,
                  ):
         super(MaximizeButton, self).__init__(icon = icon, icon_size = 20)
@@ -61,9 +61,9 @@ class MaximizeButton(IconButton):
             self.on_click = lambda _: self.maximize()
 
     def maximize(self):
-        if self._page.window_maximized:
+        if self._page.window.maximized:
             self.icon = self._icon
-        elif not self._page.window_maximized:
+        elif not self._page.window.maximized:
             self.icon = self._icon_max
         MAXIMIZE_ID(self._page)
         self._page.update()
@@ -74,7 +74,7 @@ class MinimizeButton(IconButton):
 
     def __init__(self,
                  page: flet.Page,
-                 icon = icons.MINIMIZE_ROUNDED,
+                 icon = Icons.MINIMIZE_ROUNDED,
                  on_click = None,
                  ):
         super(MinimizeButton, self).__init__(icon = icon)
@@ -85,6 +85,6 @@ class MinimizeButton(IconButton):
             self.on_click = lambda _: self.minimize()
 
     def minimize(self):
-        self._page.window_minimized = True
+        self._page.window.minimized = True
         MINIMIZE_ID(self._page)
         self._page.update()

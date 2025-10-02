@@ -1,0 +1,32 @@
+[project]
+name = "pseudo-localization-demo"
+version = "5.0.0"
+description = ""
+license = {text = "WTFPL"}
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "flet (>=0.28.3,<0.29.0)",
+    "requests (>=2.32.5,<3.0.0)",
+    "pyperclip (>=1.11.0,<2.0.0)"
+]
+
+[tool.flet]
+app.module = "pslo"
+app.path = "."  
+
+compile.app = true
+compile.packages = true
+compile.cleanup = true
+
+[tool.poetry]
+package-mode = false
+
+[[tool.poetry.source]]
+name = "mirrors"
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
+priority = "primary"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

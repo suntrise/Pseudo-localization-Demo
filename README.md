@@ -17,143 +17,79 @@
 
 网页版：https://suntrise.github.io/pseudo
 
-> ⚠️ 注意, 早期基于PyQt5的1.x版本将在不久的未来移出仓库!
-
 ## 👇使用
 
-如果您没有Python环境且比较懒, 可以移步[Release](https://github.com/suntrise/Pseudo-localization-Demo/releases)下载, tar.gz版本适用于Linux, exe版本适用于Windows, 其他操作系统建议下载源码并执行 (macOS版用户可以到[Actions页](https://github.com/suntrise/Pseudo-localization-Demo/actions)下载)
+如果您没有Python环境且比较懒, 可以移步 [Release](https://github.com/suntrise/Pseudo-localization-Demo/releases) 下载, tar.gz 版本适用于 Linux, exe 版本适用于 Windows, 其他操作系统建议下载源码并执行 (macOS 版用户可以到 [Actions 页](https://github.com/suntrise/Pseudo-localization-Demo/actions)下载)
 
-注意, 要在本地查看并修改源码, 需要安装Python, 版本最少为3.7以保障兼容性
+注意, 要在本地查看并修改源码, 需要安装 Python, 版本最少为 3.10 以保障兼容性
 
-### 🚀依赖安装
+### 🚀 依赖安装
 
-#### 🧩pip安装 (适用于嵌入式Python及未默认安装pip的Python)
+#### 🧩 Poetry 安装
 
-请先确定是否安装了`pip`, 如果已安装, 可以跳过这一步!
+本项目使用 `poetry` 进行依赖管理, 请务必先安装它, 并将其添加在 `PATH` 环境变量中!
 
-- 如果已经提前安装了`easy_install`, 运行...
+安装指南详见: https://python-poetry.cn/docs/#installation
 
-~~~Bash
-easy_inatall pip
+##### 通用
+
+如果您已经安装了 `pipx` 则可以执行...
+
+~~~bash
+pipx install poetry
 ~~~
 
-- 使用Linux则可以通过自带的包管理器安装`python3-pip`
+##### Windows
 
-- 啥也没有的话则运行...[^1]
+您可以在 PowerShell 中执行...
 
-~~~Bash
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python get-pip.py
+~~~powershell
+(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
 ~~~
 
-完成后可以运行`pip`进行测试
+> 如果您通过 Microsoft Store 安装了 Python, 请在上面的命令中将 `py` 替换为 `python`
+
+##### *nix
+
+在安装了 `curl` 的前提下执行...
+
+~~~bash
+curl -sSL https://install.python-poetry.org | python3 -
+~~~
+
+##### macOS
+
+如果您不喜欢使用上面 `curl` 的方式, 如果已经安装了 Homebrew, 可以执行...
+
+~~~
+brew install --formula poetry
+~~~
 
 #### 🗿正式依赖安装
 
-运行...[^2]
+创建完虚拟环境后运行...
 
 ~~~Bash
-pip install flet
-pip install pyperclip
-pip install requests
+poetry install
 ~~~
 
-特定版本若要使用或编辑Mini, 还需额外执行...
-
-~~~Bash
-pip install fleter
-~~~
-
-如果代码文件为最新版，则**不用执行该命令**!
-
-以上如果嫌一个一个来麻烦，可以直接执行...
-
-~~~Bash
-pip install -r requirements.txt
-~~~
-
-若需编辑旧版, 还需要额外运行...
-
-~~~Bash
-pip install PyQt5 
-~~~
-
-使用`PyQt6`稍加修改其实也行, 不过组件可能会变大
-
-如果嫌慢可以改用清华源, 参考[此处](https://mirrors.tuna.tsinghua.edu.cn/help/pypi/)
+它将会自动安装需要的依赖
 
 ### 🛠️编译
 
-注意, Windows平台请先安装好MSVC编译工具或者MinGW, 其他平台也请准备好GCC!
 
-#### Pyinstaller (简单)
-
-运行......
-
-~~~Bash
-pip install pywin32
-pip install pyinstaller
-~~~
-
-定位到代码根目录, 运行......
-
-~~~Bash
-pyinstaller pslo.pyw -F -w -i ./icon/slo_icon.ico
-~~~
-
-Mini版则执行......
-
-~~~Bash
-pyinstaller pslo_mini.pyw -F -w -i ./icon/pslo_icon.ico
-~~~
-
-编译完可能需要Wine或者Crossover才可以运行, 因此我们依旧推荐直接执行pyw文件或使用下一种方案
-
-#### Nuitka (推荐)
-
-请提前安装好**Visual Studio生成工具**或者**GCC(MinGW)**(使用MinGW需要在命令行添加`--mingw`)
-
-运行......
-
-~~~Bash
-pip install nuitka
-~~~
-
-定位到代码根目录, 运行......[^3]
-
-~~~Bash
-nuitka pslo.pyw --onefile --windows-disable-console --windows-icon-from-ico=./icon/pslo_icon.ico --standalone --show-progress
-~~~
-
-Mini版则执行
-
-~~~Bash
-nuitka pslo_mini.pyw --onefile --windows-disable-console --windows-icon-from-ico=./icon/pslo_icon.ico --standalone --show-progress
-~~~
-
-Linux完成编译后须执行......
-
-~~~Bash
-chmod +x [编译后文件名].bin
-~~~
-
-才可以执行
-
-该方法适用于Windows、macOS和Linux三大主流平台, 参数可以按需添加, 详见[此处](https://github.com/Nuitka/Nuitka/)
 
 ## 🗒️备注
 
 - 经过测试, 在虚拟机下运行可能会造成非正常闪烁现象, 可能是flet库的驱动驱动兼容的问题
 
-- 以上命令可能会有些许滞后, 若编译效果不佳, 可参考Workflow脚本进行参数补充
+- 以上命令可能会有些许滞后, 若编译效果不佳, 可参考 Workflow 脚本进行参数补充
 
-- macOS由于条件原因没法测试, 望有条件的用户可以为我们提供相应的帮助与支持!
-
-- 若想获取最新测试版本, 可以看看Action里面哟(未经过完整测试)
+- 若想获取最新测试版本, 可以看看 Action 里面哟(未经过完整测试)
 
 - 代码写的有点难看, 望各位大佬多多指导!
 
-## 📦使用到的第三方项目
+## 📦 使用到的第三方项目
 
 ### 2.x 及更新版本
 
@@ -163,20 +99,10 @@ chmod +x [编译后文件名].bin
 
 [asweigart/pyperclip](https://github.com/asweigart/pyperclip)
 
-### 1.x
+## 📄 许可协议
 
-[pypi/PyQt5](https://pypi.org/project/PyQt5/)
-
-## 📄许可协议
-
-使用**WTFPL**许可协议开源[^4], 你想干嘛就干嘛
+使用 **WTFPL** 许可协议开源[^1], 你想干嘛就干嘛
 
 ![WTFPL](http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-1.png)
 
-[^1]: 部分平台没有`curl`指令, 可以用`wget`或者其他方式获取安装脚本
-
-[^2]: 部分系统可能要将`pip`改为`pip3`, 如果有多个Python3, 数字可能需要具体到版本号, 如`pip3.11`
-
-[^3]: 部分系统可能要将`nuitka`改为`nuitka3`, 尚不清楚是否需要和`pip`一样具体到版本号
-
-[^4]: 或许可以解释为**W**indows **T**iny **F**orm **P**seudo-**L**ocalization
+[^1]: 或许可以解释为**W**indows **T**iny **F**orm **P**seudo-**L**ocalization

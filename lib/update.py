@@ -17,7 +17,7 @@ sys_platform = platform_check.os_platform()
 def update_api():
     # API定义
     global api
-    api = requests.get("https://api.kgithub.com/repos/suntrise/Pseudo-localization-Demo/releases", timeout = 10, verify = False) # SSL禁用
+    api = requests.get("https://api.github.com/repos/suntrise/Pseudo-localization-Demo/releases", timeout = 10, verify = False) # SSL禁用
     log.out(0, "API Update")
     global all_info
     all_info = api.json() # 获取Json

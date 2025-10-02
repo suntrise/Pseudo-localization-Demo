@@ -53,17 +53,15 @@ def main(page: ft.Page):
     def copy_text(e):
         pyperclip.copy(page.result.value)
         log.out(1, "Added to clipboard")
-        page.snack_bar = ft.SnackBar(ft.Text(f"已复制")) # 提示栏
-        page.snack_bar.open = True
+        page.open(ft.SnackBar(ft.Text(f"已复制"))) # 提示栏
         page.update()
         log.out(0, "Snack bar pop-up(CP)\033[0m")
 
     # 复制历史记录
     def copy_history(e):
         pyperclip.copy(history.value)
-        print("\033[\033[0;32mDONE\033[0m] Added history to clipboard")
-        page.snack_bar = ft.SnackBar(ft.Text(f"已复制历史记录")) # 提示栏
-        page.snack_bar.open = True
+        log.out(1, "Added to clipboard")
+        page.open(ft.SnackBar(ft.Text(f"已复制历史记录"))) # 提示栏
         page.update()
         log.out(0, "Snack bar pop-up(CPH)")
         
@@ -71,8 +69,7 @@ def main(page: ft.Page):
     def ps_files(e: ft.FilePickerResultEvent):
         psfile = ", ".join(map(lambda f: f.path, e.files)) if e.files else "ERR"
         if psfile != "ERR":
-            page.snack_bar = ft.SnackBar(ft.Text("检测到文件: " + psfile)) # 提示栏
-            page.snack_bar.open = True
+            page.open(ft.SnackBar(ft.Text("检测到文件: " + psfile))) # 提示栏
             page.update()
             log.out(0, "Snack bar pop-up(UL)")
             with open(psfile, encoding = 'utf-8') as psf:
@@ -80,8 +77,7 @@ def main(page: ft.Page):
                 log.out(1, "TXT:" + psf.read())
                 pslo(e) 
         else:
-            page.snack_bar = ft.SnackBar(ft.Text("未检测到文件")) # 提示栏
-            page.snack_bar.open = True
+            page.open(ft.SnackBar(ft.Text("未检测到文件"))) # 提示栏
             page.update()
             log.out(0, "Snack bar pop-up(UF)")
         page.update()
@@ -98,8 +94,7 @@ def main(page: ft.Page):
             else:
                 svfile_final = str(svfile)
                 log.out(0, "No action with the filename")
-            page.snack_bar = ft.SnackBar(ft.Text("已保存至: " + svfile_final)) # 提示栏
-            page.snack_bar.open = True
+            page.open(ft.SnackBar(ft.Text("已保存至: " + svfile_final))) # 提示栏
             page.update()
             log.out(0, "Snack bar pop-up(SV)")
             with open(svfile_final, "a", encoding = 'utf-8') as svf:
@@ -111,8 +106,7 @@ def main(page: ft.Page):
                     log.out(0, "Save original text and pseudo-localized text")
                 log.out(1, "File saved:" + str(svfile_final))
         else:
-            page.snack_bar = ft.SnackBar(ft.Text("发生错误, 不是合法的路径")) # 提示栏
-            page.snack_bar.open = True
+            page.open(ft.SnackBar(ft.Text("发生错误, 不是合法的路径"))) # 提示栏
             page.update()
             log.out(0, "Snack bar pop-up(SVE)")
         page.update()
@@ -126,16 +120,14 @@ def main(page: ft.Page):
                 svhis_final = str(svhis) + ".txt"
             else:
                 svhis_final = str(svhis)
-            page.snack_bar = ft.SnackBar(ft.Text("已保存至: " + svhis_final)) # 提示栏
-            page.snack_bar.open = True
+            page.open(ft.SnackBar(ft.Text("已保存至: " + svhis_final))) # 提示栏
             page.update()
             log.out(0, "Snack bar pop-up(SVH)")
             with open(svhis_final, "a", encoding = 'utf-8') as svh:
                 svh.write(history.value)
                 log.out(0, "File saved:" + str(svhis_final))
         else:
-            page.snack_bar = ft.SnackBar(ft.Text("发生错误, 不是合法的路径")) # 提示栏
-            page.snack_bar.open = True
+            page.open(ft.SnackBar(ft.Text("发生错误, 不是合法的路径"))) # 提示栏
             page.update()
             log.out(0, "Snack bar pop-up(SHE)")
         page.update()    
@@ -146,8 +138,7 @@ def main(page: ft.Page):
         pshis = ""
         history.value = "无记录"
         log.out(1, "History is cleared")
-        page.snack_bar = ft.SnackBar(ft.Text(f"已清空")) # 提示栏
-        page.snack_bar.open = True
+        page.open(ft.SnackBar(ft.Text(f"已清空"))) # 提示栏
         page.update()
         log.out(0, "Snack bar pop-up(CH)")
     
@@ -211,33 +202,34 @@ def main(page: ft.Page):
     # 色彩选择
     def sch_changed(e):
         sch = int(scheme.value)
+        default_fontfamily = ["Microsoft Yahei", "Inter", "PingFang SC", "Noto Sans SC", "Noto Sans"]
         if sch == 0:
-            page.theme = ft.Theme(font_family = "Microsoft Yahei",
-                            color_scheme_seed = ft.colors.BLUE) # 蓝色
+            page.theme = ft.Theme(font_family = default_fontfamily,
+                            color_scheme_seed = ft.Colors.BLUE) # 蓝色
             log.out(1, "Switch to color BLUE")
         if sch == 1:
-            page.theme = ft.Theme(font_family = "Microsoft Yahei",
-                            color_scheme_seed = ft.colors.PINK) # 粉色
+            page.theme = ft.Theme(font_family = default_fontfamily,
+                            color_scheme_seed = ft.Colors.PINK) # 粉色
             log.out(1, "Switch to color PINK")
         if sch == 2:
-            page.theme = ft.Theme(font_family = "Microsoft Yahei",
-                            color_scheme_seed = ft.colors.GREEN) # 绿色
+            page.theme = ft.Theme(font_family = default_fontfamily,
+                            color_scheme_seed = ft.Colors.GREEN) # 绿色
             log.out(1, "Switch to color GREEN")
         if sch == 3:
-            page.theme = ft.Theme(font_family = "Microsoft Yahei",
-                            color_scheme_seed = ft.colors.BROWN) # 巧克力色
+            page.theme = ft.Theme(font_family = default_fontfamily,
+                            color_scheme_seed = ft.Colors.BROWN) # 巧克力色
             log.out(1, "Switch to color BROWN")
         if sch == 4:
-            page.theme = ft.Theme(font_family = "Microsoft Yahei",
-                            color_scheme_seed = ft.colors.DEEP_PURPLE_100) # 紫色
+            page.theme = ft.Theme(font_family = default_fontfamily,
+                            color_scheme_seed = ft.Colors.DEEP_PURPLE_100) # 紫色
             log.out(1, "Switch to color DEEP_PURPLE")
         page.update()
 
     # 透明度设置
     def opacity_slider_changed(e):
-        opac_value = page.opacity_slider.value / 100
-        page.window_opacity = opac_value
-        log.out(1, "Window opacity: " + str(page.window_opacity))
+        opac_value = opacity_slider.value / 100
+        page.window.opacity = opac_value
+        log.out(1, "Window opacity: " + str(page.window.opacity))
         if opac_value <= 0.75:
             opac_warn_bar.visible = True
         else:
@@ -256,28 +248,28 @@ def main(page: ft.Page):
 
     # 打开“什么是伪本地化”窗口
     def open_what(e):
-        page.dialog = what_dlg
+        page.open(what_dlg)
         what_dlg.open = True
         log.out(1, "Dialog open(WHT)")
         page.update()  
 
     # 打开“确定清除历史记录”窗口
     def open_chq(e):
-        page.dialog = chq_dlg
+        page.open(chq_dlg)
         chq_dlg.open = True
         log.out(1, "Dialog open(CHQ)")
         page.update()  
 
     # 打开“保存方式”窗口
     def open_svw(e):
-        page.dialog = svw_dlg
+        page.open(svw_dlg)
         svw_dlg.open = True
         log.out(1, "Dialog open(SVW)")
         page.update() 
 
     # 打开“保存更新日志”窗口
     def open_upd(e):
-        page.dialog = upd_dlg
+        page.open(upd_dlg)
         upd_dlg.open = True
         log.out(1, "Dialog open(UPD)")
         page.update() 
@@ -317,13 +309,11 @@ def main(page: ft.Page):
             log.out(1, "Dialog close(UPD)")
         content = update.update(basic_info.ver)
         if content == "ERR":
-            page.snack_bar = ft.SnackBar(ft.Text(f"检查更新超时, 请检查网络连接")) # 提示栏
-            page.snack_bar.open = True
+            page.open(ft.SnackBar(ft.Text(f"检查更新超时, 请检查网络连接"))) # 提示栏
             page.update()
             log.out(1, "Snack Bar pop-up(CUF)")
         elif content == "NUL":
-            page.snack_bar = ft.SnackBar(ft.Text(f"你正在使用最新版本")) # 提示栏
-            page.snack_bar.open = True
+            page.open(ft.SnackBar(ft.Text(f"你正在使用最新版本"))) # 提示栏
             log.out(1, "Snack Bar pop-up(VLT)")
             page.update()
         else:
@@ -333,11 +323,11 @@ def main(page: ft.Page):
                 title = ft.Text("发现更新"), on_dismiss = lambda e: log.out(0, "Dialog dismissed(UPD)"),
                 content = ft.Markdown(content, selectable = True),
                 actions = [
-                    ft.FilledButton("更新", icon = ft.icons.UPLOAD_OUTLINED, url = download_url),
-                    ft.TextButton("取消", icon = ft.icons.CLOSE_OUTLINED, on_click = close_find_upd_dlg)
+                    ft.FilledButton("更新", icon = ft.Icons.UPLOAD_OUTLINED, url = download_url),
+                    ft.TextButton("取消", icon = ft.Icons.CLOSE_OUTLINED, on_click = close_find_upd_dlg)
                 ],
             )
-            page.dialog = find_upd_dlg # 打开“发现更新”窗口
+            page.open(find_upd_dlg) # 打开“发现更新”窗口
             find_upd_dlg.open = True
             page.update()  
             log.out(1, "Dialog open(UPD)")
@@ -346,60 +336,57 @@ def main(page: ft.Page):
     # 启动时检查更新
     def startup_upd():
         if update.version_check(basic_info.ver) == True:
-            page.snack_bar = ft.SnackBar(ft.Text(f"发现新版本: " + update.latest_ver + ", 到设置取更新吧! ")) # 提示栏
-            page.snack_bar.open = True
+            page.open(ft.SnackBar(ft.Text(f"发现新版本: " + update.latest_ver + ", 到设置取更新吧! "))) # 提示栏
             page.update()
             log.out(1, "Snack Bar pop-up(SUU)")
     """
 
     # 检测窗口大小
     def page_resize(e):
-        his_card.width = page.window_width
-        home_page.height = page.window_height - 90
-        home_page.width = page.window_width - 120
-        his_page.height = page.window_height - 90
-        his_page.width = page.window_width - 120
-        set_page.height = page.window_height - 90
-        set_page.width = page.window_width - 120
-        main_area.width = page.window_width - 120
-        main_row.width = page.window_width
+        his_card.width = page.window.width
+        home_page.height = page.window.height - 90
+        home_page.width = page.window.width - 120
+        his_page.height = page.window.height - 90
+        his_page.width = page.window.width - 120
+        set_page.height = page.window.height - 90
+        set_page.width = page.window.width - 120
+        main_area.width = page.window.width - 120
+        main_row.width = page.window.width
         page.update()
-        log.out(0, "New page size:" + str(round(page.window_height)) + "," + str(round(page.window_width)))
+        log.out(0, "New page size:" + str(round(page.window.height)) + "," + str(round(page.window.width)))
 
     # 置顶
     def always_on_top(e):
-        if page.window_always_on_top == False:
-            page.window_always_on_top = True
-            ontop_btn.icon = ft.icons.PUSH_PIN_ROUNDED
+        if page.window.always_on_top == False:
+            page.window.always_on_top = True
+            ontop_btn.icon = ft.Icons.PUSH_PIN_ROUNDED
             log.out(1, "Set always on top")
-            page.snack_bar = ft.SnackBar(ft.Text(f"已置顶")) # 提示栏
-            page.snack_bar.open = True
+            page.open(ft.SnackBar(ft.Text(f"已置顶"))) # 提示栏
             log.out(1, "Snack Bar pop-up(AOT)")
             page.update()
-        elif page.window_always_on_top == True:
-            page.window_always_on_top = False
-            ontop_btn.icon = ft.icons.PUSH_PIN_OUTLINED
+        elif page.window.always_on_top == True:
+            page.window.always_on_top = False
+            ontop_btn.icon = ft.Icons.PUSH_PIN_OUTLINED
             log.out(1, "Cancel always on top")
-            page.snack_bar = ft.SnackBar(ft.Text(f"已取消置顶")) # 提示栏
-            page.snack_bar.open = True
+            page.open(ft.SnackBar(ft.Text(f"已取消置顶"))) # 提示栏
             log.out(1, "Snack Bar pop-up(ATX)")
             page.update()
     """
     # 小窗模式
     def mini_mode(e):
         if rail.visible == True:
-            # mini_btn.icon = ft.icons.VERTICAL_ALIGN_TOP_ROUNDED
-            page.window_height = 350
-            page.window_width = 500
+            # mini_btn.icon = ft.Icons.VERTICAL_ALIGN_TOP_ROUNDED
+            page.window.height = 350
+            page.window.width = 500
             page.window_resizable = False
             max_btn.visible = False
             rail.selected_index=0
             rail_ctrl(e)
             rail.visible = False
         elif rail.visible == False:
-            # mini_btn.icon = ft.icons.PHOTO_SIZE_SELECT_SMALL_ROUNDED
-            page.window_height = 600
-            page.window_width = 900            
+            # mini_btn.icon = ft.Icons.PHOTO_SIZE_SELECT_SMALL_ROUNDED
+            page.window.height = 600
+            page.window.width = 900            
             page.window_resizable = True
             max_btn.visible = True
             rail.visible = True
@@ -436,7 +423,7 @@ def main(page: ft.Page):
         title = ft.Text("什么是伪本地化?"), on_dismiss = lambda e: log.out(0, "Dialog dismissed(WHT)"),
         content = ft.Markdown(basic_info.what_text, selectable = True),
         actions = [
-            ft.TextButton("我知道啦", icon = ft.icons.DONE, on_click = close_what)      
+            ft.TextButton("我知道啦", icon = ft.Icons.DONE, on_click = close_what)      
         ],
         actions_alignment = ft.MainAxisAlignment.END
     ) 
@@ -446,8 +433,8 @@ def main(page: ft.Page):
         title = ft.Text("确定删除历史记录?"), on_dismiss = lambda e: log.out(0, "Dialog dismissed(CHQ)"),
         content = ft.Text("确定删除所有历史记录,?\n该操作不可逆!"),
         actions = [
-            ft.ElevatedButton("确定", icon = ft.icons.DONE, on_click = clear_his, bgcolor = ft.colors.RED, color=ft.colors.WHITE, elevation = 0),
-            ft.FilledTonalButton("取消", icon = ft.icons.CLOSE, on_click = close_chq)      
+            ft.ElevatedButton("确定", icon = ft.Icons.DONE, on_click = clear_his, bgcolor = ft.Colors.RED, color=ft.Colors.WHITE, elevation = 0),
+            ft.FilledTonalButton("取消", icon = ft.Icons.CLOSE, on_click = close_chq)      
         ],
         actions_alignment = ft.MainAxisAlignment.END
     ) 
@@ -463,7 +450,7 @@ def main(page: ft.Page):
         title = ft.Text("保存方式"), on_dismiss = lambda e: log.out(0, "Dialog dismissed(SVW)"),
         content = ft.Column(controls = [ft.Text("您希望如何保存?"), save_way_dd], height = 100, width = 300),
         actions = [
-            ft.FilledButton("确定", icon = ft.icons.DONE, on_click = lambda _: save_files_dialog.save_file(allowed_extensions = ["txt"]))
+            ft.FilledButton("确定", icon = ft.Icons.DONE, on_click = lambda _: save_files_dialog.save_file(allowed_extensions = ["txt"]))
         ],
         actions_alignment = ft.MainAxisAlignment.END
     ) 
@@ -478,37 +465,37 @@ def main(page: ft.Page):
                 ],
             ),
             padding = 20,
-            width = page.window_width,
+            width = page.window.width,
         ),
         on_dismiss = lambda e: log.out(0, "Dialog dismissed(UPH)")
     )
    
     # 用户界面
     # 基本内容定义
-    page.window_left = 200
-    page.window_top = 100
-    page.window_height = 600
-    page.window_width = 900
-    page.window_min_height = 500
-    page.window_min_width = 882
-    page.window_title_bar_hidden = True
+    page.window.left = 200
+    page.window.top = 100
+    page.window.height = 600
+    page.window.width = 900
+    page.window.min_height = 500
+    page.window.min_width = 882
+    page.window.title_bar_hidden = True
     page.theme = ft.Theme(
          font_family = "Microsoft Yahei",
-         color_scheme_seed = ft.colors.BLUE
+         color_scheme_seed = ft.Colors.BLUE
          )
     page.on_resize = page_resize
 
     # 窗口区
     title_text = ft.Container(ft.Text(basic_info.title, size = 20))
-    title_icon = ft.Container(ft.Icon(ft.icons.LANGUAGE_OUTLINED), padding = 5)
-    ontop_btn = ft.IconButton(icon = ft.icons.PUSH_PIN_OUTLINED, on_click = always_on_top, tooltip = "置顶") 
-    # mini_btn = ft.IconButton(icon = ft.icons.PHOTO_SIZE_SELECT_SMALL_ROUNDED, tooltip = "小窗模式", on_click = mini_mode)
+    title_icon = ft.Container(ft.Icon(ft.Icons.LANGUAGE_OUTLINED), padding = 5)
+    ontop_btn = ft.IconButton(icon = ft.Icons.PUSH_PIN_OUTLINED, on_click = always_on_top, tooltip = "置顶") 
+    # mini_btn = ft.IconButton(icon = ft.Icons.PHOTO_SIZE_SELECT_SMALL_ROUNDED, tooltip = "小窗模式", on_click = mini_mode)
     more_options = ft.PopupMenuButton(
         items = [
             ft.PopupMenuItem(
                 content = ft.Row(
                     [
-                        ft.Icon(ft.icons.OPEN_IN_BROWSER),
+                        ft.Icon(ft.Icons.OPEN_IN_BROWSER),
                         ft.Text("打开网页版"),
                     ]
                 ),
@@ -517,7 +504,7 @@ def main(page: ft.Page):
             ft.PopupMenuItem(
                 content = ft.Row(
                     [
-                        ft.Icon(ft.icons.COLLECTIONS_BOOKMARK_OUTLINED),
+                        ft.Icon(ft.Icons.COLLECTIONS_BOOKMARK_OUTLINED),
                         ft.Text("打开项目仓库"),
                     ]
                 ),
@@ -527,7 +514,7 @@ def main(page: ft.Page):
             ft.PopupMenuItem(
                 content = ft.Row(
                     [
-                        ft.Icon(ft.icons.QUESTION_MARK_OUTLINED),
+                        ft.Icon(ft.Icons.QUESTION_MARK_OUTLINED),
                         ft.Text("什么是伪本地化?"),
                     ]
                 ),
@@ -536,14 +523,20 @@ def main(page: ft.Page):
         ],
         tooltip = "更多选项"
     )
-    min_btn = controls.MinimizeButton(page, icon = ft.icons.HORIZONTAL_RULE_ROUNDED) 
-    max_btn = controls.MaximizeButton(page, icon = ft.icons.SQUARE_OUTLINED)  
-    close_btn = controls.CloseButton(page)
+
+    if sys.platform != 'darwin':
+        min_btn = controls.MinimizeButton(page, icon = ft.Icons.HORIZONTAL_RULE_ROUNDED) 
+        max_btn = controls.MaximizeButton(page, icon = ft.Icons.SQUARE_OUTLINED)  
+        close_btn = controls.CloseButton(page)
+        titlebar_controls = [ontop_btn, more_options, min_btn, max_btn, close_btn]
+    else:
+        titlebar_controls = [ontop_btn, more_options]
+    
     titlebar = ft.WindowDragArea(ft.Row(
         alignment = ft.MainAxisAlignment.SPACE_BETWEEN,
         controls = [
             ft.Row(spacing = 1, controls = [title_icon, title_text]),
-            ft.Row(spacing = 1,controls = [ontop_btn, more_options, min_btn, max_btn, close_btn])
+            ft.Row(spacing = 1,controls = titlebar_controls)
         ]))  
     # 主页区
     xab = ft.RadioGroup(value = "enxa", content = ft.Row([
@@ -559,12 +552,12 @@ def main(page: ft.Page):
     page.result = ft.TextField(hint_text = "结果会显示在这里~", text_size = 15, multiline = True, max_lines = 5, read_only = True)
     pslo_btn = ft.FilledButton(
             "进行伪本地化!",
-            icon = ft.icons.TRANSLATE_OUTLINED,
+            icon = ft.Icons.TRANSLATE_OUTLINED,
             tooltip = "将您所填写的内容伪本地化, 每次生成结果都会不一样哦",
             on_click = pslo     
         )
     copy_btn = ft.IconButton(
-            ft.icons.COPY,
+            ft.Icons.COPY,
             tooltip = "将生成内容添加到设备剪切板",
             on_click = copy_text     
         )
@@ -573,13 +566,13 @@ def main(page: ft.Page):
     page.overlay.append(pick_files_dialog)
     page.overlay.append(save_files_dialog)
     lsfile = ft.PopupMenuButton(
-        icon = ft.icons.EXPAND_MORE_OUTLINED,
+        icon = ft.Icons.EXPAND_MORE_OUTLINED,
         tooltip = "展开查看更多选项",
         items = [
             ft.PopupMenuItem(                
                 content = ft.Row(
                 [
-                    ft.Icon(ft.icons.UPLOAD_FILE_OUTLINED),
+                    ft.Icon(ft.Icons.UPLOAD_FILE_OUTLINED),
                     ft.Text("导入"),
                 ]),
                on_click = lambda _: pick_files_dialog.pick_files(allowed_extensions = ["txt"])
@@ -587,7 +580,7 @@ def main(page: ft.Page):
             ft.PopupMenuItem(                
                 content = ft.Row(
                 [
-                    ft.Icon(ft.icons.SAVE_OUTLINED),
+                    ft.Icon(ft.Icons.SAVE_OUTLINED),
                     ft.Text("保存"),
                 ]),
                on_click = open_svw
@@ -596,7 +589,7 @@ def main(page: ft.Page):
     )
     pslo_row = ft.Row(spacing = 10, controls = [pslo_btn, copy_btn, lsfile])
     home_page = ft.Column(
-        width = page.window_width - 120,
+        width = page.window.width - 120,
         controls = [XABrow, ulrow, page.pstype, page.result, pslo_row])
     history = ft.Text("无记录", size = 18, selectable = True)    
     his_card = ft.Card(
@@ -606,7 +599,7 @@ def main(page: ft.Page):
                         history
                     ]
                 ),
-                width = page.window_width,
+                width = page.window.width,
                 padding = 10,
             ),
             elevation = 0.5
@@ -614,7 +607,7 @@ def main(page: ft.Page):
     save_his_dialog = ft.FilePicker(on_result = sv_his)
     his_title = ft.Row(controls = [
         ft.Icon(
-            ft.icons.LIST_ALT_OUTLINED
+            ft.Icons.LIST_ALT_OUTLINED
         ),
         ft.Text(
             "历史记录:",
@@ -624,17 +617,17 @@ def main(page: ft.Page):
         save_his_dialog,
         ft.TextButton(
             "复制全部",
-            icon = ft.icons.COPY_OUTLINED,
+            icon = ft.Icons.COPY_OUTLINED,
             on_click = copy_history
         ),
         ft.TextButton(
             "导出记录",
-            icon = ft.icons.SAVE_OUTLINED,
+            icon = ft.Icons.SAVE_OUTLINED,
             on_click = lambda _: save_his_dialog.save_file(allowed_extensions = ["txt"])
         ),
         ft.TextButton(
             "清空",
-            icon = ft.icons.DELETE_FOREVER_OUTLINED,
+            icon = ft.Icons.DELETE_FOREVER_OUTLINED,
             on_click = open_chq
         )
     ])
@@ -643,7 +636,7 @@ def main(page: ft.Page):
         his_opts
     ])
     his_col = ft.Column(
-                width = page.window_width - 120,
+                width = page.window.width - 120,
                 scroll = ft.ScrollMode.ALWAYS,
                         controls = [
                         his_bar,
@@ -657,7 +650,7 @@ def main(page: ft.Page):
         content = ft.Container(
                 content = ft.Column(
                     [
-                        ft.Icon(ft.icons.ANNOUNCEMENT_OUTLINED, size = 56, tooltip = "这里将来会做一些集成脚本来快速实现某些功能"),
+                        ft.Icon(ft.Icons.ANNOUNCEMENT_OUTLINED, size = 56, tooltip = "这里将来会做一些集成脚本来快速实现某些功能"),
                         ft.Text("嘿, “集合”还在开发中, 暂时还不可用!", size = 18)
                     ] 
                 ),
@@ -665,13 +658,13 @@ def main(page: ft.Page):
             ),
             elevation = 0.5
         )
-    collection_page = ft.Container(content = collection_unav_card, visible = False, alignment = ft.alignment.center, margin = page.window_height / 4)
+    collection_page = ft.Container(content = collection_unav_card, visible = False, alignment = ft.alignment.center, margin = page.window.height / 4)
 
     # 设置区
     # 伪本地化设置
     opt_pslo = ft.Row(
             [
-                ft.Icon(name = ft.icons.TRANSLATE_OUTLINED),
+                ft.Icon(name = ft.Icons.TRANSLATE_OUTLINED),
                 ft.Text("伪本地化", size = 22)
             ]
         )
@@ -743,7 +736,7 @@ def main(page: ft.Page):
     # 外观设置
     opt_look = ft.Row(
             [
-                ft.Icon(name = ft.icons.PALETTE_OUTLINED),
+                ft.Icon(name = ft.Icons.PALETTE_OUTLINED),
                 ft.Text("外观", size = 22)
             ]
         )
@@ -761,18 +754,18 @@ def main(page: ft.Page):
     #----------#
     sch_text = ft.Text("配色", size = 20)
     scheme = ft.RadioGroup(value = 0, content = ft.Row(controls = [
-            ft.Radio(value = 0, label = "蓝色", fill_color = ft.colors.BLUE_800),
-            ft.Radio(value = 1, label = "粉色", fill_color = ft.colors.PINK_700),
-            ft.Radio(value = 2, label = "绿色", fill_color = ft.colors.GREEN_700),
-            ft.Radio(value = 3, label = "巧克力色", fill_color = ft.colors.BROWN),
-            ft.Radio(value = 4, label = "紫色", fill_color = ft.colors.DEEP_PURPLE)
+            ft.Radio(value = 0, label = "蓝色", fill_color = ft.Colors.BLUE_800),
+            ft.Radio(value = 1, label = "粉色", fill_color = ft.Colors.PINK_700),
+            ft.Radio(value = 2, label = "绿色", fill_color = ft.Colors.GREEN_700),
+            ft.Radio(value = 3, label = "巧克力色", fill_color = ft.Colors.BROWN),
+            ft.Radio(value = 4, label = "紫色", fill_color = ft.Colors.DEEP_PURPLE)
         ]),
         on_change = sch_changed)
     #----------#
     opacity_text = ft.Text("窗口透明度", size = 20)
-    page.opacity_slider = ft.Slider(min = 50, max = 100, width = 500, divisions = 50, label = "{value}%", on_change = opacity_slider_changed, value = 100)
-    opacity_bar = ft.Row(controls = [opacity_text, ft.Icon(ft.icons.OPACITY), page.opacity_slider, ft.Icon(ft.icons.WATER_DROP)])
-    opac_warn_bar = ft.Row(controls = [ft.Icon(ft.icons.WARNING_AMBER_OUTLINED, color = ft.colors.AMBER),ft.Text("透明度似乎太低了!", color = ft.colors.AMBER)], visible = False)
+    opacity_slider = ft.Slider(min = 50, max = 100, width = 500, divisions = 50, label = "{value}%", on_change = opacity_slider_changed, value = 100)
+    opacity_bar = ft.Row(controls = [opacity_text, ft.Icon(ft.Icons.OPACITY), opacity_slider, ft.Icon(ft.Icons.WATER_DROP)])
+    opac_warn_bar = ft.Row(controls = [ft.Icon(ft.Icons.WARNING_AMBER_OUTLINED, color = ft.Colors.AMBER),ft.Text("透明度似乎太低了!", color = ft.Colors.AMBER)], visible = False)
 
     look_opt_card = ft.Card(
             content = ft.Container(
@@ -793,15 +786,15 @@ def main(page: ft.Page):
     # 关于内容
     abt = ft.Row(
             [
-                ft.Icon(name = ft.icons.INFO_OUTLINE),
+                ft.Icon(name = ft.Icons.INFO_OUTLINE),
                 ft.Text("关于", size = 22)
             ]
         )    
     about = ft.Text(basic_info.about_text, size = 15, selectable = True)
     upd_bar = ft.Row(
         controls = [
-            ft.TextButton("更新日志", icon = ft.icons.UPDATE, on_click = open_upd),
-            ft.TextButton("检查更新", icon = ft.icons.UPLOAD_OUTLINED, on_click = check_for_update)
+            ft.TextButton("更新日志", icon = ft.Icons.UPDATE, on_click = open_upd),
+            ft.TextButton("检查更新", icon = ft.Icons.UPLOAD_OUTLINED, on_click = check_for_update)
         ]
     )
 
@@ -818,40 +811,40 @@ def main(page: ft.Page):
             elevation = 0.5
         )
     set_col = ft.Column(scroll = ft.ScrollMode.ALWAYS, controls = [opt_pslo, opt_pslo_detail, pslo_opt_card, opt_look, look_opt_card, abt, abt_card])
-    set_page = ft.Container(height = page.window_height - 90, content = set_col, visible = False)
-    main_area = ft.Column(height = page.window_height - 90, controls = [home_page, his_page, collection_page, set_page])
+    set_page = ft.Container(height = page.window.height - 90, content = set_col, visible = False)
+    main_area = ft.Column(height = page.window.height - 90, controls = [home_page, his_page, collection_page, set_page])
     
     # 导航栏
     rail = ft.NavigationRail(
         selected_index = 0,
-        height = page.window_height - 90,
+        height = page.window.height - 90,
         label_type = ft.NavigationRailLabelType.ALL,
         min_width = 50,
         min_extended_width = 100,
         group_alignment = -1.0,
         destinations = [
             ft.NavigationRailDestination(
-                icon = ft.icons.HOME_OUTLINED, selected_icon = ft.icons.HOME_ROUNDED, label = "主页"
+                icon = ft.Icons.HOME_OUTLINED, selected_icon = ft.Icons.HOME_ROUNDED, label = "主页"
             ),
             ft.NavigationRailDestination(
-                icon_content = ft.Icon(ft.icons.HISTORY_OUTLINED),
-                selected_icon_content = ft.Icon(ft.icons.HISTORY_ROUNDED),
+                icon = ft.Icons.HISTORY_OUTLINED,
+                selected_icon = ft.Icons.HISTORY_ROUNDED,
                 label = "历史记录",
             ),
             ft.NavigationRailDestination(
-                icon = ft.icons.ALL_INBOX_OUTLINED,
-                selected_icon_content = ft.Icon(ft.icons.ALL_INBOX),
+                icon = ft.Icons.ALL_INBOX_OUTLINED,
+                selected_icon = ft.Icons.ALL_INBOX,
                 label_content = ft.Text("集合"),
             ),
             ft.NavigationRailDestination(
-                icon = ft.icons.SETTINGS_OUTLINED,
-                selected_icon_content = ft.Icon(ft.icons.SETTINGS),
+                icon = ft.Icons.SETTINGS_OUTLINED,
+                selected_icon = ft.Icons.SETTINGS,
                 label_content = ft.Text("设置"),
             ),
         ],
         on_change = rail_ctrl,
     )
-    main_row = ft.Row(height = page.window_height - 90, width = page.window_width, controls = [rail, main_area])
+    main_row = ft.Row(height = page.window.height - 90, width = page.window.width, controls = [rail, main_area])
     page.add(titlebar, main_row)
     # startup_upd()
     log.out(0, "Window initialization completed")

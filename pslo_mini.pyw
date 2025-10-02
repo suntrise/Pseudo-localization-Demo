@@ -38,49 +38,49 @@ def main(page: ft.Page):
 
     # 置顶
     def always_on_top(e):
-        if page.window_always_on_top == False:
-            page.window_always_on_top = True
-            ontop_btn.icon = ft.icons.PUSH_PIN_ROUNDED
+        if page.window.always_on_top == False:
+            page.window.always_on_top = True
+            ontop_btn.icon = ft.Icons.PUSH_PIN_ROUNDED
             log.out(1, "Set always on top")
             page.update()
-        elif page.window_always_on_top == True:
-            page.window_always_on_top = False
-            ontop_btn.icon = ft.icons.PUSH_PIN_OUTLINED
+        elif page.window.always_on_top == True:
+            page.window.always_on_top = False
+            ontop_btn.icon = ft.Icons.PUSH_PIN_OUTLINED
             log.out(1, "Cancel always on top")
             page.update()
 
     def switch_theme(e):
         if page.theme_mode == ft.ThemeMode.DARK:
-            theme_switch_btn.icon = ft.icons.LIGHT_MODE_OUTLINED
+            theme_switch_btn.icon = ft.Icons.LIGHT_MODE_OUTLINED
             page.theme_mode = ft.ThemeMode.LIGHT
         elif page.theme_mode == ft.ThemeMode.LIGHT:
-            theme_switch_btn.icon = ft.icons.DARK_MODE_OUTLINED
+            theme_switch_btn.icon = ft.Icons.DARK_MODE_OUTLINED
             page.theme_mode = ft.ThemeMode.DARK
         page.update()
 
 
     # 用户界面
     # 基本内容定义
-    page.window_left = 200
-    page.window_top = 100
-    page.window_height = 263
-    page.window_width = 400  
-    page.window_opacity = 0.9
-    page.window_resizable = False
-    page.window_title_bar_hidden = True
+    page.window.left = 200
+    page.window.top = 100
+    page.window.height = 263
+    page.window.width = 400  
+    page.window.opacity = 0.9
+    page.window.resizable = False
+    page.window.title_bar_hidden = True
     page.theme = ft.Theme(
-        font_family = "Microsoft Yahei",
-        color_scheme_seed = ft.colors.BLUE
+        font_family = ["Microsoft Yahei", "Inter", "PingFang SC", "Noto Sans SC", "Noto Sans"],
+        color_scheme_seed = ft.Colors.BLUE
     )
     page.theme_mode = ft.ThemeMode.LIGHT
 
     # 主页区
     # 窗口区
     title_text = ft.Container(ft.Text("伪本地化演示Mini", size = 18))
-    title_icon = ft.Container(ft.Icon(ft.icons.LANGUAGE_OUTLINED, size = 18), padding = 5)
-    ontop_btn = ft.IconButton(icon = ft.icons.PUSH_PIN_OUTLINED, on_click = always_on_top, tooltip = "置顶") 
-    theme_switch_btn = ft.IconButton(icon = ft.icons.LIGHT_MODE_OUTLINED, on_click = switch_theme, tooltip = "明暗")
-    min_btn = controls.MinimizeButton(page, icon = ft.icons.HORIZONTAL_RULE_ROUNDED) 
+    title_icon = ft.Container(ft.Icon(ft.Icons.LANGUAGE_OUTLINED, size = 18), padding = 5)
+    ontop_btn = ft.IconButton(icon = ft.Icons.PUSH_PIN_OUTLINED, on_click = always_on_top, tooltip = "置顶") 
+    theme_switch_btn = ft.IconButton(icon = ft.Icons.LIGHT_MODE_OUTLINED, on_click = switch_theme, tooltip = "明暗")
+    min_btn = controls.MinimizeButton(page, icon = ft.Icons.HORIZONTAL_RULE_ROUNDED) 
     close_btn = controls.CloseButton(page)
     titlebar = ft.WindowDragArea(ft.Row(
         alignment = ft.MainAxisAlignment.SPACE_BETWEEN,
@@ -92,25 +92,25 @@ def main(page: ft.Page):
     page.result = ft.TextField(hint_text = "结果会显示在这里~", text_size = 15, multiline = False, max_lines = 5, read_only = True)
     pslo_btn = ft.FilledTonalButton(
             "伪本地化!",
-            icon = ft.icons.TRANSLATE_OUTLINED,
+            icon = ft.Icons.TRANSLATE_OUTLINED,
             style = ft.ButtonStyle(
                 shape = ft.RoundedRectangleBorder(radius = 5),
             ),
             on_click = pslo     
         )
     copy_btn = ft.IconButton(
-                icon = ft.icons.COPY_OUTLINED,
+                icon = ft.Icons.COPY_OUTLINED,
                 on_click = copy_text
             )
     copy_notice = ft.Row(
         controls = [
-            ft.Icon(ft.icons.DONE, color = ft.colors.GREEN_600),
-            ft.Text("已复制", color = ft.colors.GREEN_600)
+            ft.Icon(ft.Icons.DONE, color = ft.Colors.GREEN_600),
+            ft.Text("已复制", color = ft.Colors.GREEN_600)
         ],
         visible = False
     )
     btns = ft.Row(controls = [pslo_btn, copy_btn])
-    row = ft.Row(controls = [btns, copy_notice, ft.Text(basic_info.ver, size = 15, color = ft.colors.GREY)], alignment = ft.MainAxisAlignment.SPACE_BETWEEN)
+    row = ft.Row(controls = [btns, copy_notice, ft.Text(basic_info.ver, size = 15, color = ft.Colors.GREY)], alignment = ft.MainAxisAlignment.SPACE_BETWEEN)
     page.add(titlebar, page.pstype, page.result, row)
     log.out(0, "Window initialization completed")
 
