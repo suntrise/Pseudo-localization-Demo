@@ -118,4 +118,13 @@ def main(page: ft.Page):
     page.add(titlebar, page.pstype, page.result, row)
     log.out(0, "Window initialization completed")
 
-ft.app(target = main)
+if __name__ == "__main__":
+    try:
+        gil_enabled = sys._is_gil_enabled()     
+    except AttributeError:
+        gil_enabled = True
+    
+    if gil_enabled == False:
+        log.out(3, "Free-threaded build of Python detected, stability cannot be guaranteed!")
+    
+    ft.app(target = main)

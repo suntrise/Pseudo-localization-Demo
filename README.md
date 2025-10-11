@@ -1,4 +1,4 @@
-# 🌐伪本地化演示程序
+# 🌐 伪本地化演示程序
 
 ![截图](https://user-images.githubusercontent.com/89229642/255376854-128a04f0-cf92-4408-b74c-17d6ae7d66f8.png)
 
@@ -17,7 +17,7 @@
 
 网页版：https://suntrise.github.io/pseudo
 
-## 👇使用
+## 👇 使用
 
 如果您没有Python环境且比较懒, 可以移步 [Release](https://github.com/suntrise/Pseudo-localization-Demo/releases) 下载, tar.gz 版本适用于 Linux, exe 版本适用于 Windows, 其他操作系统建议下载源码并执行 (macOS 版用户可以到 [Actions 页](https://github.com/suntrise/Pseudo-localization-Demo/actions)下载)
 
@@ -77,12 +77,15 @@ poetry install
 
 ### 🛠️编译
 
-> [!NOTE]
-> 待补充
+详见: https://flet.dev/docs/publish
+
+在进行打包的过程中会需要您拥有良好的网络链接
+
+如果遇到 Flutter 网络问题, 可参考 https://docs.flutter.cn/community/china/ 进行换源!
 
 ## 🗒️备注
 
-- 经过测试, 在虚拟机下运行可能会造成非正常闪烁现象, 可能是flet库的驱动驱动兼容的问题
+- 经过测试, 在虚拟机下运行可能会造成非正常闪烁现象
 
 - 以上命令可能会有些许滞后, 若编译效果不佳, 可参考 Workflow 脚本进行参数补充
 
