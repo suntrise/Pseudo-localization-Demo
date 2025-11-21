@@ -12,7 +12,7 @@
 ![GitHub release](https://img.shields.io/github/v/release/suntrise/Pseudo-localization-Demo)
 ![GitHub download counts](https://img.shields.io/github/downloads/suntrise/Pseudo-localization-Demo/total)
 ![GitHub repo size](https://img.shields.io/github/repo-size/suntrise/Pseudo-localization-Demo)
-![Python requirement](https://img.shields.io/badge/python-≥3.7-brightgreen?logo=python)
+![Python requirement](https://img.shields.io/badge/python-≥3.10-brightgreen?logo=python)
 
 
 网页版：https://suntrise.github.io/pseudo
@@ -95,11 +95,7 @@ poetry install
 
 ## 📦 使用到的第三方项目
 
-### 2.x 及更新版本
-
 [flet-dev/flet](https://github.com/flet-dev/flet)
-
-[pypi/fleter](https://pypi.org/project/fleter) (最新版本已弃用)
 
 [asweigart/pyperclip](https://github.com/asweigart/pyperclip)
 
