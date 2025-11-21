@@ -164,7 +164,7 @@ def pslo(pstype, xab, uplw, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re
             while m < int(hash_ws):
                 hash_id = hash_id + random.choice(arral)               
                 m += 1
-            print("\03[\033[0;34mINFO\033[0m] Number of Hash ID bits: " + str(hash_ws))
+            log.out(0, "Number of Hash ID bits: " + str(hash_ws))
             res = "[" + hash_id + "]" + res
             hash_id = ""
             m = 0
