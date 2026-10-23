@@ -1,4 +1,3 @@
-from config import *
 from lib import log # 日志输出库
 import json
 
@@ -21,3 +20,6 @@ def update_config(config):
 
 # 写入配置文件
 def loadin_config(category, item, value):
+    config = read_config()
+    config.setdefault(category, {})[item] = value
+    update_config(config)

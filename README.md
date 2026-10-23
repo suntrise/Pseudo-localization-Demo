@@ -73,11 +73,35 @@ brew install --formula poetry
 poetry install
 ~~~
 
-它将会自动安装需要的依赖
+它将安装运行库及桌面、Web、CLI 开发工具，版本由 `poetry.lock` 锁定。
+
+### ▶️ 运行和测试
+
+```bash
+poetry run python pslo.py
+poetry run python pslo_mini.py
+
+# 在浏览器中运行（默认仅绑定本机）
+poetry run flet run --web pslo.py
+
+# 无需打开窗口的回归测试
+poetry run python -m unittest discover -s tests -v
+```
+
+Linux 桌面文件选择器需要安装 `zenity`（Ubuntu/Debian：`sudo apt-get install zenity`）。
 
 ### 🛠️编译
 
-详见: https://flet.dev/docs/publish
+使用当前 Flet CLI 构建，目标平台可以是 `macos`、`windows`、`linux` 或 `web`：
+
+```bash
+poetry run flet build macos --module-name pslo --output dist/standard --yes
+poetry run flet build macos --module-name pslo_mini --output dist/mini --yes
+```
+
+桌面平台应在相应操作系统上构建。GitHub Actions 会先测试，再分别构建标准版和 Mini 版。
+
+详见: https://docs.flet.dev/publish/
 
 在进行打包的过程中会需要您拥有良好的网络链接
 
@@ -97,7 +121,7 @@ poetry install
 
 [flet-dev/flet](https://github.com/flet-dev/flet)
 
-[asweigart/pyperclip](https://github.com/asweigart/pyperclip)
+[encode/httpx](https://github.com/encode/httpx)
 
 ## 📄 许可协议
 

@@ -98,27 +98,27 @@ def pslo(pstype, xab, uplw, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re
                     continue
                 # 隐藏控制符
                 if vis_con_cb == True:
-                    if l == "%" and pstr[i] == "s":
+                    if l == "%" and pstr[i:i + 1] == "s":
                         control_txt = True
                         continue
-                    if l == "\\" and pstr[i] == "n":
+                    if l == "\\" and pstr[i:i + 1] == "n":
                         control_txt = True
                         continue
-                    if l == "\\" and pstr[i] == "r":
+                    if l == "\\" and pstr[i:i + 1] == "r":
                         control_txt = True
                         continue
                 # 基本字母伪本地化
                 al = l.replace('a',random.choice(arra)).replace('A',random.choice(arraa)).replace('b',random.choice(arrb)).replace('B',random.choice(arrbb)).replace('c',random.choice(arrc)).replace('C',random.choice(arrcc)).replace('d',random.choice(arrd)).replace('D',random.choice(arrdd)).replace('e',random.choice(arre)).replace('E',random.choice(arree)).replace('f',random.choice(arrf)).replace('F',random.choice(arrff)).replace('g',random.choice(arrg)).replace('G',random.choice(arrgg)).replace('h',random.choice(arrh)).replace('H',random.choice(arrhh)).replace('i',random.choice(arri)).replace('I',random.choice(arrii)).replace('j',random.choice(arrj)).replace('J',random.choice(arrjj)).replace('k',random.choice(arrk)).replace('K',random.choice(arrkk)).replace('l',random.choice(arrl)).replace('L',random.choice(arrll)).replace('m',random.choice(arrm)).replace('M',random.choice(arrmm)).replace('n',random.choice(arrn)).replace('N',random.choice(arrnn)).replace('o',random.choice(arro)).replace('O',random.choice(arroo)).replace('p',random.choice(arrp)).replace('P',random.choice(arrpp)).replace('q',random.choice(arrq)).replace('Q',random.choice(arrqq)).replace('r',random.choice(arrr)).replace('R',random.choice(arrrr)).replace('s',random.choice(arrs)).replace('S',random.choice(arrss)).replace('t',random.choice(arrt)).replace('T',random.choice(arrtt)).replace('u',random.choice(arru)).replace('U',random.choice(arruu)).replace('v',random.choice(arrv)).replace('V',random.choice(arrvv)).replace('w',random.choice(arrw)).replace('W',random.choice(arrww)).replace('x',random.choice(arrx)).replace('X',random.choice(arrxx)).replace('y',random.choice(arry)).replace('Y',random.choice(arryy)).replace('z',random.choice(arrz)).replace('Z',random.choice(arrzz))
                 # 数字伪本地化判断
-                if num_pslo == "2":
+                if l.isascii() and l.isdigit() and num_pslo == "2":
                     al = l.replace('1',random.choice(arr1)).replace('2',random.choice(arr2)).replace('3',random.choice(arr3)).replace('4',random.choice(arr4)).replace('5',random.choice(arr5)).replace('6',random.choice(arr6)).replace('7',random.choice(arr7)).replace('8',random.choice(arr8)).replace('9',random.choice(arr9)).replace('0',random.choice(arr0))
-                elif num_pslo == "1":
-                    al = l.replace('1','①').replace('2','②').replace('3','③').replace('4','④').replace('5','⑤').replace('6','⑥').replace('7','⑦').replace('8','⑧').replace('9','⑨')           
+                elif l.isascii() and l.isdigit() and num_pslo == "1":
+                    al = l.replace('1','①').replace('2','②').replace('3','③').replace('4','④').replace('5','⑤').replace('6','⑥').replace('7','⑦').replace('8','⑧').replace('9','⑨')
                 # 元音复重复
                 if l.lower() in "aeiou":
                     al = al * (int(vowel_cs) + 1)
                 res += al
-                log.out(0, "Number of pseudo-localization work cycles: " + str(i))   
+                log.out(0, "Number of pseudo-localization work cycles: " + str(i))
         log.out(0, "Digital pseudo-localization program: " + str(num_pslo))
         log.out(0, "Number of vowel repetitions: " + str(vowel_cs))
         if xab == "enxb": # 使用en-XB
@@ -129,40 +129,40 @@ def pslo(pstype, xab, uplw, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re
 
         # 前后缀添加
         suf = ""
-        if suf_way == "1":           
-            while i > 2 and n < (i / 7): 
-                suf = suf + "!"  
+        if suf_way == "1":
+            while i > 2 and n < (i / 7):
+                suf = suf + "!"
                 n += 1
                 if n % 3 == 0 & n != int(i / 7+1):
                     suf = suf+" "
-            res = "[" +  res + " " + suf + "]";  
+            res = "[" +  res + " " + suf + "]";
         elif suf_way == "2":
-            while n < (i / 7):               
+            while n < (i / 7):
                 suf = suf + arrba[n % 20]+" "
-                n += 1  
+                n += 1
             res = "[" + res + " " + suf + "]"
         elif suf_way == "3":
-            while n < (i / 3):               
+            while n < (i / 3):
                 suf = suf + arrnum[n % 10]
-                n += 1  
+                n += 1
             res = "[" + res + " " + suf + "]"
         elif suf_way == "4":
-            while n < (i / int(cus_cs)):               
+            while n < (i / int(cus_cs)):
                 suf = suf + cus_re + " "
                 n += 1
-            res = cus_pre + res + " " + suf + cus_suf 
+            res = cus_pre + res + " " + suf + cus_suf
 
         n = 0
         suf = ""
         log.out(0, "Prefix & suffix addition scheme: " + str(suf_way))
-            
+
 
         # 添加Hash ID
         if hash_cb == True:
             log.out(0, "Add Hash ID: True")
             hash_id = ""
             while m < int(hash_ws):
-                hash_id = hash_id + random.choice(arral)               
+                hash_id = hash_id + random.choice(arral)
                 m += 1
             log.out(0, "Number of Hash ID bits: " + str(hash_ws))
             res = "[" + hash_id + "]" + res
@@ -174,3 +174,4 @@ def pslo(pstype, xab, uplw, num_pslo, vowel_cs, suf_way, cus_pre, cus_suf,cus_re
         log.out(0, "Result: " + output)
         return output
     log.out(1, "Pseudo-localization completed")
+    return ""

@@ -1,70 +1,65 @@
-# This is a workflow for building the kasa_cli executable on all three major platforms.
-
 name: Build-All-Platforms
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
+    branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
-  build:
+  test:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-
-    runs-on: ${{ matrix.os }}
-
+        python: ['3.10', '3.14']
     steps:
-      - name: Check-out repository
-        uses: actions/checkout@v3
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.10' # Version range or exact version of a Python version to use, using SemVer's version range syntax
-          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-          cache: 'pip'
-          cache-dependency-path: |
-            **/requirements*.txt
-
-      - name: Install Dependencies
+          python-version: ${{ matrix.python }}
+      - name: Install locked dependencies
         run: |
-          pip install -r requirements.txt
+          python -m pip install poetry==2.5.1
+          poetry install --no-interaction
+      - name: Validate and test
+        run: |
+          poetry check --lock
+          poetry run python -m compileall -q pslo.py pslo_mini.py lib
+          poetry run python -m unittest discover -s tests -v
 
-      - name: Build Executable(Standard)
-        uses: Nuitka/Nuitka-Action@main
+  build:
+    needs: test
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            platform: macos
+          - os: ubuntu-latest
+            platform: linux
+          - os: windows-latest
+            platform: windows
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          nuitka-version: main
-          script-name: pslo.pyw
-          onefile: true
-          standalone: true
-          disable-console: true
-          windows-icon-from-ico: ./icon/pslo_icon.ico
-          macos-create-app-bundle: true
-          macos-app-icon: ./icon/pslo_icon_mac.icns
-
-      - name: Build Executable(Mini)
-        uses: Nuitka/Nuitka-Action@main
+          python-version: '3.14'
+      - name: Install Linux build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev zenity
+      - name: Install locked dependencies
+        run: |
+          python -m pip install poetry==2.5.1
+          poetry install --no-interaction
+      - name: Build Standard
+        run: poetry run flet build ${{ matrix.platform }} --module-name pslo --artifact pseudo-localization --product "Pseudo Localization" --output dist/standard --yes
+      - name: Build Mini
+        run: poetry run flet build ${{ matrix.platform }} --module-name pslo_mini --artifact pseudo-localization-mini --product "Pseudo Localization Mini" --output dist/mini --yes
+      - uses: actions/upload-artifact@v4
         with:
-          nuitka-version: main
-          script-name: pslo_mini.pyw
-          onefile: true
-          standalone: true
-          disable-console: true
-          windows-icon-from-ico: ./icon/pslo_icon_mini.ico
-          macos-create-app-bundle: true
-          macos-app-icon: ./icon/pslo_icon_mini_mac.icns
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ runner.os }} Build
-          path: |
-            build/*.exe
-            build/*.bin
-            build/*.app/**/*
+          name: ${{ matrix.platform }}-build
+          path: dist/
